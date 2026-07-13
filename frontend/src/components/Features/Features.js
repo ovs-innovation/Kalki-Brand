@@ -47,7 +47,7 @@ const PharmacyPromoFeatures = () => {
                 className="relative w-full rounded-3xl bg-gradient-to-br from-emerald-500/60 via-teal-50/30 to-slate-50/50 border border-slate-300 overflow-hidden p-6 sm:p-10 lg:p-12 min-h-[280px] sm:min-h-[320px] flex items-center"
             >
                 {/* Dynamic Abstract Background Graphics */}
-                <div className="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 bg-emerald-700/20 rounded-full blur-3xl transform translate-x-1/4 translate-y-1/4 pointer-events-none" />
+                <div className="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 bg-emerald-700/30 rounded-full blur-3xl transform translate-x-1/4 translate-y-1/4 pointer-events-none" />
                 <div className="absolute -left-12 -top-12 w-48 h-48 bg-teal-500/5 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="grid sm:grid-cols-[1fr_auto] gap-8 items-center w-full relative z-10">
@@ -56,10 +56,10 @@ const PharmacyPromoFeatures = () => {
                     <div className="max-w-xl space-y-4">
 
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                            Your Health, Our Priority <br className="hidden lg:inline" />
+                            Supermarket prices, without the supermarket lines. <br className="hidden lg:inline" />
                         </h2>
-                        <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
-                            Discover genuine medicines, wellness products, and healthcare solutions from trusted brands. Our mission is to simplify your healthcare journey with safe, affordable, and reliable online pharmacy services.
+                        <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                            At KalkiBrand, we believe eating well shouldn't be a chore. We partner with trusted local farmers and suppliers to bring high-quality, fresh, and affordable groceries right to your doorstep. Every order is handpicked by our team as if we were shopping for our own families.
                         </p>
 
                     </div>

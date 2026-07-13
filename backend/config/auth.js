@@ -52,7 +52,27 @@ const isAuth = async (req, res, next) => {
       });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_jwt_secret");
-    req.user = decoded;
+    
+    const userId = decoded._id || decoded.customerId;
+    const Customer = require("../models/Customer");
+    const Admin = require("../models/Admin");
+    
+    let user = await Customer.findById(userId).select("_id").lean();
+    if (!user) {
+      user = await Admin.findById(userId).select("_id").lean();
+    }
+    
+    if (!user) {
+      return res.status(401).json({
+        message: "Account not found. Please log in again.",
+      });
+    }
+
+    req.user = {
+      ...decoded,
+      _id: userId,
+      customerId: userId,
+    };
     next();
   } catch (err) {
     console.log("isAuth Error:", err.message);
@@ -70,8 +90,23 @@ const isAuthOptional = async (req, res, next) => {
       const token = authorization.split(" ")[1];
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_jwt_secret");
-        req.user = decoded;
-        // console.log("isAuthOptional: Token verified for user:", decoded._id);
+        
+        const userId = decoded._id || decoded.customerId;
+        const Customer = require("../models/Customer");
+        const Admin = require("../models/Admin");
+        
+        let user = await Customer.findById(userId).select("_id").lean();
+        if (!user) {
+          user = await Admin.findById(userId).select("_id").lean();
+        }
+        
+        if (user) {
+          req.user = {
+            ...decoded,
+            _id: userId,
+            customerId: userId,
+          };
+        }
       }
     }
   } catch (err) {

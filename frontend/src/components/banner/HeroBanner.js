@@ -1,153 +1,115 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { IoSearchOutline } from "react-icons/io5";
-import useTranslation from "next-translate/useTranslation";
-import LocationPickerDropdown from "@components/location/LocationPickerDropdown";
-import SearchSuggestions from "@components/search/SearchSuggestions";
-import useGetSetting from "@hooks/useGetSetting";
+
+const LeafIcon = ({ className }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M17 8C8 10 7 19 7 19S13.5 17.5 17 12C18.5 9.7 19.8 4.2 19.8 4.2S18.5 6.2 17 8Z" />
+    <path d="M7 19C7 19 6.2 14.5 9.5 11.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+  </svg>
+);
 
 const HeroBanner = () => {
-  const [searchText, setSearchText] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const router = useRouter();
-  const { t } = useTranslation("common");
-  const searchInputRef = useRef(null);
-  const { storeCustomizationSetting } = useGetSetting();
-
-  const handleSearchChange = (value) => {
-    setSearchText(value);
-    setShowSuggestions(value.trim().length > 0);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const trimmedSearchText = searchText.trim();
-
-    setShowSuggestions(false);
-    searchInputRef.current?.blur();
-
-    if (trimmedSearchText) {
-      router.push(
-        {
-          pathname: "/search",
-          query: { query: trimmedSearchText },
-        },
-        `/search?query=${encodeURIComponent(trimmedSearchText)}`,
-        { shallow: false }
-      ).then(() => {
-        setSearchText("");
-      }).catch((err) => {
-        console.error("Navigation error:", err);
-        window.location.href = `/search?query=${encodeURIComponent(trimmedSearchText)}`;
-      });
-    }
-  };
-
-  // RESTORED SHARP BACKGROUND: Use the sharp background image
-  const bannerImageUrl = "/images/banner.jpeg";
 
   return (
-    <div
-      className="w-full relative overflow-hidden bg-slate-950"
-      style={{
-        minHeight: '350px',
-        height: 'auto',
-        backgroundImage: `url(${bannerImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      {/* Background Layer: BANNER BLUR EFFECT (significant blur on background content) */}
-      <div className="absolute inset-0 z-1 bg-white/20 backdrop-blur-[2x] pointer-events-none" />
-
-      {/* Side Feature Cards - Desktop Only */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="w-full relative overflow-hidden bg-[#eef7ed] pt-24 pb-8 sm:pt-28 sm:pb-12 md:pt-36 md:pb-20 lg:py-24 select-none">
+      {/* Background Floating Leaves */}
+      <div className="absolute top-8 left-[10%] w-8 h-8 text-emerald-600/10 pointer-events-none rotate-[45deg] animate-pulse">
+        <LeafIcon className="w-full h-full" />
+      </div>
+      <div className="absolute bottom-16 left-[35%] w-6 h-6 text-emerald-600/10 pointer-events-none rotate-[-30deg] animate-bounce-slow">
+        <LeafIcon className="w-full h-full" />
+      </div>
+      <div className="absolute top-24 right-[45%] w-10 h-10 text-emerald-600/10 pointer-events-none rotate-[15deg] animate-bounce-slow" style={{ animationDelay: '2s' }}>
+        <LeafIcon className="w-full h-full" />
+      </div>
+      <div className="absolute bottom-12 right-[8%] w-12 h-12 text-emerald-600/10 pointer-events-none rotate-[-60deg] animate-pulse" style={{ animationDelay: '1s' }}>
+        <LeafIcon className="w-full h-full" />
       </div>
 
-      {/* Content Section: MOVED TO LEFT SIDE */}
-      <div className="hero-padding relative z-20 w-full flex flex-col items-start justify-center px-4 md:px-10 md:py-14 min-h-[300px]">
-        {/* Adjusted width for left alignment */}
-        <div className="text-left w-full max-w-xl mb-8 px-2">
-          {/* DARKER TEXT: Fixed dark text color (slate-800) */}
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-5 tracking-tight text-teal-900">
-            {storeCustomizationSetting?.home?.hero_title || "Your Premium Digital Pharmacy & Wellness Partner"}
-          </h1>
-          {/* DARKER TEXT: Fixed dark description color (slate-700) */}
-          <p className="text-sm md:text-base lg:text-lg text-black max-w-2xl mb-2" style={{ fontFamily: 'Poppins, Arial, sans-serif' }}>
-            {storeCustomizationSetting?.home?.hero_description || "Compare trusted formulations • Verifiable quality prescriptions • Superfast secure home dispatch"}
-          </p>
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-          {/* Search Box: MOVED TO LEFT SIDE */}
-          <div className="w-full flex flex-col items-start mt-8">
-            <div id="hero-search-anchor" className="w-full max-w-xl scroll-mt-32">
-              <form onSubmit={handleSubmit} className="w-full relative flex items-center bg-slate-100 rounded-full shadow-2xl border border-slate-200 transition-all duration-300 p-1.5 focus-within:border-store-500/50 focus-within:ring-2 focus-within:ring-store-500/20">
-                <div className="relative z-50 shrink-0 mr-1 md:mr-2">
-                  <LocationPickerDropdown hideDivider className="!px-2 md:!px-4 !border-none !bg-transparent !text-slate-900" />
-                </div>
+          {/* Left Column: Text Content */}
+          <div className="lg:col-span-7 text-left space-y-4 sm:space-y-6 max-w-2xl">
+            {/* Small Green Badge */}
+            <div className="inline-flex items-center gap-1.5 text-emerald-700 font-bold uppercase tracking-wider text-[10px] sm:text-xs md:text-sm">
+              <span>🌱</span> FUEL YOUR DAY, LIVE HEALTHY.
+            </div>
 
-                {/* Search Input Box */}
-                <div className="flex-1 relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">
-                    <IoSearchOutline className="text-xl" />
-                  </div>
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Search medicines, healthcare essentials.."
-                    className="w-full py-2.5 pl-10 pr-4 focus:outline-none focus:ring-0 text-slate-900 font-medium border-0 focus:border-0 placeholder-slate-500 bg-transparent text-sm md:text-base"
-                    value={searchText}
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    onFocus={() => {
-                      if (searchText.trim().length > 0) {
-                        setShowSuggestions(true);
-                      }
-                    }}
-                    onBlur={(e) => {
-                      const relatedTarget = e.relatedTarget;
-                      const suggestionsContainer = document.querySelector('.search-suggestions-container');
+            {/* Headline */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#0f3a20] leading-tight font-serif">
+              Eat Fresh. Live Well. <br />
+              <span className="relative">
+                Shop Smart.
+                <span className="inline-block text-2xl sm:text-4xl md:text-5xl ml-2 sm:ml-3">🌱</span>
+              </span>
+            </h1>
 
-                      if (!relatedTarget || (suggestionsContainer && !suggestionsContainer.contains(relatedTarget))) {
-                        setTimeout(() => {
-                          const activeElement = document.activeElement;
-                          if (!suggestionsContainer || !suggestionsContainer.contains(activeElement)) {
-                            setShowSuggestions(false);
-                          }
-                        }, 200);
-                      }
-                    }}
-                  />
-                  <SearchSuggestions
-                    searchText={searchText}
-                    showSuggestions={showSuggestions}
-                    onSelect={() => {
-                      setSearchText("");
-                      setShowSuggestions(false);
-                    }}
-                    onClose={() => setShowSuggestions(false)}
-                  />
-                </div>
-              </form>
+            {/* Description */}
+            <p className="text-xs sm:text-base md:text-lg text-[#335340] leading-relaxed max-w-lg">
+              Discover a wide range of 100% organic products for a healthier you and a better planet.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() => router.push("/search")}
+                className="px-6 py-3 bg-[#1b4332] text-white font-bold rounded-xl hover:bg-[#0f2d1e] transition-all shadow-md hover:shadow-lg active:scale-95 text-xs sm:text-base"
+              >
+                Shop Now
+              </button>
+              <button
+                onClick={() => router.push("/categories")}
+                className="px-6 py-3 bg-white text-[#1b4332] font-bold rounded-xl border border-[#1b4332]/20 hover:border-[#1b4332] hover:bg-emerald-50/20 transition-all active:scale-95 text-xs sm:text-base"
+              >
+                Explore Categories
+              </button>
+            </div>
+
+            {/* Bottom Features Row */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 sm:pt-6 border-t border-[#1b4332]/10">
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
+                <span className="text-emerald-600">🌱</span> 100% Original
+              </div>
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
+                <span className="text-emerald-600">🚚</span> Free Shipping on orders over $49
+              </div>
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
+                <span className="text-emerald-600">🛡️</span> Secure Payment
+              </div>
             </div>
           </div>
+
+          {/* Right Column: Basket Graphic (Hidden on Mobile/Tablet for better flow) */}
+          <div className="hidden lg:flex lg:col-span-5 relative items-center justify-center">
+            {/* 100% Organic Badge */}
+            <div className="absolute top-4 right-4 md:right-8 lg:right-4 z-30 bg-[#40916c] text-white p-4 rounded-full w-20 h-20 sm:w-24 sm:h-24 flex flex-col items-center justify-center shadow-lg transform rotate-12 transition-transform hover:scale-105 duration-300 border border-white/20 select-none">
+              <span className="text-base sm:text-lg leading-none">🌱</span>
+              <span className="text-[10px] sm:text-[11px] font-black tracking-widest uppercase mt-1">100%</span>
+              <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase">Original</span>
+            </div>
+
+            {/* Floating Card: Healthy Snacks */}
+            <div className="absolute -top-4 left-4 md:left-8 lg:left-4 z-30 bg-white/95 backdrop-blur px-4 py-2.5 rounded-2xl shadow-md border border-slate-100 flex items-center gap-2 animate-bounce-slow">
+              <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+              <span className="text-xs font-bold text-[#1b4332]">Shop Easy</span>
+            </div>
+
+            {/* Image Container with subtle shadow and background glow */}
+            <div className="relative w-full aspect-square max-w-[380px] sm:max-w-[420px] rounded-3xl overflow-hidden flex items-center justify-center p-4">
+              {/* Glow behind image */}
+              <div className="absolute inset-0 bg-emerald-200/30 rounded-full filter blur-3xl -z-10" />
+              <img
+                src="/images/healthy_snacks_basket.png"
+                alt="Healthy Organic Snacks Basket"
+                className="w-full h-auto object-contain max-h-[350px] drop-shadow-[0_20px_40px_rgba(27,67,50,0.15)] hover:scale-102 transition-transform duration-500"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <style jsx>{`
-        .hero-padding {
-          padding-top: 3rem;
-          padding-bottom: 2.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .hero-padding {
-            padding-top: 4rem;
-            padding-bottom: 2rem;
-          }
-        }
-      `}</style>
     </div>
   );
 };

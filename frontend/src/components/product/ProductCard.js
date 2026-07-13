@@ -317,7 +317,7 @@ const ProductCard = ({ product, attributes, hidePriceAndAdd = false, hideDiscoun
                   <button
                     onClick={() => handleAddItem(product)}
                     aria-label="Add to cart"
-                      className="w-full bg-[#3E3A30] text-[#FAF9F5] hover:bg-[#25221B] shadow-[0_4px_12px_rgba(62,58,48,0.15)] hover:shadow-[0_8px_20px_rgba(62,58,48,0.3)] h-11 px-5 flex items-center justify-center rounded-2xl font-black text-sm transition-all duration-300"
+                    className="w-full bg-[#3E3A30] text-[#FAF9F5] hover:bg-[#25221B] shadow-[0_4px_12px_rgba(62,58,48,0.15)] hover:shadow-[0_8px_20px_rgba(62,58,48,0.3)] h-11 px-5 flex items-center justify-center rounded-2xl font-black text-sm transition-all duration-300"
                   >
                     Add to Cart
                   </button>

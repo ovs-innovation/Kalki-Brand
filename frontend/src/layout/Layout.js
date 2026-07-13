@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
 
 //internal import
 
@@ -17,6 +18,8 @@ import FloatingWhatsApp from "@components/common/FloatingWhatsApp";
 import { pickBrandLogo } from "@utils/brandAssets";
 
 const Layout = ({ title, description, children, hideMobileHeader }) => {
+  const router = useRouter();
+  const isHome = router.pathname === "/";
   const { storeCustomizationSetting, globalSetting } = useGetSetting();
   const storeColor = storeCustomizationSetting?.theme?.color || DEFAULT_STORE_COLOR;
   const palette = getPalette(storeColor);
@@ -84,12 +87,18 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
         {!hideMobileHeader && <MobileBottomNavigation />}
 
         {/* Desktop: one sticky header — top bar + navbar + categories shift on scroll */}
-        <div className="hidden lg:block sticky top-0 glass-header shadow-sm">
+        <div className="hidden lg:block" style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 9999,
+        }}>
           <NavBarTop />
           <Navbar />
         </div>
 
-        <div className={`${hideMobileHeader ? "pt-0" : "pt-16"} lg:pt-0 lg:mt-0 pb-16 lg:pb-0`}>
+        <div className={`${hideMobileHeader ? "pt-0" : (isHome ? "pt-0" : "pt-16")} ${isHome ? "lg:pt-[26px]" : "lg:pt-[150px]"} pb-16 lg:pb-0`}>
           {children}
         </div>
         <div className="  w-full">

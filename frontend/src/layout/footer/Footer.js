@@ -97,7 +97,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="pb-16 lg:pb-0 xl:pb-0 bg-neutral-100 text-neutral-800 border-t border-neutral-200 relative overflow-hidden">
+    <div className="pb-16 lg:pb-0 xl:pb-0 bg-green-100 text-neutral-800 border-t border-neutral-200 relative overflow-hidden">
       {/* Modern Minimalist Gradient Header Line */}
       <div className="h-1.5 w-full bg-gradient-to-r from-store-400 via-store-500 to-teal-500"></div>
 

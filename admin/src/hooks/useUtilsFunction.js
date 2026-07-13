@@ -61,7 +61,9 @@ const useUtilsFunction = () => {
   //for translation
   const showingTranslateValue = useMemo(() => {
     return (data) => {
-      if (!data || typeof data !== "object") return ""; // Handle undefined or non-object cases
+      if (!data) return "";
+      if (typeof data === "string") return data;
+      if (typeof data !== "object") return "";
 
       return (
         data[lang] ?? data[globalSetting?.default_language] ?? data["en"] ?? ""

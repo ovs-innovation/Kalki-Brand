@@ -144,7 +144,7 @@ const PersonalCareProductCard = ({
       )}
       
       {/* Premium organic card design */}
-      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[440px] sm:h-[490px] overflow-hidden bg-[#FAF9F5] hover:bg-white rounded-[2.25rem] border border-[#EBE8DF] hover:border-amber-300/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_16px_45px_rgba(180,160,130,0.12)] transition-all duration-500">
+      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[430px] sm:h-[490px] overflow-hidden bg-[#FAF9F5] hover:bg-white rounded-[2.25rem] border border-[#EBE8DF] hover:border-amber-300/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_16px_45px_rgba(180,160,130,0.12)] transition-all duration-500">
         
         {/* Soft natural gradient backdrop for image */}
         <div

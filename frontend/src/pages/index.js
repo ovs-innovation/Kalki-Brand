@@ -128,7 +128,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                         <span>Popular Choice</span>
                       </div>
                       <SectionHeader
-                          title={storeCustomizationSetting?.home?.best_selling_title || "Best Selling Medicines"}
+                        title={storeCustomizationSetting?.home?.best_selling_title || "Best Selling"}
                         subtitle={storeCustomizationSetting?.home?.best_selling_description || "Explore our top-rated essentials, loved by thousands of customers."}
                         align="left"
                       />
@@ -225,18 +225,14 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
             {/* Personal Care Section */}
             {personalCareProducts && personalCareProducts.length > 0 && (
-              <div className="relative lg:py-24 py-12 overflow-hidden bg-white">
+              <div className="relative lg:py-15 py-12 overflow-hidden bg-white">
                 {/* Background Decorative Blobs */}
                 <div className="mx-auto max-w-screen-2xl px-4 sm:px-12 relative z-10">
                   {/* Header Section */}
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                     <div className="space-y-3">
-                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-700/80 to-amber-600/70 text-white text-[11px] font-extrabold uppercase tracking-widest shadow-lg shadow-amber-100">
-                        <IoSparkles className="animate-pulse text-yellow-300" />
-                        <span>Nourishing & Natural</span>
-                      </div>
                       <SectionHeader
-                        title="Personal Care Essentials"
+                        title="Spices & Seasonings"
                         subtitle="Explore our range of premium organic personal care products crafted for your daily routine."
                         align="left"
                       />
@@ -244,7 +240,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
                     <Link
                       href="/search?category=Personal-Care"
-                        className="group flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 transition-all"
+                      className="group flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 transition-all"
                     >
                       Explore All
                       <div className="p-2 rounded-full bg-white shadow-sm border border-gray-100 group-hover:bg-green-700 group-hover:text-white transition-all">
@@ -530,15 +526,15 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   </div>
                 </div>
               )}
-              {/* Trusted Brands Section */}
-              <TrustedBrandsSection brands={brands} />
+            {/* Trusted Brands Section */}
+            <TrustedBrandsSection brands={brands} />
 
             <Features />
 
             {/* Testimonials Section */}
             <TestimonialsSection />
 
-         
+
           </div>
         </Layout>
       )}

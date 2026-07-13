@@ -83,23 +83,14 @@ const MobileFooter = () => {
           </button>
           <Link
             href="/"
-            className="flex items-center justify-center"
-            rel="noreferrer"
-            aria-label={t("Home") || "Home"}
+            className="flex items-center gap-2.5 shrink-0 group"
+            aria-label="KalkiBrand"
           >
-            <div className="relative w-[72px] h-[72px]">
-              <Image
-                src={pickBrandLogo(
-                  storeCustomizationSetting?.navbar?.logo,
-                  storeCustomizationSetting?.seo?.favicon
-                )}
-                alt="logo"
-                fill
-                className="object-contain"
-                sizes="72px"
-                priority
-              />
-            </div>
+            <span className="flex flex-col leading-none">
+              <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
+                Kalki<span className="kalki-logo-accent">Brand</span>
+              </span>
+            </span>
           </Link>
           <Link
             href="/"

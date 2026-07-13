@@ -185,7 +185,16 @@ const TrackOrder = () => {
 const useOrderQuery = (id) => {
   return useQuery({
     queryKey: ['order', id],
-    queryFn: async () => await OrderServices.getOrderById(id),
+    queryFn: async () => {
+      const userInfo = Cookies.get('userInfo');
+      if (userInfo) {
+        const parsedUser = JSON.parse(userInfo);
+        if (parsedUser?.token) {
+          setToken(parsedUser.token);
+        }
+      }
+      return await OrderServices.getOrderById(id);
+    },
     enabled: !!id,
     refetchInterval: 30000, // Poll every 30 seconds
     refetchIntervalInBackground: false,

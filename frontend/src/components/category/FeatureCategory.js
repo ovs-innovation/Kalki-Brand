@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Internal imports
 import CategoryServices from "@services/CategoryServices";
+import ProductServices from "@services/ProductServices";
 import CMSkeleton from "@components/preloader/CMSkeleton";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import ProductCard from "@components/product/ProductCard";
 
 const FeatureCategory = ({ initialSelectedCategory }) => {
   const router = useRouter();
@@ -16,6 +18,16 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
   const { data, error, isLoading: loading } = useQuery({
     queryKey: ["category"],
     queryFn: async () => await CategoryServices.getShowingCategory(),
+  });
+
+  const { data: productsData, isLoading: productsLoading } = useQuery({
+    queryKey: ["category-products", selectedLeft?._id],
+    queryFn: async () => {
+      if (!selectedLeft?._id) return [];
+      const res = await ProductServices.getShowingStoreProducts({ category: selectedLeft._id });
+      return res?.products || [];
+    },
+    enabled: !!selectedLeft?._id,
   });
 
   const parentCategories = useMemo(() => {
@@ -66,11 +78,11 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
     <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent via-slate-50/50 to-transparent">
 
       {/* Top Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 border-b border-slate-200/60 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 border-b border-slate-200/60 pt-16">
         <div>
-          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1.5 block">
+          {/* <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1.5 block">
             Curated Formulations
-          </span>
+          </span> */}
           <h2 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
             Featured Categories
           </h2>
@@ -214,7 +226,7 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
             </div>
 
             {/* Subcategories Grid Content */}
-            <div className="p-4 sm:p-6 lg:p-8 flex-1 min-h-0 bg-gradient-to-b from-white to-slate-50/30">
+            <div className="p-4 sm:p-6 lg:p-8 flex-1 min-h-0 bg-gradient-to-b from-white to-slate-50/30 space-y-10">
               <AnimatePresence mode="wait">
                 {rightCategories.length > 0 ? (
                   <motion.div
@@ -269,6 +281,34 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* Products Section */}
+              <div className="pt-8 border-t border-slate-100">
+                <h4 className="text-lg font-bold text-slate-800 mb-6 tracking-tight flex items-center gap-2">
+                  <span className="w-1.5 h-6 bg-[#3E3A30] rounded-full"></span>
+                  Popular in {showingTranslateValue(selectedLeft?.name)}
+                </h4>
+
+                {productsLoading ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className="h-96 rounded-3xl border border-slate-100 bg-slate-50/50 animate-pulse" />
+                    ))}
+                  </div>
+                ) : productsData && productsData.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {productsData.slice(0, 8).map((product) => (
+                      <ProductCard key={product._id} product={product} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-10 text-center max-w-sm mx-auto">
+                    <p className="text-slate-400 text-xs mt-1.5 leading-relaxed">
+                      No products found in this category yet.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

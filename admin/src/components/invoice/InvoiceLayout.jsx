@@ -293,7 +293,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
                   {globalSetting?.pharmacist_name || "Registered Pharmacist"}
                 </p>
                 <p className="text-[11px] text-gray-500 leading-snug">
-                  {globalSetting?.company_name || "Farmacykart"}
+                  {globalSetting?.company_name || "KalkiBrand"}
                 </p>
                 {globalSetting?.website && (
                   <p className="text-[11px] text-store-600 leading-snug">

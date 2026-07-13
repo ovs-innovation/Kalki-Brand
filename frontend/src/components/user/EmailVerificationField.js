@@ -94,9 +94,8 @@ const EmailVerificationField = ({
         type="email"
         readOnly={readOnly || showVerified}
         placeholder="you@email.com"
-        className={`w-full rounded-xl border border-slate-200 px-4 py-3 text-sm shadow-sm outline-none transition focus:border-store-500 focus:ring-2 focus:ring-store-500/20 ${
-          readOnly || showVerified ? "bg-slate-50 text-slate-600" : "bg-white"
-        }`}
+        className={`w-full rounded-xl border border-slate-200 px-4 py-3 text-sm shadow-sm outline-none transition focus:border-store-500 focus:ring-2 focus:ring-store-500/20 ${readOnly || showVerified ? "bg-slate-50 text-slate-600" : "bg-white"
+          }`}
       />
       {errors?.email && (
         <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>

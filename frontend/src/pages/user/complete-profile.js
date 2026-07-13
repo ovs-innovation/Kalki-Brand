@@ -116,91 +116,91 @@ const CompleteProfile = () => {
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <InputArea
+            <div>
+              <InputArea
+                register={register}
+                label="Full Name"
+                name="name"
+                type="text"
+                placeholder="Your full name"
+              />
+              <Error errorName={errors.name} />
+            </div>
+
+            <EmailVerificationField
               register={register}
-              label="Full Name"
-              name="name"
-              type="text"
-              placeholder="Your full name"
+              errors={errors}
+              emailValue={emailValue}
+              verifiedEmail={verifiedEmail}
+              isVerified={emailVerified}
+              onVerified={({ email }) => {
+                setVerifiedEmail(email);
+                setEmailVerified(true);
+                setValue("email", email);
+              }}
             />
-            <Error errorName={errors.name} />
-          </div>
 
-          <EmailVerificationField
-            register={register}
-            errors={errors}
-            emailValue={emailValue}
-            verifiedEmail={verifiedEmail}
-            isVerified={emailVerified}
-            onVerified={({ email }) => {
-              setVerifiedEmail(email);
-              setEmailVerified(true);
-              setValue("email", email);
-            }}
-          />
+            <div>
+              <InputArea
+                register={register}
+                label="Mobile Number"
+                name="phone"
+                type="tel"
+                placeholder="10-digit mobile"
+              />
+              <Error errorName={errors.phone} />
+            </div>
 
-          <div>
-            <InputArea
-              register={register}
-              label="Mobile Number"
-              name="phone"
-              type="tel"
-              placeholder="10-digit mobile"
-            />
-            <Error errorName={errors.phone} />
-          </div>
+            <div>
+              <Label label="Delivery address" />
+              <textarea
+                {...register("address", { required: "Address is required" })}
+                rows={3}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
+                placeholder="House no., street, area, landmark"
+              />
+              <Error errorName={errors.address} />
+            </div>
 
-          <div>
-            <Label label="Delivery address" />
-            <textarea
-              {...register("address", { required: "Address is required" })}
-              rows={3}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-store-500 focus:border-store-500 outline-none"
-              placeholder="House no., street, area, landmark"
-            />
-            <Error errorName={errors.address} />
-          </div>
+            <div className="grid grid-cols-2 gap-3">
+              <InputArea
+                register={register}
+                label="City"
+                name="city"
+                type="text"
+                placeholder="City"
+                required={false}
+              />
+              <InputArea
+                register={register}
+                label="PIN Code"
+                name="zipCode"
+                type="text"
+                placeholder="PIN"
+                required={false}
+              />
+            </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <InputArea
-              register={register}
-              label="City"
-              name="city"
-              type="text"
-              placeholder="City"
-              required={false}
-            />
-            <InputArea
-              register={register}
-              label="PIN Code"
-              name="zipCode"
-              type="text"
-              placeholder="PIN"
-              required={false}
-            />
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-full bg-store-600 hover:bg-store-700 text-white font-bold disabled:opacity-60"
+            >
+              {loading
+                ? "Saving..."
+                : isCheckout
+                  ? "Save & Continue"
+                  : "Save Profile"}
+            </button>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-full bg-store-600 hover:bg-store-700 text-white font-bold disabled:opacity-60"
-          >
-            {loading
-              ? "Saving..."
-              : isCheckout
-                ? "Save & Continue"
-                : "Save Profile"}
-          </button>
-
-          {!isCheckout && (
-            <p className="text-center text-sm text-gray-500 mt-4">
-              <Link href="/" className="text-store-600 hover:underline">
-                Skip for now — browse home
-              </Link>
-            </p>
-          )}
-        </form>
+            {!isCheckout && (
+              <p className="text-center text-sm text-gray-500 mt-4">
+                <Link href="/" className="text-store-600 hover:underline">
+                  Skip for now — browse home
+                </Link>
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </Layout>

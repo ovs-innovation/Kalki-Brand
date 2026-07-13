@@ -85,9 +85,9 @@ const Categories = () => {
   return (
     <Layout title="Categories" description="All Categories">
       <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto mb-8">
+        {/* <div className="max-w-7xl mx-auto mb-8">
           <SliderCarousel />
-        </div>
+        </div> */}
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 pb-10">
           {parentCategories.length === 0 ? (
             <p className="text-gray-500 text-center py-8">Loading categories...</p>
@@ -97,7 +97,7 @@ const Categories = () => {
             </div>
           )}
 
-          {bestSellingProducts?.length > 0 && (
+          {/* {bestSellingProducts?.length > 0 && (
             <div className="bg-white lg:py-16 py-10 mx-auto max-w-screen-2xl px-3 sm:px-10 mt-8">
               <SectionHeader
                 title="Best Selling Products"
@@ -154,7 +154,7 @@ const Categories = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
         </div>
       </div>

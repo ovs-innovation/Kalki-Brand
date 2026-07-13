@@ -20,44 +20,44 @@ const CategoryCards = () => {
   const categories = [
     {
       id: 1,
-      title: "Diabetes",
-      image: "/flags/diabetic-health.webp",
-      searchQuery: "Diabetes",
+      title: "Rice, Atta & Dals",
+      image: "/flags/cat1.webp",
+      searchQuery: "Rice & Dals",
       bgGradient: "bg-gradient-to-br from-[#eafaf1] to-[#d4f4e2]", // Soft Mint Green
     },
     {
       id: 2,
-      title: "Orthopedic",
-      image: "/flags/pain-relief.png",
-      searchQuery: "Orthopedic",
+      title: "Hair Care",
+      image: "/flags/cat4.webp",
+      searchQuery: "Hair Care",
       bgGradient: "bg-gradient-to-br from-[#f0ebfa] to-[#e0d6f5]", // Soft Purple
     },
     {
       id: 3,
-      title: "Cardiac & Heart Care",
-      image: "/flags/heart-care.webp",
-      searchQuery: "heart",
+      title: "Spices",
+      image: "/flags/cat7.webp",
+      searchQuery: "spices & seasonings",
       bgGradient: "bg-gradient-to-br from-[#fdf0ed] to-[#fbdad2]", // Soft Coral Pink
     },
     {
       id: 4,
-      title: "Cold & Cough",
-      image: "/flags/cold-caugh.png",
-      searchQuery: "Cold & Cough",
+      title: "Oil & Ghee",
+      image: "/flags/cat2.webp",
+      searchQuery: "oil & ghee",
       bgGradient: "bg-gradient-to-br from-[#ebf5fa] to-[#d6ebf5]", // Soft Ice Blue
     },
     {
       id: 5,
-      title: "Child Care",
-      image: "/flags/babycare.png",
-      searchQuery: "kidney",
+      title: "Soft Drinks",
+      image: "/flags/cat2.webp",
+      searchQuery: "soft drinks",
       bgGradient: "bg-gradient-to-br from-[#fefaf0] to-[#fdf1d6]", // Soft Warm Yellow
     },
     {
       id: 6,
-      title: "Respiratory Care",
-      image: "/flags/women-health.jpg",
-      searchQuery: "respiratory",
+      title: "Chocolates",
+      image: "/flags/cat3.webp",
+      searchQuery: "chocolates",
       bgGradient: "bg-gradient-to-br from-[#fdf0f5] to-[#fbdbe7]", // Soft Blush Pink
     },
   ];
@@ -70,7 +70,7 @@ const CategoryCards = () => {
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-[#111111] tracking-tight">
-              {storeCustomizationSetting?.home?.hero_title ? "Shop by Health Concerns" : "Shop by Health Concerns"}
+              {storeCustomizationSetting?.home?.hero_title ? "Shop by Categories" : "Shop by Categories"}
             </h2>
           </div>
 
@@ -104,14 +104,14 @@ const CategoryCards = () => {
               <SwiperSlide key={category.id}>
                 <div
                   className="flex flex-col items-center cursor-pointer transition-all duration-300 select-none"
-                  onClick={() => router.push(`/search?q=${category.searchQuery}`)}
+                  onClick={() => router.push(`/search?query=${encodeURIComponent(category.searchQuery)}`)}
                 >
                   {/* Outer Squared Card Canvas */}
                   <div className={`w-full aspect-square ${category.bgGradient} rounded-2xl flex items-center justify-center p-4 transition-transform duration-300 hover:scale-[1.02]`}>
 
                     {/* Inner Centralized Circular Frame */}
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white/30 backdrop-blur-[4px] flex items-center justify-center shadow-[inset_0_2px_8px_rgba(255,255,255,0.4)]">
-                      <div className="relative w-14 h-14 md:w-16 md:h-16 transform transition-transform duration-300 hover:scale-110">
+                      <div className="relative w-20 h-20 md:w-24 md:h-24 transform transition-transform duration-300 hover:scale-105">
                         <Image
                           src={category.image}
                           alt={category.title}
