@@ -22,6 +22,8 @@ const nextConfig = {
 
   images: {
     remotePatterns: [
+      { hostname: "localhost" },
+      { hostname: "127.0.0.1" },
       { hostname: "res.cloudinary.com" },
       { hostname: "i.postimg.cc" },
       { hostname: "img.youtube.com" },

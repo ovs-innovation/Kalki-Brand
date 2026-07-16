@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@windmill/react-ui";
 import { ImFacebook, ImGoogle } from "react-icons/im";
 import { useTranslation } from "react-i18next";
-
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";
 //internal import
 import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
@@ -12,7 +12,7 @@ import useLoginSubmit from "@/hooks/useLoginSubmit";
 import CMButton from "@/components/form/button/CMButton";
 import { SidebarContext } from "@/context/SidebarContext";
 import { useContext } from "react";
-import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
+//import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -26,12 +26,14 @@ const Login = () => {
         <div className="flex-1 h-full max-w-2xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
           <div className="flex flex-col overflow-y-auto">
             <div className="w-full flex justify-center p-6">
-              <img
-                aria-hidden="true"
-                className="object-contain h-20 w-20"
-                src={ADMIN_BRAND_LOGO}
-                alt={globalSetting?.company_name || "Farmacykart"}
-              />
+              <Link to="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
+                <img
+                  src={kalkibrand_logo}
+                  alt="logo"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  style={{ height: "120px", width: "auto" }}
+                />
+              </Link>
             </div>
             <main className="flex items-center justify-center p-6 sm:p-12">
               <div className="w-full max-w-sm">

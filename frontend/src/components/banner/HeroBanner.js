@@ -12,7 +12,7 @@ const HeroBanner = () => {
   const router = useRouter();
 
   return (
-    <div className="w-full relative overflow-hidden bg-[#eef7ed] pt-24 pb-8 sm:pt-28 sm:pb-12 md:pt-36 md:pb-20 lg:py-24 select-none">
+    <div className="w-full relative overflow-hidden bg-[#03150d] pt-18 pb-8 sm:pt-28 sm:pb-12 md:pt-36 md:pb-20 lg:py-33 select-none">
       {/* Background Floating Leaves */}
       <div className="absolute top-8 left-[10%] w-8 h-8 text-emerald-600/10 pointer-events-none rotate-[45deg] animate-pulse">
         <LeafIcon className="w-full h-full" />
@@ -33,12 +33,12 @@ const HeroBanner = () => {
           {/* Left Column: Text Content */}
           <div className="lg:col-span-7 text-left space-y-4 sm:space-y-6 max-w-2xl">
             {/* Small Green Badge */}
-            <div className="inline-flex items-center gap-1.5 text-emerald-700 font-bold uppercase tracking-wider text-[10px] sm:text-xs md:text-sm">
+            <div className="inline-flex items-center gap-1.5 text-emerald-400 font-bold uppercase tracking-wider text-[10px] sm:text-xs md:text-sm">
               <span>🌱</span> FUEL YOUR DAY, LIVE HEALTHY.
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#0f3a20] leading-tight font-serif">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#e8f5e9] leading-tight font-serif">
               Eat Fresh. Live Well. <br />
               <span className="relative">
                 Shop Smart.
@@ -47,7 +47,7 @@ const HeroBanner = () => {
             </h1>
 
             {/* Description */}
-            <p className="text-xs sm:text-base md:text-lg text-[#335340] leading-relaxed max-w-lg">
+            <p className="text-xs sm:text-base md:text-lg text-[#a5d6a7] leading-relaxed max-w-lg">
               Discover a wide range of 100% organic products for a healthier you and a better planet.
             </p>
 
@@ -61,22 +61,22 @@ const HeroBanner = () => {
               </button>
               <button
                 onClick={() => router.push("/categories")}
-                className="px-6 py-3 bg-white text-[#1b4332] font-bold rounded-xl border border-[#1b4332]/20 hover:border-[#1b4332] hover:bg-emerald-50/20 transition-all active:scale-95 text-xs sm:text-base"
+                className="px-6 py-3 bg-transparent text-white font-bold rounded-xl border border-white/20 hover:border-white hover:bg-white/5 transition-all active:scale-95 text-xs sm:text-base"
               >
                 Explore Categories
               </button>
             </div>
 
             {/* Bottom Features Row */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 sm:pt-6 border-t border-[#1b4332]/10">
-              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
-                <span className="text-emerald-600">🌱</span> 100% Original
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 sm:pt-6 border-t border-[#a5d6a7]/15">
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#a5d6a7]/90">
+                <span className="text-emerald-400">🌱</span> 100% Original
               </div>
-              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
-                <span className="text-emerald-600">🚚</span> Free Shipping on orders over $49
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#a5d6a7]/90">
+                <span className="text-emerald-400">🚚</span> Free Shipping on orders over $49
               </div>
-              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#1b4332]/80">
-                <span className="text-emerald-600">🛡️</span> Secure Payment
+              <div className="flex items-center gap-2 text-[10px] sm:text-sm font-semibold text-[#a5d6a7]/90">
+                <span className="text-emerald-400">🛡️</span> Secure Payment
               </div>
             </div>
           </div>
@@ -91,9 +91,9 @@ const HeroBanner = () => {
             </div>
 
             {/* Floating Card: Healthy Snacks */}
-            <div className="absolute -top-4 left-4 md:left-8 lg:left-4 z-30 bg-white/95 backdrop-blur px-4 py-2.5 rounded-2xl shadow-md border border-slate-100 flex items-center gap-2 animate-bounce-slow">
+            <div className="absolute -top-4 left-4 md:left-8 lg:left-4 z-30 bg-slate-900/90 backdrop-blur px-4 py-2.5 rounded-2xl shadow-md border border-slate-800 flex items-center gap-2 animate-bounce-slow">
               <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
-              <span className="text-xs font-bold text-[#1b4332]">Shop Easy</span>
+              <span className="text-xs font-bold text-emerald-400">Shop Easy</span>
             </div>
 
             {/* Image Container with subtle shadow and background glow */}

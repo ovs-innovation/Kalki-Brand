@@ -35,8 +35,8 @@ const Cart = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full h-full justify-between items-middle bg-white rounded cursor-pointer">
-        <div className="w-full flex justify-between items-center relative px-5 py-4 border-b bg-indigo-50 border-gray-100">
+      <div className="flex flex-col w-full h-full justify-between items-middle rounded cursor-pointer">
+        <div className="w-full flex justify-between items-center relative px-5 py-4 border-b">
           <h2 className="font-semibold font-serif text-lg m-0 text-heading flex items-center">
             <span className="text-xl mr-2 mb-1">
               <IoBagCheckOutline />
@@ -45,7 +45,7 @@ const Cart = () => {
           </h2>
           <button
             onClick={closeCartDrawer}
-            className="inline-flex text-base items-center justify-center text-gray-500 p-2 focus:outline-none transition-opacity hover:text-red-400"
+            className="inline-flex text-base border border-green-900 rounded hover:border-green-950 items-center justify-center text-gray-500 p-2 focus:outline-none transition-opacity hover:text-red-400"
           >
             <IoClose />
             <span className="font-sens text-sm text-gray-500 hover:text-red-400 ml-1">

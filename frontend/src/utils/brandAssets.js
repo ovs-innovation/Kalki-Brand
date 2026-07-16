@@ -1,6 +1,4 @@
-/** Farmacykart brand logo on Cloudinary (dse9adftu) */
-export const DEFAULT_BRAND_LOGO =
-  "https://res.cloudinary.com/dse9adftu/image/upload/v1780479335/farmacykart/brand/logo.png";
+export const DEFAULT_BRAND_LOGO = "/favicon.png";
 
 const LEGACY_CLOUDS = ["ahossain"];
 

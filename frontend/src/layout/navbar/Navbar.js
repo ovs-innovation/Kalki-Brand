@@ -19,23 +19,21 @@ import CategoryServices from "@services/CategoryServices";
 import SearchSuggestions from "@components/search/SearchSuggestions";
 import LowerCategoryNavbar from "./LowerCategoryNavbar";
 import CustomerNotificationBell from "@components/notification/CustomerNotificationBell";
-import { pickBrandLogo } from "@utils/brandAssets";
+//import { pickBrandLogo } from "@utils/brandAssets";
+import kalkibrand_logo from "../../../logo/kalkibrand_logo.png";
 
 const NavbarLogo = () => {
   return (
     <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
-      {/* Icon Badge */}
-      {/* <span className="kalki-logo-badge flex items-center justify-center w-10 h-10 rounded-xl shadow-md">
-        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 13h-2v-4H7v-2h4V5h2v4h4v2h-4v4z" fill="white"/>
-        </svg>
-      </span> */}
-      {/* Wordmark */}
-      <span className="flex flex-col leading-none">
-        <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
-          Kalki<span className="kalki-logo-accent">Brand</span>
-        </span>
-      </span>
+      <Image
+        src={kalkibrand_logo}
+        alt="logo"
+        width={158}
+        height={190}
+        priority
+        className="object-contain transition-transform duration-300 group-hover:scale-105"
+        style={{ height: "95px", width: "auto" }}
+      />
     </Link>
   );
 };
@@ -44,9 +42,8 @@ const NavbarLogo = () => {
 const NavbarHomeIcon = ({ besideSearch = false }) => (
   <Link
     href="/"
-    className={`flex h-10 w-10 items-center justify-center rounded-lg text-store-600 hover:text-store-800 hover:bg-store-50 transition-colors shrink-0 ${
-      besideSearch ? "mr-1" : "ml-10 md:ml-14"
-    }`}
+    className={`flex h-10 w-10 items-center justify-center rounded-lg text-store-600 hover:text-store-800 hover:bg-store-50 transition-colors shrink-0 ${besideSearch ? "mr-1" : "ml-10 md:ml-14"
+      }`}
     aria-label="Home"
     title="Home"
   >
@@ -152,9 +149,8 @@ const Navbar = () => {
       <header className="hidden lg:block glass-header">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-8">
           <div
-            className={`flex items-center gap-4 transition-all duration-300 ${
-              showNavbarSearch ? "py-2.5" : "py-2"
-            }`}
+            className={`flex items-center gap-4 transition-all duration-300 ${showNavbarSearch ? "py-2.5" : "py-3"
+              }`}
           >
             <NavbarLogo />
 
@@ -166,7 +162,7 @@ const Navbar = () => {
               {showNavbarSearch ? (
                 <form
                   onSubmit={handleSearchSubmit}
-                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-gray-200 bg-white p-1 hover:border-store-300 focus-within:border-store-400 focus-within:ring-2 focus-within:ring-store-100 transition-all"
+                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-gray-200 p-1 focus-within:border-store-400 transition-all"
                 >
                   <div className="flex-1 relative min-w-0 flex items-center min-h-[42px]">
                     <IoSearchOutline className="absolute left-3 text-gray-700 text-lg pointer-events-none z-10" />

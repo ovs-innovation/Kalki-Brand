@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import { Button } from "@windmill/react-ui";
 import { IoLogOutOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom"
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";;
 
 
 //internal import
@@ -73,18 +74,16 @@ const SidebarContent = () => {
 
   return (
     <div className="py-4 text-neutral-500 dark:text-[#9fb1b1]">
-      <div>
-        <Link to="/" className="flex items-center ml-8 shrink-0 group" aria-label="KalkiBrand">
-          {/* Wordmark */}
-          <span className="flex flex-col leading-none">
-            <span className="text-[#0f766e] font-extrabold tracking-tight text-xl">
-              Kalki<span className="text-[#0d9488]">Brand</span>
-            </span>
-            <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-green-800 mt-0.5">Pharmacy</span>
-          </span>
-        </Link>
+      <div className="ml-10 px-5">
+        <a href="/" rel="noreferrer">
+          <img
+            src={kalkibrand_logo}
+            alt="logo"
+            style={{ height: "85px", width: "auto" }}
+          />
+        </a>
       </div >
-      <ul className="mt-8">
+      <ul className="mt-4">
         {updatedSidebar?.map((route) =>
           route.type === "title" ? (
             <li className="px-6 py-3 mt-4" key={route.name}>

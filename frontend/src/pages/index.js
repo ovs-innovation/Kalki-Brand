@@ -149,16 +149,16 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   <div className="relative group/slider">
                     <div className="relative px-2">
                       {/* Custom Floating Navigation */}
-                      <button className="prev-best-selling absolute top-1/2 -left-4 lg:-left-12 z-30 bg-white/90 backdrop-blur-md shadow-xl border border-white rounded-2xl p-4 hover:bg-emerald-600 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="prev-best-selling absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
                         <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-best-selling absolute top-1/2 -right-4 lg:-right-12 z-30 bg-white/90 backdrop-blur-md shadow-xl border border-white rounded-2xl p-4 hover:bg-emerald-600 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="next-best-selling absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
                         <IoChevronForward className="text-xl" />
                       </button>
 
                       {/* Slider with subtle Glassmorphism container */}
-                      <div className="rounded-[2rem] p-2 bg-white/30 backdrop-blur-[2px] border border-white/50 shadow-sm">
+                      <div className="rounded-[2rem] p-2 bg-slate-900/20 backdrop-blur-[2px] border border-slate-800/40 shadow-sm">
                         <Swiper
                           modules={[Navigation, Autoplay]}
                           spaceBetween={15}
@@ -253,15 +253,15 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   <div className="relative group/slider">
                     <div className="relative px-2">
                       {/* Navigation buttons */}
-                      <button className="prev-personal-care absolute top-1/2 -left-4 lg:-left-12 z-30 bg-white/90 backdrop-blur-md shadow-xl border border-white rounded-2xl p-4 hover:bg-amber-800 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="prev-personal-care absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
                         <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-personal-care absolute top-1/2 -right-4 lg:-right-12 z-30 bg-white/90 backdrop-blur-md shadow-xl border border-white rounded-2xl p-4 hover:bg-amber-800 hover:text-white transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="next-personal-care absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
                         <IoChevronForward className="text-xl" />
                       </button>
 
-                      <div className="rounded-[2.5rem] p-2 bg-[#FAF9F5]/40 backdrop-blur-[2px] border border-white/60 shadow-sm">
+                      <div className="rounded-[2.5rem] p-2 bg-slate-900/20 backdrop-blur-[2px] border border-slate-800/40 shadow-sm">
                         <Swiper
                           modules={[Navigation, Autoplay]}
                           spaceBetween={15}

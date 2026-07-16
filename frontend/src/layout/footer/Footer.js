@@ -28,6 +28,7 @@ import {
   FiSettings,
   FiMessageSquare,
 } from "react-icons/fi";
+import kalkibrand_logo from "../../../logo/kalkibrand_logo.png";
 
 //internal import
 import { getUserSession } from "@lib/auth";
@@ -114,18 +115,16 @@ const Footer = () => {
           {/* Brand & Contact Column (Takes 4/12 width on large screens) */}
           <div className="lg:col-span-4 space-y-6">
             {/* Logo Section */}
-            <Link href="/" className="flex items-center gap-3 group inline-flex" rel="noreferrer">
-              <span className="kalki-logo-badge flex items-center justify-center w-11 h-11 rounded-2xl shadow-md shadow-store-500/10 transition-transform duration-300 group-hover:scale-105">
-                <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 13h-2v-4H7v-2h4V5h2v4h4v2h-4v4z" fill="white" />
-                </svg>
-              </span>
-              <span className="flex flex-col leading-none">
-                <span className="kalki-logo-text font-black tracking-tight text-xl text-slate-900">
-                  Kalki<span className="kalki-logo-accent text-store-600">Brand</span>
-                </span>
-                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-400 mt-1">Pharmacy</span>
-              </span>
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
+              <Image
+                src={kalkibrand_logo}
+                alt="logo"
+                width={168}
+                height={200}
+                priority
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                style={{ height: "100px", width: "auto" }}
+              />
             </Link>
 
             {storeCustomizationSetting?.footer?.block4_status && (

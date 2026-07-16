@@ -37,28 +37,28 @@ const PharmacyPromoFeatures = () => {
     ];
 
     return (
-        <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-12 bg-white space-y-16">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-12 bg-transparent space-y-16">
 
             {/* 1. Monsoon Seasonal Promotional Banner */}
             <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="relative w-full rounded-3xl bg-gradient-to-br from-emerald-500/60 via-teal-50/30 to-slate-50/50 border border-slate-300 overflow-hidden p-6 sm:p-10 lg:p-12 min-h-[280px] sm:min-h-[320px] flex items-center"
+                className="relative w-full rounded-3xl bg-gradient-to-br from-[#052215]/80 via-[#0a151b]/90 to-[#0c121a]/90 border border-emerald-900/60 overflow-hidden p-6 sm:p-10 lg:p-12 min-h-[280px] sm:min-h-[320px] flex items-center shadow-2xl"
             >
                 {/* Dynamic Abstract Background Graphics */}
-                <div className="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 bg-emerald-700/30 rounded-full blur-3xl transform translate-x-1/4 translate-y-1/4 pointer-events-none" />
-                <div className="absolute -left-12 -top-12 w-48 h-48 bg-teal-500/5 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 bg-emerald-500/[0.04] rounded-full blur-3xl transform translate-x-1/4 translate-y-1/4 pointer-events-none" />
+                <div className="absolute -left-12 -top-12 w-48 h-48 bg-teal-500/[0.04] rounded-full blur-2xl pointer-events-none" />
 
                 <div className="grid sm:grid-cols-[1fr_auto] gap-8 items-center w-full relative z-10">
 
                     {/* Banner Text Content */}
                     <div className="max-w-xl space-y-4">
 
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-100 tracking-tight leading-tight">
                             Supermarket prices, without the supermarket lines. <br className="hidden lg:inline" />
                         </h2>
-                        <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                        <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed">
                             At KalkiBrand, we believe eating well shouldn't be a chore. We partner with trusted local farmers and suppliers to bring high-quality, fresh, and affordable groceries right to your doorstep. Every order is handpicked by our team as if we were shopping for our own families.
                         </p>
 
@@ -66,9 +66,8 @@ const PharmacyPromoFeatures = () => {
 
                     {/* Banner Graphic Illustration Placeholder Container */}
                     <div className="hidden sm:flex items-center justify-center pr-4 lg:pr-12">
-                        <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full bg-emerald-100/40 border border-emerald-200/30 flex items-center justify-center p-4 shadow-inner">
-                            {/* Note: Replace this vector SVG with your actual transparent character/product photo */}
-                            <svg className="w-20 h-20 text-emerald-600/70 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                        <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-tr from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center p-4 shadow-[0_0_40px_rgba(16,185,129,0.1)]">
+                            <svg className="w-16 h-16 text-emerald-400/80 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m9-9H3" />
                             </svg>
                         </div>
@@ -78,23 +77,23 @@ const PharmacyPromoFeatures = () => {
             </motion.div>
 
             {/* 2. Trust Badges & Core Features Grid */}
-            <div className="grid md:grid-cols-3 gap-6 lg:gap-10 border-t border-slate-100 pt-10">
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-10 border-t border-slate-900 pt-10">
                 {features.map((feature) => (
                     <div
                         key={feature.id}
-                        className="flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 hover:bg-slate-50/50"
+                        className="flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 hover:bg-slate-900/40"
                     >
                         {/* Soft Icon Wrapper */}
-                        <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                        <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-[#111827] border border-slate-800 flex items-center justify-center shadow-inner">
                             {feature.icon}
                         </div>
 
                         {/* Description Text */}
                         <div className="space-y-0.5">
-                            <h4 className="text-lg font-bold text-slate-800 tracking-tight">
+                            <h4 className="text-lg font-bold text-slate-100 tracking-tight">
                                 {feature.title}
                             </h4>
-                            <p className="text-xs text-slate-500 leading-normal font-medium">
+                            <p className="text-xs text-slate-400 leading-normal font-medium">
                                 {feature.description}
                             </p>
                         </div>

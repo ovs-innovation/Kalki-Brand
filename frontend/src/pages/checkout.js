@@ -511,7 +511,7 @@ const Checkout = () => {
                                 }}
                                 className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${isSelected
                                     ? ' border-gray-200 ring-2 ring-store-300'
-                                    : 'border-gray-200 bg-white hover:border-store-300 hover:shadow-sm'
+                                    : 'border-gray-200 hover:border-store-300 hover:shadow-sm'
                                   }`}
                               >
                                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -542,7 +542,7 @@ const Checkout = () => {
                                     <div className="flex-1">
                                       {isSelected && (
                                         <div className="flex items-center gap-2 mb-2">
-                                          <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wide bg-blue-50 text-gray-700 rounded-full">
+                                          <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wide bg-blue-700 text-gray-700 rounded-full">
                                             DELIVER TO
                                           </span>
                                         </div>

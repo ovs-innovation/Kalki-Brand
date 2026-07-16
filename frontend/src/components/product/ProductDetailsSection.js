@@ -180,7 +180,7 @@ const ProductDetailsSection = ({ dynamicSections = [], mediaSections = [], selec
         return (
           <div
             key={sectionKey}
-            className="bg-white border border-gray-100 rounded-[2rem] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.04)] overflow-hidden transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+            className="border border-gray-100 rounded-[2rem] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.04)] overflow-hidden transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
           >
             <div className="px-8 py-6 bg-gray-50/50 border-b border-gray-100">
               <h3 className="text-xl font-bold text-gray-800">

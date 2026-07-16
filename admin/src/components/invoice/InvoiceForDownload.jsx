@@ -9,6 +9,7 @@ import {
 } from "@react-pdf/renderer";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 
 Font.register({
   family: "Open Sans",
@@ -360,8 +361,8 @@ const InvoiceForDownload = ({
             <View style={{ width: "34%", paddingRight: 10 }}>
               {/* Original Logo */}
               <Image
-                src={logo || globalSetting?.logo || "/favicon-transparent.png"}
-                style={{ width: 90, height: 35, marginBottom: 4, objectFit: "contain" }}
+                src={kalkibrand_logo}
+                style={{ width: 38, height: 45, marginBottom: 4, objectFit: "contain" }}
               />
 
               <Text style={{ fontSize: 9, fontWeight: "bold", color: "#006E44", marginBottom: 0 }}>

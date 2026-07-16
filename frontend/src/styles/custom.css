@@ -2149,3 +2149,246 @@ footer a:hover,
 ::-webkit-scrollbar-thumb:hover {
   background: #5eead4;
 }
+
+/* ================================================
+   SLEEK MODERN DARK THEME OVERRIDES
+   ================================================ */
+
+/* Global dark body and primary text */
+html,
+body,
+body.font-sans,
+.font-sans.min-h-screen,
+.min-h-screen {
+  background-color: #080b11 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Background overrides for all major layout containers and cards */
+main,
+header,
+.glass-header,
+.section-surface,
+.card-modern,
+.bg-white,
+.bg-slate-50,
+.bg-slate-100,
+.bg-gray-50,
+.bg-gray-100,
+div[class*="bg-white"],
+div[class*="bg-slate-"],
+div[class*="bg-gray-"],
+div[class*="section-surface"],
+div[class*="card-modern"],
+.bg-white.rounded-lg,
+.bg-white.rounded-xl,
+.bg-white.rounded-2xl {
+  background-color: #0e131f !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+}
+
+/* Specific component background fixes */
+.glass-header {
+  background: rgba(8, 11, 17, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Announcement bar */
+div.bg-gray-100 {
+  background: linear-gradient(90deg, #0b1320, #0f1c30) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Footer overrides */
+footer,
+.footer-root {
+  background: linear-gradient(180deg, #080b11 0%, #0c111c 40%, #06090e 100%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+.footer-wave path {
+  fill: #080b11 !important;
+}
+
+/* Category lower navigation */
+div[class*="LowerCategoryNavbar"] {
+  background-color: #0b0f17 !important;
+}
+
+/* Drawers and modals */
+.rc-drawer-content,
+.drawer-content,
+div.shadow-xl.bg-white,
+div[class*="rc-drawer-"] {
+  background-color: #0e131f !important;
+  color: #f1f5f9 !important;
+}
+
+/* Inputs, Textareas, Selects */
+input,
+textarea,
+select,
+input[type="search"] {
+  background-color: #161e2e !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Specific Searchbar Overrides to prevent solid rectangle */
+.navbar-search-form,
+.navbar-search-form:focus-within {
+  background: #111622 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+}
+.navbar-search-form:focus-within {
+  border-color: var(--store-color-500) !important;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2), 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+.navbar-search-form input,
+.navbar-search-form input:focus,
+input.navbar-search-input,
+input.navbar-search-input:focus {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.navbar-search-form svg {
+  color: #94a3b8 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Hover effects and active state elements */
+.group:hover .shadow-sm,
+.group:hover .shadow-md,
+.group:hover .bg-white {
+  box-shadow: 0 8px 30px rgba(13, 148, 136, 0.2) !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+  background-color: #121827 !important;
+}
+
+/* Text Colors */
+.text-gray-900,
+.text-slate-900,
+.text-gray-800,
+.text-slate-800,
+.text-gray-700,
+.text-slate-700,
+.text-black,
+.font-semibold.text-gray-900,
+h1, h2, h3, h4, h5, h6,
+span[class*="text-gray-900"],
+span[class*="text-slate-900"],
+div[class*="text-gray-900"],
+div[class*="text-slate-900"] {
+  color: #f8fafc !important;
+}
+
+.text-gray-600,
+.text-slate-600,
+.text-gray-500,
+.text-slate-500,
+.text-gray-400,
+.text-slate-400,
+p {
+  color: #cbd5e1 !important;
+}
+
+/* Cart list, totals panel and checkouts */
+div[class*="bg-emerald-"],
+div[class*="bg-teal-"],
+.bg-emerald-50,
+.bg-teal-50 {
+  background-color: rgba(13, 148, 136, 0.1) !important;
+  border-color: rgba(13, 148, 136, 0.2) !important;
+  color: #2dd4bf !important;
+}
+
+/* Link tags and navigation hover states */
+#category-nav-dropdown-portal a:hover {
+  background: #161f30 !important;
+  color: #2dd4bf !important;
+}
+
+.hover\:bg-gray-50:hover,
+.hover\:bg-slate-50:hover {
+  background-color: #151d2f !important;
+}
+
+.hover\:text-store-600:hover {
+  color: #2dd4bf !important;
+}
+
+/* Badges, borders and table rows */
+th,
+td {
+  background-color: #0e131f !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #cbd5e1 !important;
+}
+tr {
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Divider colors */
+.border-gray-50,
+.border-gray-100,
+.border-gray-200,
+.border-slate-100,
+.border-slate-200 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ================================================
+   DARK FOOTER OVERRIDES
+   ================================================ */
+div.bg-green-100 {
+  background-color: #080b11 !important;
+  background-image: linear-gradient(180deg, #080b11 0%, #0c111c 40%, #06090e 100%) !important;
+  color: #cbd5e1 !important;
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+div.bg-green-100 .text-neutral-900,
+div.bg-green-100 .text-neutral-800,
+div.bg-green-100 h3 {
+  color: #f8fafc !important;
+}
+
+div.bg-green-100 .text-neutral-600,
+div.bg-green-100 .text-neutral-500,
+div.bg-green-100 .text-neutral-400,
+div.bg-green-100 a {
+  color: #94a3b8 !important;
+}
+
+div.bg-green-100 a:hover {
+  color: #2dd4bf !important;
+}
+
+/* Registered Office Card in Footer */
+div.bg-green-100 div[class*="bg-white"] {
+  background-color: #0e131f !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #cbd5e1 !important;
+}
+
+div.bg-green-100 div[class*="bg-white"] p,
+div.bg-green-100 div[class*="bg-white"] h4 {
+  color: #f8fafc !important;
+}
+
+/* Secure Gateway Logo Container in Footer */
+div.bg-green-100 div[class*="bg-white"] div {
+  background-color: transparent !important;
+}
+
+/* Divider borders in Footer */
+div.bg-green-100 .border-neutral-200,
+div.bg-green-100 .border-store-500,
+div.bg-green-100 .border-t {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}

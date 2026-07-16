@@ -29,11 +29,7 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
 
   // Get dynamic title and favicon from settings
   const siteTitle = storeCustomizationSetting?.seo?.meta_title || globalSetting?.shop_name || "Kalki Brand";
-  const favicon = pickBrandLogo(
-    storeCustomizationSetting?.seo?.favicon,
-    globalSetting?.logo,
-    storeCustomizationSetting?.navbar?.logo
-  );
+  const favicon = "/favicon.png";
   const defaultDescription = storeCustomizationSetting?.seo?.meta_description || description || "Discover personalized merchandise, branded giveaways, and advertising essentials. Ideal for businesses, events, and promotions";
 
   const hexToRgb = (hex) => {

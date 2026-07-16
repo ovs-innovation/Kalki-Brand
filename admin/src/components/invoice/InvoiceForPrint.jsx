@@ -10,6 +10,7 @@ import {
 import dayjs from "dayjs";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 
 const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
   const { t } = useTranslation();
@@ -21,15 +22,12 @@ const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
       {Array.isArray(data) ? (
         data?.map((or, i) => (
           <div className="mb-8" key={i + 1}>
-            {globalSetting?.logo && (
-              <img
-                className="flex mx-auto"
-                size="large"
-                src={globalSetting?.logo}
-                alt=""
-                width={50}
-              />
-            )}
+            <img
+              className="flex mx-auto mb-2"
+              src={kalkibrand_logo}
+              alt=""
+              width={80}
+            />
 
             <div className="my-1">
               <div className="flex justify-center">
@@ -265,15 +263,12 @@ const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
         ))
       ) : (
         <Fragment>
-          {globalSetting?.logo && (
-            <img
-              className="flex mx-auto"
-              size="large"
-              src={globalSetting?.logo}
-              alt=""
-              width={50}
-            />
-          )}
+          <img
+            className="flex mx-auto mb-2"
+            src={kalkibrand_logo}
+            alt=""
+            width={80}
+          />
 
           <div className="my-1">
             <div className="flex justify-center">

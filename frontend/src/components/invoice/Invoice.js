@@ -8,6 +8,7 @@ import useUtilsFunction from "@hooks/useUtilsFunction";
 import useGetSetting from "@hooks/useGetSetting";
 import { pickBrandLogo } from "@utils/brandAssets";
 import { UserContext } from "@context/UserContext";
+import kalkibrand_logo from "../../../logo/kalkibrand_logo.png";
 
 const Invoice = ({ data, printRef, globalSetting, currency }) => {
   // console.log('invoice data',data)
@@ -71,21 +72,17 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
         <div className=" flex gap-x-5  pb-4 border-b border-gray-50 items-start">
           {/* Logo + Invoice on same line */}
           <div className="text-left flex flex-col items-start gap-0 hidden lg:block">
-            <h2 className="text-lg font-serif font-semibold">
-
-              <span className="kalki-logo-badge flex items-center justify-center w-10 h-10 rounded-xl shadow-md">
-                <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 13h-2v-4H7v-2h4V5h2v4h4v2h-4v4z" fill="white" />
-                </svg>
-              </span>
-              {/* Wordmark */}
-              <span className="flex flex-col leading-none">
-                <span className="kalki-logo-text font-extrabold tracking-tight text-xl">
-                  Kalki<span className="kalki-logo-accent">Brand</span>
-                </span>
-                <span className="text-[9px] font-semibold tracking-[0.18em] uppercase text-gray-500 mt-0.5">Pharmacy</span>
-              </span>
-            </h2>
+            <div className="mb-2">
+              <Image
+                src={kalkibrand_logo}
+                alt="logo"
+                width={158}
+                height={190}
+                priority
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                style={{ height: "100px", width: "auto" }}
+              />
+            </div>
 
             {/* Bill From - from common settings */}
             <div className="flex-1 min-w-[0] items-start">
@@ -135,7 +132,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
 
           </div>
           <div className="flex flex-col gap-y-8 hidden lg:block">
-            <div className="flex flex gap-1 text-lg gap-x-10 text-store-700">
+            <div className="flex flex gap-1 text-lg gap-x-10">
 
               <div className=" pl-3">
                 <span className="font-semibold">Invoice No :</span>{" "}
@@ -146,7 +143,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
                 <span>{data?._id || data?.orderId || "-"}</span>
               </div>
               <div className="border-l border-store-600 pl-3">
-                <span className="font-semibold text-store-800">Date:</span>{" "}
+                <span className="font-semibold">Date:</span>{" "}
                 {data?.createdAt
                   ? dayjs(data.createdAt).format("DD MMM YYYY")
                   : "-"}
@@ -156,7 +153,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
 
               {/* Bill To - user address details (styled) */}
               <div className="flex-1 min-w-[0]">
-                <span className="font-bold font-serif text-xs md:text-sm uppercase text-store-700 block mt-1">
+                <span className="font-bold font-serif text-xs md:text-sm uppercase block mt-1">
                   Bill To:
                 </span>
                 <div className="mt-1 text-[11px] md:text-base text-gray-700 leading-relaxed space-y-0.5">

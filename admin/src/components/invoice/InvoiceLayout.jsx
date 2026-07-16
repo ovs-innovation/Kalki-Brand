@@ -3,6 +3,7 @@ import React from "react";
 
 // internal import
 import InvoiceOrderTable from "@/components/invoice/InvoiceOrderTable";
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 
 // Modern invoice layout copied from frontend Invoice.js, adapted for admin
 const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }) => {
@@ -76,10 +77,9 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
             <h2 className="text-lg font-serif font-semibold">
               <a href="/" rel="noreferrer">
                 <img
-                  width={120}
-                  height={40}
-                  src={globalSetting?.logo || "/favicon-transparent.png"}
+                  src={kalkibrand_logo}
                   alt="logo"
+                  style={{ height: "70px", width: "auto" }}
                 />
               </a>
             </h2>
@@ -87,7 +87,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
             {/* Bill From - from common settings */}
             <div className="flex-1 min-w-[0] items-start">
               <p className="text-semibold md:text-base font-semibold text-gray-900">
-                {globalSetting?.company_name || "AQOSU FARMACYKART PRIVATE LIMITED"}
+                {globalSetting?.company_name || "Kalki Brand"}
               </p>
               <p className="text-sm text-gray-600 leading-snug">
                 {globalSetting?.address ||
@@ -97,7 +97,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
                 <div className="flex gap-x-3">
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
                     <div className="font-semibold">Email:</div>
-                    <div>{globalSetting?.email || "farmacykart@gmail.com"}</div>
+                    <div>{globalSetting?.email || "kalkibrand@gmail.com"}</div>
                   </div>
                   <div className="flex gap-x-2 text-sm text-gray-600 leading-snug mt-0.5">
                     <div className="font-semibold">Phone No:</div>
@@ -290,7 +290,7 @@ const InvoiceLayout = ({ data, printRef, globalSetting, currency, getNumberTwo }
               <div className="w-full md:w-64 flex flex-col items-start md:items-start text-xs md:text-sm space-y-0.5">
                 <div className="w-24 md:ml-auto" />
                 <p className="font-semibold text-gray-700 leading-snug">
-                  {globalSetting?.pharmacist_name || "Registered Pharmacist"}
+                  {globalSetting?.pharmacist_name || "Registered"}
                 </p>
                 <p className="text-[11px] text-gray-500 leading-snug">
                   {globalSetting?.company_name || "KalkiBrand"}
