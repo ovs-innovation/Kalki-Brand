@@ -94,17 +94,17 @@ const MobileFooter = () => {
               height={40}
               priority
               className="object-contain transition-transform duration-300 group-hover:scale-105"
-              style={{ height: "40px", width: "auto" }}
+              style={{ height: "55px", width: "auto" }}
             />
           </Link>
-          <Link
+          {/* <Link
             href="/"
             className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-900 hover:bg-gray-100 hover:text-black shrink-0 ml-6"
             aria-label="Home"
             title="Home"
           >
             <FiHome className="w-5 h-5" />
-          </Link>
+          </Link> */}
         </div>
         <div className="flex items-center gap-4">
           <CustomerNotificationBell />

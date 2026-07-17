@@ -144,7 +144,7 @@ const PersonalCareProductCard = ({
       )}
       
       {/* Premium organic card design */}
-      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[430px] sm:h-[490px] overflow-hidden bg-[#FAF9F5] hover:bg-white rounded-[2.25rem] border border-[#EBE8DF] hover:border-amber-300/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_16px_45px_rgba(180,160,130,0.12)] transition-all duration-500">
+      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[430px] sm:h-[490px] overflow-hidden bg-[#FAF9F5] hover:bg-white rounded-[2.25rem] border border-[#EBE8DF] hover:border-amber-300/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_16px_45px_rgba(180,160,130,0.12)] hover:-translate-y-1.5 transition-all duration-500">
         
         {/* Soft natural gradient backdrop for image */}
         <div
@@ -166,22 +166,22 @@ const PersonalCareProductCard = ({
             </div>
           )}
 
-          {/* Organic Glassmorphic Badges */}
+          {/* Organic Glassmorphic Badges (Slides in on hover) */}
           {!hideWishlistCompare && (
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 flex flex-col gap-2">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 flex flex-col gap-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
               <button
                 onClick={handleAddToWishlist}
-                className="p-2 sm:p-2.5 bg-white/70 hover:bg-rose-50 text-[#6C6753] hover:text-rose-600 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 backdrop-blur-md"
+                className="p-2 sm:p-2.5 bg-white text-[#6C6753] hover:text-rose-600 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 backdrop-blur-md"
                 aria-label="Add to wishlist"
               >
-                <FiHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <FiHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
               </button>
               <button
                 onClick={handleAddToCompare}
-                className="p-2 sm:p-2.5 bg-white/70 hover:bg-amber-50 text-[#6C6753] hover:text-amber-700 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 hidden lg:flex backdrop-blur-md"
+                className="p-2 sm:p-2.5 bg-white text-[#6C6753] hover:text-amber-700 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/60 hover:scale-110 active:scale-95 transition-all duration-300 hidden lg:flex backdrop-blur-md"
                 aria-label="Add to compare"
               >
-                <FiShuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <FiShuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
               </button>
             </div>
           )}

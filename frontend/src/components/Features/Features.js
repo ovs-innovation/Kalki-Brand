@@ -68,7 +68,7 @@ const PharmacyPromoFeatures = () => {
                     <div className="hidden sm:flex items-center justify-center pr-4 lg:pr-12">
                         <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-tr from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center p-4 shadow-[0_0_40px_rgba(16,185,129,0.1)]">
                             <svg className="w-16 h-16 text-emerald-400/80 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m9-9H3" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                         </div>
                     </div>

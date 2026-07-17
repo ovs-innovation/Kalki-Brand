@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import { NavLink, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
-import { Button } from "@windmill/react-ui";
+import { Button, WindmillContext } from "@windmill/react-ui";
 import { IoLogOutOutline } from "react-icons/io5";
 //import { Link } from "react-router-dom"
-import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";;
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";
+import kalkibrand_logo_white_bg from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 
 
 //internal import
@@ -19,6 +20,7 @@ import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
 
 const SidebarContent = () => {
   const { t } = useTranslation();
+  const { mode } = useContext(WindmillContext);
   const { dispatch } = useContext(AdminContext);
   const { globalSetting } = useContext(SidebarContext);
   const { accessList, role } = useGetCData();
@@ -77,9 +79,9 @@ const SidebarContent = () => {
       <div className="ml-10 px-5">
         <a href="/" rel="noreferrer">
           <img
-            src={kalkibrand_logo}
+            src={mode === "dark" ? kalkibrand_logo : kalkibrand_logo_white_bg}
             alt="logo"
-            style={{ height: "85px", width: "auto" }}
+            style={{ height: "95px", width: "auto" }}
           />
         </a>
       </div >

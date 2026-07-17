@@ -3,6 +3,7 @@ import Image from "next/image";
 import useGetSetting from "@hooks/useGetSetting";
 import { pickBrandLogo } from "@utils/brandAssets";
 import { FiShield, FiTruck, FiClock } from "react-icons/fi";
+import kalkibrand_logo from "../../../logo/kalkibrand_logo.png";
 
 const TRUST_ITEMS = [
   { icon: FiShield, text: "Secure OTP" },
@@ -38,13 +39,16 @@ const AuthPageShell = ({
         {/* Header Block: Brand Logo & Strategic Minimal Trust Badges */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-slate-100">
           <div>
-            <Link href="/" className="inline-flex flex-col">
-              <span className="text-lg font-black tracking-tight text-teal-900">
-                Kalki<span className="text-store-600 font-medium">Brand</span>
-              </span>
-              <span className="text-[8px] font-bold tracking-[0.2em] uppercase text-slate-400 mt-0.5">
-                Pharmacy
-              </span>
+            <Link href="/" className="flex items-center gap-2 group" aria-label="KalkiBrand">
+              <Image
+                src={kalkibrand_logo}
+                alt="logo"
+                width={130}
+                height={50}
+                priority
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                style={{ height: "90px", width: "auto" }}
+              />
             </Link>
           </div>
 

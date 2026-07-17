@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@windmill/react-ui";
+import { Button, WindmillContext } from "@windmill/react-ui";
 import { ImFacebook, ImGoogle } from "react-icons/im";
 import { useTranslation } from "react-i18next";
 import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";
+import kalkibrand_logo_white_bg from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 //internal import
 import Error from "@/components/form/others/Error";
 import LabelArea from "@/components/form/selectOption/LabelArea";
@@ -16,6 +17,7 @@ import { useContext } from "react";
 
 const Login = () => {
   const { t } = useTranslation();
+  const { mode } = useContext(WindmillContext);
   const { globalSetting } = useContext(SidebarContext);
   const { onSubmit, register, handleSubmit, errors, loading } =
     useLoginSubmit();
@@ -28,7 +30,7 @@ const Login = () => {
             <div className="w-full flex justify-center p-6">
               <Link to="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
                 <img
-                  src={kalkibrand_logo}
+                  src={mode === "dark" ? kalkibrand_logo : kalkibrand_logo_white_bg}
                   alt="logo"
                   className="object-contain transition-transform duration-300 group-hover:scale-105"
                   style={{ height: "120px", width: "auto" }}

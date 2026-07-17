@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Input, Label, Button } from "@windmill/react-ui";
+import { Input, Label, Button, WindmillContext } from "@windmill/react-ui";
 import { ImFacebook, ImGoogle } from "react-icons/im";
 import { useTranslation } from "react-i18next";
 
@@ -10,10 +10,12 @@ import InputArea from "@/components/form/input/InputArea";
 import LabelArea from "@/components/form/selectOption/LabelArea";
 import SelectRole from "@/components/form/selectOption/SelectRole";
 import useLoginSubmit from "@/hooks/useLoginSubmit";
-import { ADMIN_BRAND_LOGO } from "@/utils/cloudinaryUrl";
+import kalkibrand_logo from "@/assets/img/logo/kalkibrand_logo.png";
+import kalkibrand_logo_white_bg from "@/assets/img/logo/kalkibrand_logo_white_bg.png";
 
 const SignUp = () => {
   const { t } = useTranslation();
+  const { mode } = useContext(WindmillContext);
   const { onSubmit, register, handleSubmit, errors, loading } =
     useLoginSubmit();
 
@@ -22,12 +24,14 @@ const SignUp = () => {
       <div className="flex-1 h-full max-w-2xl mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex flex-col overflow-y-auto">
           <div className="w-full flex justify-center p-6">
-            <img
-              aria-hidden="true"
-              className="object-contain h-20 w-20"
-              src={ADMIN_BRAND_LOGO}
-              alt="Farmacykart"
-            />
+            <Link to="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="KalkiBrand">
+              <img
+                src={mode === "dark" ? kalkibrand_logo : kalkibrand_logo_white_bg}
+                alt="logo"
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                style={{ height: "120px", width: "auto" }}
+              />
+            </Link>
           </div>
           <main className="flex items-center justify-center p-6 sm:p-12">
             <div className="w-full max-w-sm">

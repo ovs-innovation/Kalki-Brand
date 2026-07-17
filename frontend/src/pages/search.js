@@ -494,26 +494,26 @@ const Search = ({ products, attributes }) => {
                   </h2>
                 </div>
               ) : (
-                <div className="hidden lg:flex justify-between my-3 bg-orange-100 border border-gray-100 rounded p-3">
-                  <h6 className="text-sm font-serif">
-                    {t("totalI")}{" "}
-                    <span className="font-bold">{filteredProductData?.length}</span>{" "}
-                    {t("itemsFound")}
+                <div className="hidden lg:flex justify-between my-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 items-center">
+                  <h6 className="text-sm font-serif text-slate-300">
+                    Total{" "}
+                    <span className="font-bold text-store-400">{filteredProductData?.length}</span>{" "}
+                    items found
                   </h6>
                   <span className="text-sm font-serif">
                     <select
                       onChange={(e) => handleSortChange(e.target.value)}
                       value={sortedField}
-                      className="py-0 text-sm font-serif font-medium block w-full rounded border-0 bg-white pr-10 cursor-pointer focus:ring-0"
+                      className="py-1 text-sm font-serif font-medium block w-full rounded-lg border border-slate-800 bg-slate-950 pr-10 cursor-pointer focus:ring-0 text-slate-300 focus:border-store-500"
                     >
                       <option className="px-3" value="All" defaultValue hidden>
-                        {t("sortByPrice")}
+                        Sort By Price
                       </option>
                       <option className="px-3" value="Low">
-                        {t("lowToHigh")}
+                        Low to High
                       </option>
                       <option className="px-3" value="High">
-                        {t("highToLow")}
+                        High to Low
                       </option>
                       <option className="px-3" value="newest">
                         Latest

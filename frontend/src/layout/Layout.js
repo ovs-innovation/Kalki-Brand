@@ -94,7 +94,7 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
           <Navbar />
         </div>
 
-        <div className={`${hideMobileHeader ? "pt-0" : (isHome ? "pt-0" : "pt-16")} ${isHome ? "lg:pt-[26px]" : "lg:pt-[150px]"} pb-16 lg:pb-0`}>
+        <div className={`${hideMobileHeader ? "pt-0" : (isHome ? "pt-0" : "pt-16")} ${isHome ? "lg:pt-[130px]" : "lg:pt-[180px]"} pb-16 lg:pb-0`}>
           {children}
         </div>
         <div className="  w-full">

@@ -130,7 +130,7 @@ const ProductCard = ({ product, attributes, hidePriceAndAdd = false, hideDiscoun
           attributes={attributes}
         />
       )}
-      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[420px] sm:h-[480px] overflow-hidden bg-white rounded-3xl border border-slate-100 hover:border-store-200/60 shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_35px_rgba(0,0,0,0.06)] transition-all duration-500">
+      <div className="group relative flex flex-col w-full max-w-[360px] xl:max-w-[370px] mx-auto h-[420px] sm:h-[480px] overflow-hidden bg-white rounded-3xl border border-slate-100 hover:border-store-200/60 shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_35px_rgba(0,0,0,0.06)] hover:-translate-y-1.5 transition-all duration-500">
 
         {/* Product Image Container */}
         <div
@@ -152,22 +152,22 @@ const ProductCard = ({ product, attributes, hidePriceAndAdd = false, hideDiscoun
             </div>
           )}
 
-          {/* Wishlist and Compare - Top Right */}
+          {/* Wishlist and Compare - Top Right (Slides in on hover) */}
           {!hideWishlistCompare && (
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 flex flex-col gap-2">
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 flex flex-col gap-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
               <button
                 onClick={handleAddToWishlist}
-                className="p-2 sm:p-2.5 bg-white/80 backdrop-blur-sm text-slate-600 hover:text-red-500 rounded-full shadow-sm hover:shadow border border-slate-100/50 hover:scale-110 active:scale-95 transition-all duration-300"
+                className="p-2 sm:p-2.5 bg-white text-slate-800 hover:text-red-500 rounded-full shadow-md border border-slate-100/50 hover:scale-110 active:scale-95 transition-all duration-300"
                 aria-label="Add to wishlist"
               >
-                <FiHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <FiHeart className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
               </button>
               <button
                 onClick={handleAddToCompare}
-                className="p-2 sm:p-2.5 bg-white/80 backdrop-blur-sm text-slate-600 hover:text-store-600 rounded-full shadow-sm hover:shadow border border-slate-100/50 hover:scale-110 active:scale-95 transition-all duration-300 hidden lg:flex"
+                className="p-2 sm:p-2.5 bg-white text-slate-800 hover:text-store-600 rounded-full shadow-md border border-slate-100/50 hover:scale-110 active:scale-95 transition-all duration-300 hidden lg:flex"
                 aria-label="Add to compare"
               >
-                <FiShuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <FiShuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
               </button>
             </div>
           )}
