@@ -54,9 +54,9 @@ const CartItem = ({ item, currency = "₹" }) => {
   };
 
   return (
-    <div className="group w-full h-auto flex justify-start items-start bg-white py-4 px-4 mb-3 rounded-xl border border-gray-200 hover:border-emerald-300 shadow-md hover:shadow-xl transition-all duration-300 relative">
+    <div className="group w-full h-auto flex justify-start items-start bg-black py-3.5 px-4 mb-3 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-200 relative">
       {/* Enhanced Image Container */}
-      <div className="relative flex rounded-xl border-2 border-gray-100 shadow-sm hover:shadow-md overflow-hidden flex-shrink-0 cursor-pointer mr-4 transition-all duration-300 group-hover:border-emerald-200 bg-gray-50">
+      <div className="relative flex rounded-lg border border-white/10 overflow-hidden flex-shrink-0 cursor-pointer mr-3.5 bg-black">
         <Image
           key={item.id}
           src={
@@ -77,72 +77,74 @@ const CartItem = ({ item, currency = "₹" }) => {
         <Link
           href={`/product/${item.slug || item.id || item._id}`}
           onClick={closeCartDrawer}
-          className="truncate text-sm md:text-base font-semibold text-gray-800 hover:text-emerald-600 transition-colors duration-200 line-clamp-2 mb-1.5"
+          className="truncate text-sm md:text-base font-medium text-white hover:text-blue-400 transition-colors duration-200 line-clamp-2 mb-1"
         >
           {item.title}
         </Link>
 
-        {/* MRP and Discount Badge - Hidden for wholesalers */}
+        {/* MRP and Discount - Clean text without badge background */}
         {!isWholesaler && originalPrice > currentPrice && (
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs text-gray-500 line-through font-medium">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-xs text-neutral-500 line-through font-normal">
               MRP: {currency}{originalPrice.toFixed(2)}
             </span>
-            <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-sm">
-              {discountPercentage}% OFF
+            <span className="text-xs font-semibold text-emerald-400">
+              ({discountPercentage}% OFF)
             </span>
           </div>
         )}
 
         {/* Item Price - Hidden for wholesalers */}
         {!isWholesaler && (
-          <span className="text-xs text-gray-500 mb-2 font-medium">
+          <span className="text-xs text-neutral-400 mb-2 font-normal">
             Unit Price:{" "}
-            <span className="text-emerald-600 font-semibold">
+            <span className="text-neutral-200 font-medium">
               {currency}{item.price.toFixed(2)}
             </span>
           </span>
         )}
 
         {/* Bottom Section: Price, Quantity, Delete */}
-        <div className="flex items-center justify-between mt-auto pt-2">
+        <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
           {/* Total Price */}
           <div className="flex flex-col">
-            <span className="text-xs text-gray-500 font-medium">Total</span>
-            <span className="font-bold text-base md:text-lg text-gray-900 leading-tight">
+            <span className="text-[11px] text-neutral-500 uppercase tracking-wider">Total</span>
+            <span className="font-semibold text-base md:text-lg text-white leading-tight">
               {currency}{(item.price * item.quantity).toFixed(2)}
             </span>
           </div>
 
           {/* Quantity Controls */}
           <div className="flex items-center gap-2">
-            <div className="h-9 flex items-center justify-center p-1 border-2 border-emerald-300 bg-white hover:border-emerald-300 text-gray-700 rounded-lg transition-all duration-200 shadow-sm">
+            <div className="h-8 flex items-center justify-center p-0.5 border border-white/15 bg-black text-white rounded-lg transition-all">
               <button
                 onClick={handleDecrease}
-                className="h-full px-2 hover:bg-gray-100 rounded-md transition-colors duration-150 active:scale-95"
+                className="h-full px-2 text-neutral-400 hover:text-white hover:bg-white/5 rounded-md transition-colors active:scale-95"
+                aria-label="Decrease quantity"
               >
-                <FiMinus className="text-gray-600" />
+                <FiMinus className="text-xs" />
               </button>
 
-              <span className="text-sm font-bold text-gray-800 px-3 min-w-[2rem] text-center">
+              <span className="text-xs font-semibold text-white px-2.5 min-w-[1.75rem] text-center">
                 {item.quantity}
               </span>
 
               <button
                 onClick={() => handleIncreaseQuantity(item)}
-                className="h-full px-2 hover:bg-emerald-50 rounded-md transition-colors duration-150 active:scale-95"
+                className="h-full px-2 text-neutral-400 hover:text-blue-400 hover:bg-white/5 rounded-md transition-colors active:scale-95"
+                aria-label="Increase quantity"
               >
-                <FiPlus className="text-emerald-600" />
+                <FiPlus className="text-xs" />
               </button>
             </div>
 
             {/* Delete Button */}
             <button
               onClick={handleRemove}
-              className="h-9 w-9 flex items-center justify-center hover:bg-red-50 text-red-400 hover:text-red-600 rounded-lg cursor-pointer transition-all duration-200 active:scale-95"
+              className="h-8 w-8 flex items-center justify-center text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg cursor-pointer transition-all active:scale-95 ml-1"
               aria-label="Remove item"
             >
-              <FiTrash2 className="text-lg" />
+              <FiTrash2 className="text-sm" />
             </button>
           </div>
         </div>

@@ -10,7 +10,7 @@ const {
 const { isAdmin } = require("../config/auth");
 
 router.post("/add", isAdmin, addRefundReason);
-router.get("/all", isAdmin, getRefundData);
+router.get("/all", getRefundData);
 router.put("/:id", isAdmin, updateRefundReason);
 router.put("/status/:id", isAdmin, updateReasonStatus);
 router.put("/mode/update", isAdmin, updateRefundMode);

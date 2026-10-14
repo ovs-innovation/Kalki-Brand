@@ -31,13 +31,13 @@ const AuthPageShell = ({
   );
 
   return (
-    <div className="min-h-screen bg-slate-50/60 flex flex-col items-center justify-center px-4 py-12 sm:px-6">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 py-12 sm:px-6">
 
       {/* Central Card Wrapper */}
-      <div className="w-full max-w-[460px] bg-white border border-slate-200/60 rounded-2xl shadow-[0_2px_12px_rgba(15,23,42,0.02)] p-6 sm:p-8 space-y-6">
+      <div className="w-full max-w-[460px] bg-[#0c0d14] border border-white/10 rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 text-white">
 
         {/* Header Block: Brand Logo & Strategic Minimal Trust Badges */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-white/10">
           <div>
             <Link href="/" className="flex items-center gap-2 group" aria-label="KalkiBrand">
               <Image
@@ -57,9 +57,9 @@ const AuthPageShell = ({
             {TRUST_ITEMS.map((item, idx) => {
               const IconComponent = item.icon;
               return (
-                <div key={idx} className="flex items-center gap-1 text-slate-400" title={item.text}>
+                <div key={idx} className="flex items-center gap-1 text-gray-400" title={item.text}>
                   <IconComponent className="w-3.5 h-3.5" />
-                  <span className="text-[10px] font-medium text-slate-500 hidden xs:inline">{item.text}</span>
+                  <span className="text-[10px] font-medium text-gray-400 hidden xs:inline">{item.text}</span>
                 </div>
               );
             })}
@@ -69,15 +69,15 @@ const AuthPageShell = ({
         {/* Title Context Group */}
         <div className="space-y-1">
           {badge && (
-            <span className="inline-block rounded bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider mb-1">
+            <span className="inline-block rounded bg-blue-500/15 text-blue-400 border border-blue-500/30 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider mb-1">
               {badge}
             </span>
           )}
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-xl font-bold text-white tracking-tight">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs text-slate-400 leading-normal">
+            <p className="text-xs text-gray-400 leading-normal">
               {subtitle}
             </p>
           )}
@@ -90,19 +90,19 @@ const AuthPageShell = ({
 
         {/* Clean Alternate Footnote Interface Block */}
         {(alternateLink || footer) && (
-          <div className="pt-4 border-t border-slate-100 space-y-3">
+          <div className="pt-4 border-t border-white/10 space-y-3">
             {alternateLink && (
-              <p className="text-center text-xs text-slate-500">
+              <p className="text-center text-xs text-gray-400">
                 {alternateLink.text}{" "}
                 <Link
                   href={alternateLink.href}
-                  className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
+                  className="font-semibold text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   {alternateLink.label}
                 </Link>
               </p>
             )}
-            {footer && <div className="text-[10px] text-slate-400 text-center leading-normal">{footer}</div>}
+            {footer && <div className="text-[10px] text-gray-400 text-center leading-normal">{footer}</div>}
           </div>
         )}
 

@@ -121,6 +121,14 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
 }));
 
+// Static uploads directory fallback
+const fs = require("fs");
+const uploadsDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use("/uploads", express.static(uploadsDir));
+
 //root route
 app.get("/", (req, res) => {
   res.send("App works properly!");

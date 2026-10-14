@@ -214,29 +214,19 @@ const Uploader = ({
         })
           .then((res) => finishUpload(res.data))
           .catch(async (err) => {
-            const msg = err?.response?.data?.error?.message || "";
-            const presetMissing =
-              msg.toLowerCase().includes("preset") ||
-              err?.response?.status === 400;
-
-            if (presetMissing) {
-              try {
-                const payload = await uploadViaBackend(file, safeFolder, public_id);
-                return finishUpload(payload);
-              } catch (backendErr) {
-                console.error("Backend Cloudinary upload error:", backendErr);
-                showAlert(
-                  getCloudinaryErrorMessage(backendErr) +
-                    " — Run: node script/ensureCloudinaryPreset.js in backend folder.",
-                  "error"
-                );
-              }
-            } else {
-              console.error("Cloudinary upload error:", err?.response?.data || err);
-              showAlert(getCloudinaryErrorMessage(err), "error");
+            try {
+              const payload = await uploadViaBackend(file, safeFolder, public_id);
+              return finishUpload(payload);
+            } catch (backendErr) {
+              console.error("Upload error:", backendErr);
+              showAlert(
+                getCloudinaryErrorMessage(backendErr),
+                "error"
+              );
+            } finally {
+              setLoading(false);
+              setFiles([]);
             }
-            setLoading(false);
-            setFiles([]);
           });
       });
     }

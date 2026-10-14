@@ -7,7 +7,6 @@ import { IoLockOpenOutline } from "react-icons/io5";
 import {
   FiBell,
   FiCheck,
-  FiFileText,
   FiGrid,
   FiList,
   FiRefreshCw,
@@ -28,7 +27,6 @@ import { UserContext } from "@context/UserContext";
 import Loading from "@components/preloader/Loading";
 import useGetSetting from "@hooks/useGetSetting";
 import useUtilsFunction from "@hooks/useUtilsFunction";
-import PrescriptionStatus from "@components/prescription/PrescriptionStatus";
 import { setToken } from "@services/httpServices";
 
 const Dashboard = ({ title, description, children }) => {
@@ -74,17 +72,18 @@ const Dashboard = ({ title, description, children }) => {
 
   const userSidebar = [
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.dashboard_title
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.dashboard_title
+        ) || "Dashboard",
       href: "/user/dashboard",
       icon: FiGrid,
     },
-
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.my_order
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.my_order
+        ) || "My Orders",
       href: "/user/my-orders",
       icon: FiList,
     },
@@ -103,23 +102,19 @@ const Dashboard = ({ title, description, children }) => {
       href: "/user/track-order",
       icon: FiTruck,
     },
-
     {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.update_profile
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.update_profile
+        ) || "Update Profile",
       href: "/user/update-profile",
       icon: FiSettings,
     },
     {
-      title: "Prescription",
-      href: "/user/prescription",
-      icon: FiFileText,
-    },
-    {
-      title: showingTranslateValue(
-        storeCustomizationSetting?.dashboard?.change_password
-      ),
+      title:
+        showingTranslateValue(
+          storeCustomizationSetting?.dashboard?.change_password
+        ) || "Change Password",
       href: "/user/change-password",
       icon: IoLockOpenOutline,
     },
@@ -133,130 +128,156 @@ const Dashboard = ({ title, description, children }) => {
         <Layout
           title={title ? title : "Dashboard"}
           description={description ? description : "This is User Dashboard"}
+          mainPaddingClass="pt-14 lg:pt-[100px] pb-16 lg:pb-0"
         >
-          <div className="bg-gray-50/50 min-h-screen">
+          <div className="bg-black text-white min-h-screen">
             <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
-            <div className="py-10 lg:py-12 flex flex-col lg:flex-row w-full">
-              <div className="flex-shrink-0 w-full lg:w-80 mr-7 lg:mr-10 xl:mr-10">
-                {/* Mobile Header */}
-                <div className="bg-white p-4 rounded-xl mb-5 lg:hidden flex justify-between items-center shadow-sm">
-                  <div>
-                    <h2 className="text-xl font-serif font-bold text-gray-800">
-                      {userInfo?.name}
-                    </h2>
-                    <span className="text-sm text-gray-500">
-                      {userInfo?.email || userInfo?.phone || "—"}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="p-2 bg-store-500 rounded-lg text-white hover:bg-store-600 transition-all shadow-md"
-                  >
-                    <FiGrid className="w-6 h-6" />
-                  </button>
-                </div>
-
-                {/* Sidebar Menu */}
-                <div className={`${isOpen ? 'block' : 'hidden'} lg:block bg-white p-6 rounded-xl shadow-sm border border-gray-50 sticky top-32`}>
-                  {/* User Profile Header (Desktop) */}
-                  <div className="hidden lg:flex flex-col items-center mb-8 pb-8 border-b border-gray-100">
-                    <div className="w-20 h-20 rounded-full bg-store-50 flex items-center justify-center text-store-600 text-3xl font-bold mb-4 shadow-inner">
-                      {userInfo?.name?.charAt(0).toUpperCase()}
+              <div className="pt-0 pb-8 lg:pt-1 lg:pb-12 flex flex-col lg:flex-row w-full gap-5 lg:gap-6">
+                {/* Sidebar Column */}
+                <div className="shrink-0 w-full lg:w-72">
+                  {/* Mobile Header / Drawer Toggle */}
+                  <div className="bg-[#0c0d16] border border-white/10 p-4 rounded-2xl mb-4 lg:hidden flex justify-between items-center shadow-lg text-white">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-lg">
+                        {userInfo?.name?.charAt(0).toUpperCase() || "U"}
+                      </div>
+                      <div className="text-left">
+                        <h2 className="text-base font-bold text-white line-clamp-1">
+                          {userInfo?.name || "My Account"}
+                        </h2>
+                        <span className="text-xs text-gray-400 line-clamp-1">
+                          {userInfo?.email || userInfo?.phone || "—"}
+                        </span>
+                      </div>
                     </div>
-                    <h2 className="text-lg font-serif font-bold text-gray-800 text-center line-clamp-1">
-                      {userInfo?.name}
-                    </h2>
-                    <p className="text-sm text-gray-500 text-center line-clamp-1">
-                      {userInfo?.email || userInfo?.phone || "—"}
-                    </p>
-                  </div>
-
-                  <div className="space-y-1">
-                    {userSidebar?.map((item) => {
-                      const isActive = router.pathname === item.href;
-                      return (
-                        <Link
-                          key={item.title}
-                          href={item.href}
-                          className={`group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
-                            isActive
-                              ? 'bg-store-500 text-white shadow-md'
-                              : 'text-gray-600 hover:bg-gray-50 hover:text-store-600'
-                          }`}
-                        >
-                          <item.icon
-                            className={`flex-shrink-0 h-5 w-5 mr-3 transition-colors ${
-                              isActive ? 'text-white' : 'text-gray-400 group-hover:text-store-500'
-                            }`}
-                            aria-hidden="true"
-                          />
-                          {item.title}
-                        </Link>
-                      );
-                    })}
-
                     <button
-                      onClick={handleLogOut}
-                      className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl text-red-500 hover:bg-red-50 transition-all duration-200 mt-4 border-t border-gray-50 pt-6"
+                      onClick={() => setIsOpen(!isOpen)}
+                      className="p-2.5 bg-blue-600 hover:bg-blue-500 rounded-xl text-white transition-all shadow-md shadow-blue-900/30"
+                      aria-label="Toggle Navigation"
                     >
-                      <IoLockOpenOutline className="flex-shrink-0 h-5 w-5 mr-3" />
-                      {showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}
+                      <FiGrid className="w-5 h-5" />
                     </button>
                   </div>
-                </div>
-              </div>
-              <div className="w-full mt-4 lg:mt-0 lg:ml-4 overflow-hidden">
-                {!children && (
-                  <div className="overflow-hidden">
-                    <div className="mb-8">
-                      <h2 className="text-2xl font-serif font-bold text-gray-800">
-                        Welcome back, {userInfo?.name}!
+
+                  {/* Sidebar Menu Card */}
+                  <div className={`${isOpen ? 'block' : 'hidden'} lg:block bg-[#0c0d16] p-5 sm:p-6 rounded-2xl shadow-xl border border-white/10 sticky top-28 text-white`}>
+                    {/* User Profile Header (Desktop) */}
+                    <div className="hidden lg:flex flex-col items-center mb-6 pb-6 border-b border-white/10">
+                      <div className="w-20 h-20 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-3xl font-black mb-3 shadow-inner shadow-blue-950">
+                        {userInfo?.name?.charAt(0).toUpperCase() || "U"}
+                      </div>
+                      <h2 className="text-lg font-bold text-white text-center line-clamp-1">
+                        {userInfo?.name || "Customer"}
                       </h2>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Here's what's happening with your account today.
+                      <p className="text-xs text-gray-400 text-center line-clamp-1 mt-0.5">
+                        {userInfo?.email || userInfo?.phone || "—"}
                       </p>
                     </div>
-                    <div className="grid gap-6 mb-10 grid-cols-2 xl:grid-cols-4">
-                      <Card
-                        title={showingTranslateValue(
-                          storeCustomizationSetting?.dashboard?.total_order
-                        )}
-                        Icon={FiShoppingCart}
-                        quantity={data?.totalDoc}
-                        className="text-red-600  bg-red-200"
-                      />
-                      <Card
-                        title={showingTranslateValue(
-                          storeCustomizationSetting?.dashboard?.pending_order
-                        )}
-                        Icon={FiRefreshCw}
-                        quantity={data?.pending}
-                        className="text-orange-600 bg-orange-200"
-                      />
-                      <Card
-                        title={showingTranslateValue(
-                          storeCustomizationSetting?.dashboard?.processing_order
-                        )}
-                        Icon={FiTruck}
-                        quantity={data?.processing}
-                        className="text-indigo-600 bg-indigo-200"
-                      />
-                      <Card
-                        title={showingTranslateValue(
-                          storeCustomizationSetting?.dashboard?.complete_order
-                        )}
-                        Icon={FiCheck}
-                        quantity={data?.delivered}
-                        className={`text-store-600 bg-store-200`}
-                      />
-                    </div>
-                    {isAuthenticated && userId && (
-                      <PrescriptionStatus userId={userId} />
-                    )}
-                    <RecentOrder data={data} loading={loading} error={error} />
+
+                    {/* Navigation Items */}
+                    <nav className="space-y-1.5" aria-label="User navigation">
+                      {userSidebar.map((item) => {
+                        const isActive = router.pathname === item.href;
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`group flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 ${isActive
+                              ? 'bg-blue-600 text-white shadow-md shadow-blue-900/40'
+                              : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                              }`}
+                          >
+                            <item.icon
+                              className={`shrink-0 h-5 w-5 mr-3 transition-colors ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-blue-400'
+                                }`}
+                              aria-hidden="true"
+                            />
+                            <span className="truncate">{item.title}</span>
+                          </Link>
+                        );
+                      })}
+
+                      {/* Logout Button */}
+                      <button
+                        onClick={handleLogOut}
+                        type="button"
+                        className="w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-200 mt-4 border-t border-white/10 pt-4"
+                      >
+                        <IoLockOpenOutline className="shrink-0 h-5 w-5 mr-3 text-red-400" />
+                        <span>{showingTranslateValue(storeCustomizationSetting?.navbar?.logout) || "Logout"}</span>
+                      </button>
+                    </nav>
                   </div>
-                )}
-                {children}
+                </div>
+
+                {/* Main Content Area */}
+                <div className="w-full min-w-0">
+                  {!children ? (
+                    <div className="space-y-6">
+                      {/* Welcome Heading Banner */}
+                      <div className="text-left bg-gradient-to-r from-[#0c0d16] to-[#121322] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-lg">
+                        <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                          Welcome back,{" "}
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-blue-200">
+                            {userInfo?.name || "Shopper"}
+                          </span>
+                          !
+                        </h2>
+                        <p className="text-xs sm:text-sm text-gray-400 mt-1">
+                          Manage your active orders, account settings, and delivery addresses from one place.
+                        </p>
+                      </div>
+
+                      {/* 4 Stat Cards */}
+                      <div className="grid gap-4 sm:gap-5 grid-cols-2 xl:grid-cols-4">
+                        <Card
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.total_order
+                            ) || "Total Orders"
+                          }
+                          Icon={FiShoppingCart}
+                          quantity={data?.totalDoc}
+                          className="text-red-500"
+                        />
+                        <Card
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.pending_order
+                            ) || "Pending Orders"
+                          }
+                          Icon={FiRefreshCw}
+                          quantity={data?.pending}
+                          className="text-orange-500"
+                        />
+                        <Card
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.processing_order
+                            ) || "Processing Orders"
+                          }
+                          Icon={FiTruck}
+                          quantity={data?.processing}
+                          className="text-blue-500"
+                        />
+                        <Card
+                          title={
+                            showingTranslateValue(
+                              storeCustomizationSetting?.dashboard?.complete_order
+                            ) || "Completed Orders"
+                          }
+                          Icon={FiCheck}
+                          quantity={data?.delivered}
+                          className="text-emerald-500"
+                        />
+                      </div>
+
+                      {/* Recent Orders Section */}
+                      <RecentOrder data={data} loading={loading} error={error} />
+                    </div>
+                  ) : (
+                    children
+                  )}
                 </div>
               </div>
             </div>

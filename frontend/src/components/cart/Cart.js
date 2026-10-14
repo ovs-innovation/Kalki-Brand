@@ -80,12 +80,12 @@ const Cart = () => {
         <div className="mx-5 my-3">
           <button
             onClick={handleCheckout}
-            className={`w-full py-3 px-3 rounded-lg bg-store-500 hover:bg-store-600 flex items-center justify-between bg-heading text-sm sm:text-base text-white focus:outline-none transition duration-300`}
+            className={`w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 flex items-center justify-between shadow-lg shadow-blue-900/40 text-sm sm:text-base text-white focus:outline-none transition duration-300 font-bold`}
           >
-            <span className="align-middle font-medium">
+            <span className="align-middle">
               Proceed To Checkout
             </span>
-            <span className={`rounded-lg font-bold py-2 px-3 bg-white text-store-600`}>
+            <span className="rounded-lg font-bold py-1.5 px-3 bg-white/20 text-white backdrop-blur-sm border border-white/20">
               {currency}
               {cartTotal.toFixed(2)}
             </span>

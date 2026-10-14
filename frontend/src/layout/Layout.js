@@ -17,7 +17,7 @@ import useCartSync from "@hooks/useCartSync";
 import FloatingWhatsApp from "@components/common/FloatingWhatsApp";
 import { pickBrandLogo } from "@utils/brandAssets";
 
-const Layout = ({ title, description, children, hideMobileHeader }) => {
+const Layout = ({ title, description, children, hideMobileHeader, mainPaddingClass }) => {
   const router = useRouter();
   const isHome = router.pathname === "/";
   const { storeCustomizationSetting, globalSetting } = useGetSetting();
@@ -33,7 +33,7 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
   const defaultDescription = storeCustomizationSetting?.seo?.meta_description || description || "Discover personalized merchandise, branded giveaways, and advertising essentials. Ideal for businesses, events, and promotions";
 
   const hexToRgb = (hex) => {
-    if (!hex) return "20, 184, 166";
+    if (!hex) return "37, 99, 235";
     const cleaned = hex.replace("#", "");
     if (cleaned.length === 3) {
       const expanded = cleaned.split("").map(c => c + c).join("");
@@ -44,27 +44,27 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
       const num = parseInt(cleaned, 16);
       return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
     }
-    return "20, 184, 166";
+    return "37, 99, 235";
   };
 
   return (
     <>
-      <div className="font-sans min-h-screen">
+      <div className="font-sans min-h-screen bg-black text-white">
         <Head>
           <style>
             {`
               :root {
-                --store-color-50: ${palette[50]};
-                --store-color-100: ${palette[100]};
-                --store-color-200: ${palette[200]};
-                --store-color-300: ${palette[300]};
-                --store-color-400: ${palette[400]};
-                --store-color-500: ${palette[500]};
-                --store-color-600: ${palette[600]};
-                --store-color-700: ${palette[700]};
-                --store-color-800: ${palette[800]};
-                --store-color-900: ${palette[900]};
-                --store-color-rgb: ${palette[500]?.startsWith("#") ? hexToRgb(palette[500]) : "20, 184, 166"};
+                --store-color-50: ${palette[50] || "#eff6ff"};
+                --store-color-100: ${palette[100] || "#dbeafe"};
+                --store-color-200: ${palette[200] || "#bfdbfe"};
+                --store-color-300: ${palette[300] || "#93c5fd"};
+                --store-color-400: ${palette[400] || "#60a5fa"};
+                --store-color-500: ${palette[500] || "#3b82f6"};
+                --store-color-600: ${palette[600] || "#2563eb"};
+                --store-color-700: ${palette[700] || "#1d4ed8"};
+                --store-color-800: ${palette[800] || "#1e40af"};
+                --store-color-900: ${palette[900] || "#1e3a8a"};
+                --store-color-rgb: ${palette[500]?.startsWith("#") ? hexToRgb(palette[500]) : "37, 99, 235"};
               }
             `}
           </style>
@@ -94,7 +94,7 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
           <Navbar />
         </div>
 
-        <div className={`${hideMobileHeader ? "pt-0" : (isHome ? "pt-0" : "pt-16")} ${isHome ? "lg:pt-[130px]" : "lg:pt-[180px]"} pb-16 lg:pb-0`}>
+        <div className={mainPaddingClass || `${hideMobileHeader ? "pt-0" : (isHome ? "pt-0" : "pt-16")} ${isHome ? "lg:pt-[125px]" : "lg:pt-[130px]"} pb-16 lg:pb-0`}>
           {children}
         </div>
         <div className="  w-full">
@@ -115,7 +115,7 @@ const Layout = ({ title, description, children, hideMobileHeader }) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
     </>
   );

@@ -866,7 +866,7 @@ const setting = [
           de: "987 Andre Plain Suite High Street 838, Lake Hestertown, USA",
         },
         block4_phone: "02.356.1666",
-        block4_email: "ccruidk@test.com",
+        block4_email: "kalkibrand@gmail.com",
         social_facebook: "https://www.facebook.com/",
         social_twitter: "https://twitter.com/",
         social_instagram: "https://www.instagram.com/",

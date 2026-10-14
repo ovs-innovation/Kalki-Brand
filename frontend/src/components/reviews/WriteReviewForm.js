@@ -90,13 +90,13 @@ const WriteReviewForm = ({
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4 md:p-5 shadow-sm">
-      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-1">
+    <div className="bg-[#0d0e15] border border-white/10 rounded-xl p-4 md:p-5 shadow-sm">
+      <h3 className="text-base md:text-lg font-semibold text-white mb-1">
         {isEditing ? "Update your review" : "Rate and review this product"}
       </h3>
-      <p className="text-xs md:text-sm text-gray-500 mb-3">
+      <p className="text-xs md:text-sm text-gray-400 mb-3">
         Only customers who have actually purchased this product will be marked
-        as <span className="font-semibold">Verified Buyer</span>.
+        as <span className="font-semibold text-white">Verified Buyer</span>.
       </p>
       {isLoggedIn ? (
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -112,7 +112,7 @@ const WriteReviewForm = ({
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               rows={3}
-              className="w-full text-sm border border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300"
+              className="w-full text-sm border border-white/10 bg-[#12141e] text-white rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
               placeholder="Share your experience with this product..."
               disabled={isSubmitting}
             />
@@ -121,7 +121,7 @@ const WriteReviewForm = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold text-white bg-store-600 rounded-md hover:bg-store-700 disabled:opacity-60"
+              className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-500 disabled:opacity-60 shadow-md transition-colors"
             >
               {isSubmitting
                 ? "Submitting..."
@@ -132,11 +132,11 @@ const WriteReviewForm = ({
           </div>
         </form>
       ) : (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-400">
           Please{" "}
           <a
             href="/auth/login"
-            className="text-store-600 hover:text-store-700 font-semibold"
+            className="text-blue-400 hover:text-blue-300 font-semibold"
           >
             login
           </a>{" "}

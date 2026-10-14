@@ -152,7 +152,7 @@ const SliderCarousel = () => {
   );
 
   return (
-    <div className="w-full bg-white py-6 md:py-8">
+    <div className="w-full bg-transparent py-6 md:py-8">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="relative group/slider">
           <Swiper
@@ -212,13 +212,13 @@ const SliderCarousel = () => {
             <>
               <button
                 ref={prevRef}
-                className="absolute left-2 top-[45%] -translate-y-1/2 z-20 w-10 h-10 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl rounded-full hidden md:flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all transform -translate-x-4 opacity-0 group-hover/slider:opacity-100 group-hover/slider:translate-x-0"
+                className="absolute left-2 top-[45%] -translate-y-1/2 z-20 w-10 h-10 bg-[#121214]/90 backdrop-blur-md border border-white/10 shadow-xl rounded-full hidden md:flex items-center justify-center text-gray-200 hover:bg-[#1c1c22] hover:text-white transition-all transform -translate-x-4 opacity-0 group-hover/slider:opacity-100 group-hover/slider:translate-x-0"
               >
                 <IoChevronBack className="text-lg" />
               </button>
               <button
                 ref={nextRef}
-                className="absolute right-2 top-[45%] -translate-y-1/2 z-20 w-10 h-10 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl rounded-full hidden md:flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all transform translate-x-4 opacity-0 group-hover/slider:opacity-100 group-hover/slider:translate-x-0"
+                className="absolute right-2 top-[45%] -translate-y-1/2 z-20 w-10 h-10 bg-[#121214]/90 backdrop-blur-md border border-white/10 shadow-xl rounded-full hidden md:flex items-center justify-center text-gray-200 hover:bg-[#1c1c22] hover:text-white transition-all transform translate-x-4 opacity-0 group-hover/slider:opacity-100 group-hover/slider:translate-x-0"
               >
                 <IoChevronForward className="text-lg" />
               </button>

@@ -320,12 +320,12 @@ const Header = () => {
         </div>
       )}
 
-      <header className="z-30 py-4 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-50 dark:border-gray-700">
-        <div className="container flex items-center justify-between h-full px-6 mx-auto text-store-500 dark:text-gray-300">
+      <header className="z-30 py-3.5 bg-white dark:bg-black shadow-sm border-b border-gray-200 dark:border-white/10 transition-colors">
+        <div className="container flex items-center justify-between h-full px-6 mx-auto text-zinc-600 dark:text-zinc-200">
           <button
             type="button"
             onClick={() => setNavBar(!navBar)}
-            className="hidden lg:block outline-0 focus:outline-none"
+            className="hidden lg:block outline-0 focus:outline-none text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
           >
             <svg
               className="w-4 h-4"
@@ -378,12 +378,12 @@ const Header = () => {
 
             <li className="flex">
               <button
-                className="rounded-md focus:outline-none"
+                className="p-2 rounded-xl text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 transition-all focus:outline-none"
                 onClick={toggleMode}
                 aria-label="Toggle color mode"
               >
                 {mode === "dark" ? (
-                  <FiSun className="w-5 h-5" aria-hidden="true" />
+                  <FiSun className="w-5 h-5 text-amber-400" aria-hidden="true" />
                 ) : (
                   <FiMoon className="w-5 h-5" aria-hidden="true" />
                 )}
@@ -393,18 +393,18 @@ const Header = () => {
             {/* <!-- Notifications menu --> */}
             <li className="relative inline-block text-left" ref={nRef}>
               <button
-                className="relative align-middle rounded-md focus:outline-none"
+                className="relative p-2 rounded-xl text-zinc-600 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/10 transition-all focus:outline-none"
                 onClick={handleNotificationOpen}
               >
-                <FiBell className="w-5 h-5 text-store-500" aria-hidden="true" />
+                <FiBell className="w-5 h-5" aria-hidden="true" />
 
-                <span className="absolute z-10 top-0 right-0 inline-flex items-center justify-center p-1 h-5 w-5 text-xs font-medium leading-none text-red-100 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
+                <span className="absolute z-10 top-1 right-1 inline-flex items-center justify-center p-1 h-4 w-4 text-[10px] font-bold leading-none text-white transform bg-rose-600 rounded-full">
                   {totalUnreadDoc}
                 </span>
               </button>
 
               {notificationOpen && (
-                <div className="origin-top-right absolute md:right-0 -right-3 top-2 rounded-md shadow-lg bg-white dark:bg-gray-800  focus:outline-none">
+                <div className="origin-top-right absolute md:right-0 -right-3 top-2 rounded-2xl shadow-2xl bg-white dark:bg-zinc-950 border border-gray-200 dark:border-white/10 overflow-hidden focus:outline-none">
                   <div
                     className={`${
                       data?.length === 0
@@ -538,33 +538,29 @@ const Header = () => {
               </button>
 
               {profileOpen && (
-                <ul className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 focus:outline-none">
-                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-store-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
-                    <Link to="/dashboard">
-                      <span className="flex items-center text-sm">
-                        <FiGrid className="w-4 h-4 mr-3" aria-hidden="true" />
-                        <span>{t("Dashboard")}</span>
-                      </span>
+                <ul className="origin-top-right absolute right-0 mt-2 w-56 rounded-2xl shadow-2xl p-1.5 bg-white dark:bg-zinc-950 border border-gray-200 dark:border-white/10 focus:outline-none">
+                  <li className="font-serif font-medium rounded-xl transition-all hover:bg-black/5 dark:hover:bg-white/10 text-gray-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">
+                    <Link to="/dashboard" className="flex items-center text-sm py-2 px-3">
+                      <FiGrid className="w-4 h-4 mr-3" aria-hidden="true" />
+                      <span>{t("Dashboard")}</span>
                     </Link>
                   </li>
 
-                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-store-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
-                    <Link to="/edit-profile">
-                      <span className="flex items-center text-sm">
-                        <FiSettings
-                          className="w-4 h-4 mr-3"
-                          aria-hidden="true"
-                        />
-                        <span>{t("EditProfile")}</span>
-                      </span>
+                  <li className="font-serif font-medium rounded-xl transition-all hover:bg-black/5 dark:hover:bg-white/10 text-gray-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">
+                    <Link to="/edit-profile" className="flex items-center text-sm py-2 px-3">
+                      <FiSettings
+                        className="w-4 h-4 mr-3"
+                        aria-hidden="true"
+                      />
+                      <span>{t("EditProfile")}</span>
                     </Link>
                   </li>
 
                   <li
                     onClick={handleLogOut}
-                    className="cursor-pointer justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-store-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                    className="cursor-pointer font-serif font-medium rounded-xl transition-all hover:bg-rose-500/10 text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300"
                   >
-                    <span className="flex items-center text-sm">
+                    <span className="flex items-center text-sm py-2 px-3">
                       <FiLogOut className="w-4 h-4 mr-3" aria-hidden="true" />
                       <span>{t("LogOut")}</span>
                     </span>

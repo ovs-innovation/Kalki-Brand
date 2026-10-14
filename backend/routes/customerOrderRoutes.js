@@ -26,15 +26,15 @@ router.post("/add/razorpay", isAuth, addRazorpayOrder);
 //add a order by razorpay
 router.post("/create/razorpay", isAuthOptional, createOrderByRazorPay);
 
-//get a order by id
-router.get("/:id", isAuth, getOrderById);
-
 //get all order by a user (must be before /:id)
 router.get("/list", isAuth, getOrderCustomer);
 router.get("/my-orders", isAuth, getOrderCustomer);
 
 //get all order by a user
 router.get("/", isAuth, getOrderCustomer);
+
+//get a order by id
+router.get("/:id", isAuthOptional, getOrderById);
 
 //request refund for an order
 router.put("/refund/:id", isAuth, requestRefund);

@@ -2,6 +2,13 @@ import { useRouter } from "next/router";
 import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/autoplay";
 
 // Internal imports
 import CategoryServices from "@services/CategoryServices";
@@ -10,7 +17,30 @@ import CMSkeleton from "@components/preloader/CMSkeleton";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import ProductCard from "@components/product/ProductCard";
 
-const FeatureCategory = ({ initialSelectedCategory }) => {
+// Resilient category icon component to avoid broken image alt-text spilling out
+const CategoryIcon = ({ icon, name, isActive, isMobile = false }) => {
+  const [imgError, setImgError] = useState(false);
+  const initial = (name ? String(name).trim().charAt(0) : "C").toUpperCase();
+
+  if (!icon || imgError) {
+    return (
+      <span className={`font-bold ${isMobile ? "text-xs" : "text-sm"} ${isActive ? "text-white" : "text-gray-300"}`}>
+        {initial}
+      </span>
+    );
+  }
+
+  return (
+    <img
+      src={icon}
+      alt=""
+      onError={() => setImgError(true)}
+      className={`${isMobile ? "w-5 h-5" : "w-5 h-5"} object-contain transition-transform ${isActive ? "brightness-0 invert" : ""}`}
+    />
+  );
+};
+
+const FeatureCategory = ({ initialSelectedCategory, attributes }) => {
   const router = useRouter();
   const { showingTranslateValue } = useUtilsFunction();
   const [selectedLeft, setSelectedLeft] = useState(null);
@@ -75,24 +105,21 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
   if (loading) return <CMSkeleton count={10} height={20} error={error} loading={loading} />;
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent via-slate-50/50 to-transparent">
+    <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 bg-black text-white">
 
       {/* Top Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 border-b border-slate-200/60 pt-16">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4 border-b border-white/10 pt-4 sm:pt-8 pb-4">
         <div>
-          {/* <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-1.5 block">
-            Curated Formulations
-          </span> */}
-          <h2 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
             Featured Categories
           </h2>
-          <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">
+          <p className="text-xs sm:text-sm text-gray-400 mt-1.5 leading-relaxed">
             Choose your necessary products from our top clinically verified medical collections.
           </p>
         </div>
         <button
           onClick={() => router.push('/search')}
-          className="self-start sm:self-auto inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-200 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-300 active:scale-95 shadow-sm"
+          className="self-start sm:self-auto inline-flex items-center justify-center px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-blue-500 text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-all duration-300 active:scale-95 shadow-md shadow-blue-900/30"
         >
           View All Products &rarr;
         </button>
@@ -104,56 +131,57 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
         <div className="w-full mb-6 lg:mb-0 flex flex-col min-h-0">
 
           {/* Desktop Sidebar Layout */}
-          <div className="hidden lg:flex lg:flex-col bg-white rounded-2xl shadow-[0_10px_30px_-15px_rgba(15,23,42,0.06)] border border-slate-200/70 overflow-hidden flex-1 min-h-[480px]">
-            <div className="bg-indigo-950 px-6 py-6 flex-shrink-0 relative overflow-hidden">
-              <div className="absolute -top-12 -right-6 w-32 h-32 rounded-full bg-emerald-500/10 blur-2xl" />
-              <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-indigo-500/20 blur-xl" />
+          <div className="hidden lg:flex lg:flex-col bg-[#0b0c12] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex-1 min-h-[480px]">
+            <div className="bg-[#0f111a] px-6 py-5 flex-shrink-0 relative overflow-hidden border-b border-white/10">
+              <div className="absolute -top-12 -right-6 w-32 h-32 rounded-full bg-blue-500/10 blur-2xl" />
+              <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-blue-500/20 blur-xl" />
               <h2 className="text-lg font-extrabold text-white tracking-wide relative z-10">Departments</h2>
-              <p className="text-indigo-200/70 text-xs mt-1 relative z-10">Select a category to view sub-items</p>
+              <p className="text-gray-400 text-xs mt-1 relative z-10">Select a category to view sub-items</p>
             </div>
 
-            <div className="p-3.5 flex-1 overflow-y-auto custom-scrollbar space-y-1.5 mt-2">
+            <div className="p-3 flex-1 overflow-y-auto custom-scrollbar space-y-1.5 mt-1">
               {parentCategories.map((category) => {
                 const isActive = selectedLeft?._id === category._id;
+                const catTitle = showingTranslateValue(category?.name);
                 return (
                   <button
                     key={category._id}
                     onClick={() => setSelectedLeft(category)}
-                    className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 group relative ${isActive
-                      ? "bg-indigo-50/70 text-indigo-950 font-bold"
-                      : "hover:bg-slate-50 text-slate-600 font-medium hover:text-slate-900"
-                      }`}
+                    className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl transition-all duration-200 group relative ${
+                      isActive
+                        ? "bg-blue-600/20 text-white font-bold border border-blue-500/40 shadow-sm"
+                        : "hover:bg-white/5 text-gray-300 font-medium hover:text-white"
+                    }`}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="activeSideIndicator"
-                        className="absolute left-0 top-3 bottom-3 w-1.5 rounded-r-full bg-indigo-600"
+                        className="absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-blue-500"
                       />
                     )}
 
-                    <div className={`relative w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center transition-all duration-300 ${isActive ? "bg-indigo-600 shadow-md shadow-indigo-200" : "bg-slate-50 group-hover:bg-indigo-50/50"
-                      }`}>
-                      {category.icon ? (
-                        <img
-                          src={category.icon}
-                          alt={showingTranslateValue(category?.name)}
-                          className={`w-5.5 h-5.5 object-contain transition-transform ${isActive ? "brightness-0 invert" : ""}`}
-                        />
-                      ) : (
-                        <span className={`text-sm font-bold ${isActive ? "text-white" : "text-slate-500"}`}>
-                          {showingTranslateValue(category?.name)?.charAt(0).toUpperCase()}
-                        </span>
-                      )}
+                    <div
+                      className={`relative w-9 h-9 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden transition-all duration-300 ${
+                        isActive ? "bg-blue-600 shadow-md shadow-blue-900/30" : "bg-white/5 group-hover:bg-blue-950/40"
+                      }`}
+                    >
+                      <CategoryIcon
+                        icon={category.icon}
+                        name={catTitle}
+                        isActive={isActive}
+                      />
                     </div>
 
                     <div className="flex-1 text-left min-w-0">
                       <span className="text-sm block truncate leading-tight tracking-tight">
-                        {showingTranslateValue(category?.name)}
+                        {catTitle}
                       </span>
                     </div>
 
                     <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${isActive ? "text-indigo-600 translate-x-0.5" : "text-slate-300 group-hover:text-slate-400 group-hover:translate-x-0.5"}`}
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        isActive ? "text-blue-400 translate-x-0.5" : "text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5"
+                      }`}
                       fill="none"
                       stroke="currentColor"
                       strokeWidth={2.5}
@@ -172,30 +200,31 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
             <div className="flex gap-2.5 overflow-x-auto pb-3 hide-scrollbar snap-x snap-mandatory">
               {parentCategories.map((category) => {
                 const isActive = selectedLeft?._id === category._id;
+                const catTitle = showingTranslateValue(category?.name);
                 return (
                   <button
                     key={category._id}
                     onClick={() => setSelectedLeft(category)}
-                    className={`flex-shrink-0 snap-start flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 min-w-[145px] border ${isActive
-                      ? "bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-100 font-bold"
-                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 font-medium"
-                      }`}
+                    className={`flex-shrink-0 snap-start flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all duration-300 min-w-[130px] border ${
+                      isActive
+                        ? "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-900/40 font-bold"
+                        : "bg-[#0b0c12] text-gray-300 border-white/10 hover:bg-white/5 font-medium"
+                    }`}
                   >
-                    <div className={`relative w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? "bg-white/20" : "bg-slate-50"}`}>
-                      {category.icon ? (
-                        <img
-                          src={category.icon}
-                          alt={showingTranslateValue(category?.name)}
-                          className={`w-5 h-5 object-contain ${isActive ? "brightness-0 invert" : ""}`}
-                        />
-                      ) : (
-                        <span className={`text-xs font-bold ${isActive ? "text-white" : "text-slate-500"}`}>
-                          {showingTranslateValue(category?.name)?.charAt(0).toUpperCase()}
-                        </span>
-                      )}
+                    <div
+                      className={`relative w-7 h-7 rounded-lg flex items-center justify-center overflow-hidden ${
+                        isActive ? "bg-white/20" : "bg-white/5"
+                      }`}
+                    >
+                      <CategoryIcon
+                        icon={category.icon}
+                        name={catTitle}
+                        isActive={isActive}
+                        isMobile
+                      />
                     </div>
                     <span className="text-xs tracking-tight whitespace-nowrap">
-                      {showingTranslateValue(category?.name)}
+                      {catTitle}
                     </span>
                   </button>
                 );
@@ -204,60 +233,64 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
           </div>
         </div>
 
-        {/* Right Content Area - Subcategories */}
+        {/* Right Content Area - Subcategories & Product Slider */}
         <div className="flex-1 min-w-0 w-full flex flex-col min-h-0">
-          <div className="bg-white rounded-2xl shadow-[0_10px_30px_-15px_rgba(15,23,42,0.06)] border border-slate-200/70 overflow-hidden flex flex-col flex-1">
+          <div className="bg-[#0b0c12] rounded-2xl shadow-xl border border-white/10 overflow-hidden flex flex-col flex-1">
 
             {/* Active Subsection Banner Header */}
-            <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-4">
+            <div className="bg-[#0f111a] px-5 sm:px-6 py-4 border-b border-white/10 flex items-center justify-between gap-4">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2.5">
-                  <h3 className="text-lg font-black text-slate-900 truncate tracking-tight">
+                  <h3 className="text-base sm:text-lg font-black text-white truncate tracking-tight">
                     {showingTranslateValue(selectedLeft?.name) || "Loading..."}
                   </h3>
                   {rightCategories.length > 0 && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-100">
-                      {rightCategories.length} Items Available
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                      {rightCategories.length} Categories
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">Explore premium pharmacy collections under this division</p>
+                <p className="text-xs text-gray-400 mt-0.5">Explore collections under this department</p>
               </div>
             </div>
 
             {/* Subcategories Grid Content */}
-            <div className="p-4 sm:p-6 lg:p-8 flex-1 min-h-0 bg-gradient-to-b from-white to-slate-50/30 space-y-10">
+            <div className="p-4 sm:p-6 lg:p-7 flex-1 min-h-0 bg-[#0b0c12] space-y-8">
               <AnimatePresence mode="wait">
                 {rightCategories.length > 0 ? (
                   <motion.div
-                    initial={{ opacity: 0, y: 12 }}
+                    key={selectedLeft?._id || "empty"}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.25, cubicBezier: [0.16, 1, 0.3, 1] }}
-                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4"
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4"
                   >
                     {rightCategories.map((child) => (
                       <button
                         key={child._id}
                         onClick={() => handleSubcategoryClick(child)}
-                        className="group relative bg-white rounded-xl border border-slate-200/60 p-4 transition-all duration-300 hover:shadow-[0_12px_24px_-10px_rgba(15,23,42,0.08)] hover:border-indigo-200 text-center flex flex-col items-center"
+                        className="group relative bg-[#10121a] rounded-xl border border-white/10 p-3 sm:p-3.5 transition-all duration-300 hover:shadow-xl hover:border-blue-500/40 text-center flex flex-col items-center hover:-translate-y-0.5"
                       >
                         {/* Image Wrapper Block */}
-                        <div className="w-full aspect-square mb-3.5 bg-slate-50/80 rounded-xl p-3 relative overflow-hidden flex items-center justify-center transition-colors group-hover:bg-indigo-50/40">
+                        <div className="w-full aspect-square mb-2.5 bg-[#161824] rounded-xl p-2.5 relative overflow-hidden flex items-center justify-center transition-colors group-hover:bg-blue-950/40">
                           <img
                             src={child.icon || "/placeholder.png"}
-                            alt={showingTranslateValue(child?.name)}
-                            className="w-4/5 h-4/5 object-contain transform group-hover:scale-105 transition-transform duration-500"
+                            alt=""
+                            onError={(e) => {
+                              e.currentTarget.src = "/placeholder.png";
+                            }}
+                            className="w-4/5 h-4/5 object-contain transform group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>
 
                         {/* Title text */}
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-indigo-600 line-clamp-2 transition-colors duration-200 min-h-[2.5rem] flex items-center justify-center px-1 tracking-tight leading-snug">
+                        <h4 className="text-xs sm:text-[13px] font-bold text-white group-hover:text-blue-400 line-clamp-2 transition-colors duration-200 min-h-[2rem] flex items-center justify-center px-1 tracking-tight leading-snug">
                           {showingTranslateValue(child?.name)}
                         </h4>
 
                         {/* Interactive Tiny Pill indicator */}
-                        <div className="mt-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:text-indigo-600 transition-all duration-200 flex items-center gap-0.5">
+                        <div className="mt-1 text-[10px] font-extrabold text-blue-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center gap-0.5">
                           Explore &rarr;
                         </div>
                       </button>
@@ -267,43 +300,105 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="py-16 text-center max-w-sm mx-auto"
+                    className="py-10 text-center max-w-sm mx-auto"
                   >
-                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-slate-50 text-slate-300 mb-4 border border-slate-100">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/5 text-gray-400 mb-3 border border-white/10">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                       </svg>
                     </div>
-                    <p className="text-slate-800 text-sm font-bold">No Subcategories Found</p>
-                    <p className="text-slate-400 text-xs mt-1.5 leading-relaxed">
-                      We haven't added sub-items into this specific tier yet. Check alternative departments or look up keywords directly above.
+                    <p className="text-white text-sm font-bold">No Subcategories Found</p>
+                    <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+                      Explore other departments from the sidebar to browse items.
                     </p>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Products Section */}
-              <div className="pt-8 border-t border-slate-100">
-                <h4 className="text-lg font-bold text-slate-800 mb-6 tracking-tight flex items-center gap-2">
-                  <span className="w-1.5 h-6 bg-[#3E3A30] rounded-full"></span>
-                  Popular in {showingTranslateValue(selectedLeft?.name)}
-                </h4>
+              {/* Products Section with Horizontal Slider and Left/Right Slide Buttons */}
+              <div className="pt-6 border-t border-white/10">
+                <div className="flex items-center justify-between mb-4 sm:mb-5">
+                  <h4 className="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                    <span className="w-1.5 h-5 sm:h-6 bg-blue-600 rounded-full shadow-sm shadow-blue-500/50"></span>
+                    Popular in {showingTranslateValue(selectedLeft?.name)}
+                  </h4>
+
+                  {/* Header Slide Navigation Buttons */}
+                  {productsData && productsData.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="prev-cat-prod w-8 h-8 rounded-full bg-[#161824] hover:bg-blue-600 border border-white/15 text-white flex items-center justify-center transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed shadow-md"
+                        aria-label="Previous products"
+                      >
+                        <IoChevronBack className="text-base" />
+                      </button>
+                      <button
+                        className="next-cat-prod w-8 h-8 rounded-full bg-[#161824] hover:bg-blue-600 border border-white/15 text-white flex items-center justify-center transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed shadow-md"
+                        aria-label="Next products"
+                      >
+                        <IoChevronForward className="text-base" />
+                      </button>
+                    </div>
+                  )}
+                </div>
 
                 {productsLoading ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="flex gap-4 overflow-hidden py-2">
                     {[...Array(4)].map((_, i) => (
-                      <div key={i} className="h-96 rounded-3xl border border-slate-100 bg-slate-50/50 animate-pulse" />
+                      <div key={i} className="min-w-[190px] sm:min-w-[215px] h-[320px] rounded-2xl border border-white/10 bg-[#12141f] animate-pulse" />
                     ))}
                   </div>
                 ) : productsData && productsData.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {productsData.slice(0, 8).map((product) => (
-                      <ProductCard key={product._id} product={product} />
-                    ))}
+                  <div className="relative group/catslider px-1">
+                    {/* Floating Left Slide Button */}
+                    <button
+                      className="prev-cat-prod absolute -left-2.5 sm:-left-3.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/90 hover:bg-blue-600 border border-white/20 text-white flex items-center justify-center shadow-xl transition-all duration-200 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed backdrop-blur-md"
+                      aria-label="Previous product"
+                    >
+                      <IoChevronBack className="text-base sm:text-lg" />
+                    </button>
+
+                    {/* Floating Right Slide Button */}
+                    <button
+                      className="next-cat-prod absolute -right-2.5 sm:-right-3.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/90 hover:bg-blue-600 border border-white/20 text-white flex items-center justify-center shadow-xl transition-all duration-200 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed backdrop-blur-md"
+                      aria-label="Next product"
+                    >
+                      <IoChevronForward className="text-base sm:text-lg" />
+                    </button>
+
+                    <Swiper
+                      modules={[Navigation, Autoplay]}
+                      spaceBetween={12}
+                      slidesPerView={1.4}
+                      navigation={{
+                        prevEl: ".prev-cat-prod",
+                        nextEl: ".next-cat-prod",
+                      }}
+                      autoplay={{
+                        delay: 3500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                      }}
+                      breakpoints={{
+                        420: { slidesPerView: 1.8, spaceBetween: 12 },
+                        640: { slidesPerView: 2.3, spaceBetween: 14 },
+                        768: { slidesPerView: 3, spaceBetween: 14 },
+                        1024: { slidesPerView: 3.2, spaceBetween: 16 },
+                        1280: { slidesPerView: 4.2, spaceBetween: 16 },
+                        1536: { slidesPerView: 5, spaceBetween: 16 },
+                      }}
+                      className="catProductsSwiper !py-2 !px-1"
+                    >
+                      {productsData.map((product) => (
+                        <SwiperSlide key={product._id} className="!h-auto flex justify-center py-1">
+                          <ProductCard product={product} attributes={attributes} />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
                   </div>
                 ) : (
-                  <div className="py-10 text-center max-w-sm mx-auto">
-                    <p className="text-slate-400 text-xs mt-1.5 leading-relaxed">
+                  <div className="py-8 text-center max-w-sm mx-auto">
+                    <p className="text-gray-400 text-xs leading-relaxed">
                       No products found in this category yet.
                     </p>
                   </div>
@@ -330,11 +425,11 @@ const FeatureCategory = ({ initialSelectedCategory }) => {
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #e2e8f0;
+          background: #232738;
           border-radius: 20px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #cbd5e1;
+          background: #373e57;
         }
       `}</style>
     </div>

@@ -27,8 +27,6 @@ import ModernStats from "@/components/dashboard/ModernStats";
 import DetailedOrderStatus from "@/components/dashboard/DetailedOrderStatus";
 import GrossSaleChart from "@/components/dashboard/GrossSaleChart";
 import UserStatisticsChart from "@/components/dashboard/UserStatisticsChart";
-import TopPopularSelling from "@/components/dashboard/TopPopularSelling";
-// import BottomPopularSelling from "@/components/dashboard/BottomPopularSelling";
 import ChartCard from "@/components/chart/ChartCard";
 
 import OrderTable from "@/components/order/OrderTable";
@@ -284,27 +282,20 @@ const Dashboard = () => {
                 />
               </div>
             </div>
-
-            {/* Top Selling & Popular Section - New Image UI */}
-            <TopPopularSelling 
-               bestSeller={bestSellerProductChart?.bestSellingProduct} 
-               topBrands={dashboardOrderCount?.topBrands}
-            />
-            {/* <BottomPopularSelling 
-               goldCustomers={dashboardOrderCount?.goldCustomers}
-            /> */}
           </section>
         </div>
       </AnimatedContent>
 
-
       {/* Recent Order Section */}
-      <section className="mt-10 bg-white dark:bg-gray-800 rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.03)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.15)] border border-gray-100/80 dark:border-gray-700 overflow-hidden transition-all duration-500">
-        {/* Header inside same white container */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-4 md:px-6 py-5 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {t("RecentOrder")}
-          </h2>
+      <section className="mt-10 bg-white dark:bg-zinc-950/80 rounded-3xl shadow-xl border border-gray-200 dark:border-white/10 overflow-hidden transition-all duration-300 backdrop-blur-xl">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-5 border-b border-gray-200 dark:border-white/10 bg-white dark:bg-zinc-950/80">
+          <div>
+            <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">
+              {t("RecentOrder")}
+            </h2>
+            <p className="text-xs font-semibold text-gray-400 dark:text-zinc-400 mt-0.5">Latest customer transactions</p>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div className="relative group">
@@ -313,16 +304,16 @@ const Dashboard = () => {
                 placeholder="Search by invoice or name..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full sm:w-[260px] h-10 pl-5 pr-11 bg-[#f8fafb] dark:bg-gray-700/50 border border-[#e5e9eb] dark:border-gray-600 rounded-2xl text-xs font-medium text-gray-700 dark:text-gray-200 placeholder:text-gray-400 outline-none focus:border-gray-300 focus:ring-4 focus:ring-cyan-500/5 transition-all duration-200"
+                className="w-full sm:w-[260px] h-10 pl-4 pr-10 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium text-gray-900 dark:text-white placeholder:text-zinc-500 outline-none focus:border-white/30 transition-all duration-200"
               />
-              <div className="absolute right-1 top-1/2 -translate-y-1/2 text-[#9fc9d3] group-focus-within:text-cyan-500 transition-colors pointer-events-none">
-                <FiSearch className="w-5 h-5" style={{ strokeWidth: '3px' }} />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none">
+                <FiSearch className="w-4 h-4" />
               </div>
             </div>
 
-            <button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800 border-2 border-[#e5e9eb] dark:border-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm active:scale-95">
+            <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-all shadow-sm active:scale-95 cursor-pointer">
               <svg
-                className="w-4 h-4"
+                className="w-3.5 h-3.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -349,32 +340,32 @@ const Dashboard = () => {
             <span className="text-rose-500 font-bold tracking-tight">{error}</span>
           </div>
         ) : serviceData?.length !== 0 ? (
-          <TableContainer className="mb-0 custom-scrollbar border-none shadow-none">
+          <TableContainer className="mb-0 custom-scrollbar border-none shadow-none bg-transparent">
             <Table className="w-full">
-              <TableHeader className="bg-[#f8fafb] dark:bg-gray-800/80">
+              <TableHeader className="bg-gray-50 dark:bg-zinc-900/90 border-b border-gray-200 dark:border-white/10">
                 <tr>
-                  <TableCell className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("InvoiceNo")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("TimeTbl")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("CustomerName")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-center text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("MethodTbl")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("AmountTbl")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("OderStatusTbl")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-center text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("ActionTbl")}
                   </TableCell>
-                  <TableCell className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-gray-400">
+                  <TableCell className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-[0.15em] text-gray-500 dark:text-zinc-400">
                     {t("InvoiceTbl")}
                   </TableCell>
                 </tr>
@@ -395,7 +386,7 @@ const Dashboard = () => {
               />
             </Table>
 
-            <TableFooter className="bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+            <TableFooter className="bg-white dark:bg-zinc-950 border-t border-gray-200 dark:border-white/10">
               <Pagination
                 totalResults={dashboardRecentOrder?.totalOrder}
                 resultsPerPage={8}

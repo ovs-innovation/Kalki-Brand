@@ -45,7 +45,7 @@ const OrderTable = ({ orders, visibleColumns = {} }) => {
 
   return (
     <>
-      <TableBody className="dark:bg-gray-900">
+      <TableBody className="dark:bg-black bg-white divide-y divide-gray-100 dark:divide-white/10">
         {orders?.map((order, i) => (
           <TableRow key={i + 1}>
             {columns.invoice && (

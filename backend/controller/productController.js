@@ -832,11 +832,42 @@ const getShowingStoreProducts = async (req, res) => {
         .populate({ path: "brand", select: "_id name slug logo" })
         .sort({ createdAt: -1 })
         .limit(500);
-      relatedProducts = await Product.find({
-        category: products[0]?.category,
-      })
-        .populate({ path: "category", select: "_id name" })
-        .populate({ path: "brand", select: "_id name slug logo" });
+      const currentProd = products[0];
+      if (currentProd) {
+        // Find products in same category or brand, excluding current product
+        let catQuery = [];
+        if (currentProd.category) catQuery.push({ category: currentProd.category });
+        if (Array.isArray(currentProd.categories) && currentProd.categories.length > 0) {
+          catQuery.push({ categories: { $in: currentProd.categories } });
+        }
+        if (currentProd.brand) catQuery.push({ brand: currentProd.brand });
+
+        const filter = {
+          _id: { $ne: currentProd._id },
+          status: "show",
+          ...(catQuery.length > 0 ? { $or: catQuery } : {}),
+        };
+
+        relatedProducts = await Product.find(filter)
+          .populate({ path: "category", select: "_id name" })
+          .populate({ path: "brand", select: "_id name slug logo" })
+          .limit(12);
+
+        // If fewer than 4 related products found, backfill with other available active products
+        if (relatedProducts.length < 6) {
+          const existingIds = [currentProd._id, ...relatedProducts.map((p) => p._id)];
+          const backfill = await Product.find({
+            _id: { $nin: existingIds },
+            status: "show",
+          })
+            .populate({ path: "category", select: "_id name" })
+            .populate({ path: "brand", select: "_id name slug logo" })
+            .sort({ createdAt: -1 })
+            .limit(12 - relatedProducts.length);
+
+          relatedProducts = [...relatedProducts, ...backfill];
+        }
+      }
     } else if (title || category || brand) {
       products = await Product.find(queryObject)
         .populate({ path: "category", select: "name _id" })

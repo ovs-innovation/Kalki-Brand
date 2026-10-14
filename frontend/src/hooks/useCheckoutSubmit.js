@@ -224,16 +224,20 @@ const useCheckoutSubmit = (storeSetting) => {
             zipCode: data.zipCode,
           };
 
-          await CustomerServices.completeProfile(profilePayload);
+          const userEmail = data.email || getDisplayEmail(userInfo);
+          if (userEmail) {
+            profilePayload.email = userEmail;
+          }
+
+          const profileRes = await CustomerServices.completeProfile(profilePayload);
+          if (profileRes?.token) {
+            Cookies.set("userInfo", JSON.stringify(profileRes));
+          }
         } catch (err) {
-          // If profile completion fails, block placing order and show message
-          notifyError(
-            err?.response?.data?.message ||
-            err?.message ||
-            "Please check your delivery details and try again."
+          console.warn(
+            "Background profile completion notice:",
+            err?.response?.data?.message || err?.message
           );
-          setIsCheckoutSubmit(false);
-          return;
         }
       }
 

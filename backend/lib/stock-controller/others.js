@@ -4,28 +4,8 @@ const Product = require("../../models/Product");
 
 // const base = 'https://api-m.sandbox.paypal.com';
 
-// Create separate MongoDB connection only if MONGO_URI is available
-// Note: This connection is not currently used in this file, but kept for potential future use
-let mongo_connection = null;
-if (process.env.MONGO_URI) {
-  try {
-    mongo_connection = mongoose.createConnection(process.env.MONGO_URI, {
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      keepAlive: 1,
-      poolSize: 100,
-      bufferMaxEntries: 0,
-      connectTimeoutMS: 10000,
-      socketTimeoutMS: 30000,
-    });
-  } catch (err) {
-    console.warn("Warning: Could not create separate MongoDB connection:", err.message);
-  }
-} else {
-  console.warn("Warning: MONGO_URI not set in environment variables. Separate connection not created.");
-}
+// Reuse default mongoose connection
+const mongo_connection = mongoose.connection;
 
 // decrease product quantity after a order created
 const handleProductQuantity = async (cart) => {

@@ -99,19 +99,19 @@ const EmailLoginForm = () => {
         <div className="space-y-1.5">
           <label
             htmlFor="login-email"
-            className="block text-xs font-bold uppercase tracking-wider text-slate-500"
+            className="block text-xs font-bold uppercase tracking-wider text-gray-300"
           >
             Email Address
           </label>
-          <div className="relative flex items-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/10">
-            <span className="absolute left-4 text-slate-400">
+          <div className="relative flex items-center overflow-hidden rounded-xl border border-white/10 bg-[#12141f] shadow-sm transition-all duration-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
+            <span className="absolute left-4 text-gray-400">
               <FiMail className="h-5 w-5" />
             </span>
             <input
               id="login-email"
               type="email"
               placeholder="e.g. name@example.com"
-              className="w-full pl-12 pr-4 py-3.5 text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 bg-transparent"
+              className="w-full pl-12 pr-4 py-3.5 text-sm font-semibold text-white outline-none placeholder:text-gray-500 bg-transparent"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -133,20 +133,20 @@ const EmailLoginForm = () => {
           <div className="flex justify-between items-center">
             <label
               htmlFor="login-password"
-              className="block text-xs font-bold uppercase tracking-wider text-slate-500"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-300"
             >
               Password
             </label>
           </div>
-          <div className="relative flex items-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/10">
-            <span className="absolute left-4 text-slate-400">
+          <div className="relative flex items-center overflow-hidden rounded-xl border border-white/10 bg-[#12141f] shadow-sm transition-all duration-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
+            <span className="absolute left-4 text-gray-400">
               <FiLock className="h-5 w-5" />
             </span>
             <input
               id="login-password"
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
-              className="w-full pl-12 pr-12 py-3.5 text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 bg-transparent"
+              className="w-full pl-12 pr-12 py-3.5 text-sm font-semibold text-white outline-none placeholder:text-gray-500 bg-transparent"
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -158,7 +158,7 @@ const EmailLoginForm = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 text-slate-400 hover:text-slate-600 focus:outline-none"
+              className="absolute right-4 text-gray-400 hover:text-gray-200 focus:outline-none"
               tabIndex="-1"
             >
               {showPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
@@ -178,7 +178,7 @@ const EmailLoginForm = () => {
         <button
           disabled={loading}
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 py-4 text-base font-extrabold text-white shadow-[0_10px_25px_rgba(16,185,129,0.25)] transition-all duration-200 hover:bg-emerald-700 hover:shadow-[0_12px_28px_rgba(16,185,129,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-55"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-4 text-base font-extrabold text-white shadow-[0_10px_25px_rgba(37,99,235,0.35)] transition-all duration-200 hover:bg-blue-500 hover:shadow-[0_12px_28px_rgba(37,99,235,0.45)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-55"
         >
           {loading ? (
             <>

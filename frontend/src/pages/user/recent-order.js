@@ -18,10 +18,10 @@ import useCartDB from "@hooks/useCartDB";
 /* ─── Status badge ─── */
 const StatusBadge = ({ status }) => {
   const map = {
-    Delivered: { bg: "bg-emerald-100 text-emerald-700 border-emerald-200", dot: "bg-emerald-500" },
-    Pending: { bg: "bg-amber-100 text-amber-700 border-amber-200", dot: "bg-amber-500" },
-    Processing: { bg: "bg-indigo-100 text-indigo-700 border-indigo-200", dot: "bg-indigo-500" },
-    Cancel: { bg: "bg-red-100 text-red-700 border-red-200", dot: "bg-red-500" },
+    Delivered: { bg: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30", dot: "bg-emerald-400" },
+    Pending: { bg: "bg-amber-500/15 text-amber-400 border-amber-500/30", dot: "bg-amber-400" },
+    Processing: { bg: "bg-blue-500/15 text-blue-400 border-blue-500/30", dot: "bg-blue-400" },
+    Cancel: { bg: "bg-red-500/15 text-red-400 border-red-500/30", dot: "bg-red-400" },
   };
   const s = map[status] || map.Pending;
   return (
@@ -42,16 +42,16 @@ const ProductStrip = ({ cart = [] }) => {
         const img = item.image ||
           (Array.isArray(item.productId?.image) ? item.productId.image[0] : item.productId?.image) || "";
         return (
-          <div key={i} className="w-8 h-8 rounded-md border border-gray-200 overflow-hidden bg-gray-50 flex-shrink-0">
+          <div key={i} className="w-8 h-8 rounded-md border border-white/10 overflow-hidden bg-[#161828] shrink-0">
             {img
               ? <img src={img} alt={item.title || "product"} className="w-full h-full object-cover" />
-              : <div className="w-full h-full flex items-center justify-center text-gray-300"><FiPackage size={12} /></div>
+              : <div className="w-full h-full flex items-center justify-center text-gray-500"><FiPackage size={12} /></div>
             }
           </div>
         );
       })}
       {extra > 0 && (
-        <span className="w-8 h-8 rounded-md border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-xs text-gray-500 font-semibold flex-shrink-0">
+        <span className="w-8 h-8 rounded-md border border-dashed border-white/20 bg-white/5 flex items-center justify-center text-xs text-gray-400 font-semibold shrink-0">
           +{extra}
         </span>
       )}
@@ -80,7 +80,6 @@ const RecentOrder = ({ data, loading, error }) => {
     }
     setReorderingId(order._id);
     try {
-      // Clear local cart (and DB cart if user is logged in)
       await clearCartWithDB();
       let addedCount = 0;
       for (const item of order.cart) {
@@ -115,13 +114,13 @@ const RecentOrder = ({ data, loading, error }) => {
 
   return (
     <>
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-50 mt-8">
+      <div className="bg-[#0c0d16] p-5 sm:p-6 rounded-2xl shadow-xl border border-white/10 mt-6 text-left">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-gray-800 font-serif flex items-center gap-2">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+          <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             {showingTranslateValue(storeCustomizationSetting?.dashboard?.recent_order) || "Recent Orders"}
           </h3>
-          <Link href="/user/my-orders" className="text-sm text-store-600 hover:underline font-semibold">
+          <Link href="/user/my-orders" className="text-sm text-blue-400 hover:text-blue-300 font-semibold transition-colors">
             View all →
           </Link>
         </div>
@@ -130,38 +129,39 @@ const RecentOrder = ({ data, loading, error }) => {
           <CMSkeletonTwo count={10} width={100} error={error} loading={loading} />
         ) : data?.orders?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-14 h-14 bg-store-50 rounded-full flex items-center justify-center mb-4">
-              <IoBagHandle className="text-store-400 text-2xl" />
+            <div className="w-16 h-16 bg-blue-600/10 border border-blue-500/20 rounded-2xl flex items-center justify-center mb-3 text-blue-400 shadow-inner">
+              <IoBagHandle className="text-3xl" />
             </div>
-            <p className="text-sm text-gray-500 mb-4">No orders placed yet!</p>
-            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-store-600 hover:underline">
-              <FiShoppingCart size={12} /> Start Shopping
+            <p className="text-sm text-gray-300 font-semibold mb-1">No orders placed yet!</p>
+            <p className="text-xs text-gray-400 mb-5">Explore fresh groceries, daily staples, and organic snacks.</p>
+            <Link href="/search" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-900/30 transition-all active:scale-95">
+              <FiShoppingCart size={14} /> Start Shopping
             </Link>
           </div>
         ) : (
           <>
             {/* ── Desktop Table ── */}
             <div className="hidden sm:block overflow-x-auto rounded-xl">
-              <table className="min-w-full divide-y divide-gray-100">
+              <table className="min-w-full divide-y divide-white/10">
                 <thead>
-                  <tr className="bg-gray-50">
+                  <tr className="bg-white/[0.03]">
                     {["Order ID", "Date", "Items", "Status", "Total", "Actions"].map((h) => (
-                      <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                      <th key={h} className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-100">
+                <tbody className="divide-y divide-white/5 bg-transparent">
                   {data?.orders?.map((order) => (
-                    <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">
+                    <tr key={order._id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-4 py-3.5 whitespace-nowrap">
-                        <span className="font-mono text-xs font-bold text-store-600 bg-store-50 px-2 py-0.5 rounded">
+                        <span className="font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded">
                           #{order?._id?.slice(-6).toUpperCase()}
                         </span>
                       </td>
                       <td className="px-4 py-3.5 whitespace-nowrap">
-                        <div className="text-xs text-gray-600 font-medium">{dayjs(order.createdAt).format("DD MMM YYYY")}</div>
+                        <div className="text-xs text-gray-200 font-semibold">{dayjs(order.createdAt).format("DD MMM YYYY")}</div>
                         <div className="text-xs text-gray-400">{dayjs(order.createdAt).format("hh:mm A")}</div>
                       </td>
                       <td className="px-4 py-3.5">
@@ -172,21 +172,21 @@ const RecentOrder = ({ data, loading, error }) => {
                         <StatusBadge status={order.status} />
                       </td>
                       <td className="px-4 py-3.5 whitespace-nowrap">
-                        <span className="text-sm font-bold text-gray-800">{currency}{parseFloat(order?.total || 0).toFixed(2)}</span>
+                        <span className="text-sm font-bold text-white">{currency}{parseFloat(order?.total || 0).toFixed(2)}</span>
                       </td>
                       <td className="px-4 py-3.5 whitespace-nowrap">
                         <div className="flex items-center gap-1.5">
-                          <Link href={`/order/${order._id}`} className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-600 hover:bg-store-500 hover:text-white transition-all">
+                          <Link href={`/order/${order._id}`} className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-white/5 text-gray-300 hover:bg-blue-600 hover:text-white border border-white/10 transition-all">
                             <FiEye size={10} /> View
                           </Link>
-                          <Link href={`/order/${order._id}`} className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-store-50 text-store-600 hover:bg-store-500 hover:text-white transition-all">
+                          <Link href={`/order/${order._id}`} className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-600 hover:text-white border border-blue-500/20 transition-all">
                             <FiTruck size={10} /> Track
                           </Link>
                           <button
                             type="button"
                             disabled={reorderingId === order._id}
                             onClick={() => handleReorder(order)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-store-500 text-white hover:bg-store-600 disabled:opacity-60 transition-all"
+                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-60 transition-all"
                           >
                             {reorderingId === order._id
                               ? <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
@@ -196,7 +196,7 @@ const RecentOrder = ({ data, loading, error }) => {
                           </button>
                           {order.status === "Delivered" && order?.cart?.[0]?.slug && (
                             <button type="button" onClick={() => { setSelectedProductForReview(order.cart[0]); setReviewModalOpen(true); }}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white transition-all">
+                              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500 hover:text-white border border-amber-500/20 transition-all">
                               <FiStar size={10} /> Rate
                             </button>
                           )}
@@ -211,29 +211,29 @@ const RecentOrder = ({ data, loading, error }) => {
             {/* ── Mobile Cards ── */}
             <div className="sm:hidden space-y-3">
               {data?.orders?.map((order) => (
-                <div key={order._id} className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
-                  <div className="flex items-center justify-between px-3 py-2.5 bg-gray-50 border-b border-gray-100">
-                    <span className="font-mono text-xs font-bold text-store-600">
+                <div key={order._id} className="bg-[#10121e] border border-white/10 rounded-xl overflow-hidden shadow-sm">
+                  <div className="flex items-center justify-between px-3.5 py-2.5 bg-white/[0.03] border-b border-white/10">
+                    <span className="font-mono text-xs font-bold text-blue-400">
                       #{order?._id?.slice(-6).toUpperCase()}
                     </span>
                     <StatusBadge status={order.status} />
                   </div>
-                  <div className="px-3 py-2.5">
+                  <div className="px-3.5 py-3">
                     <div className="flex items-center justify-between mb-2">
                       <ProductStrip cart={order.cart} />
-                      <span className="text-sm font-bold text-gray-800">{currency}{parseFloat(order?.total || 0).toFixed(2)}</span>
+                      <span className="text-sm font-bold text-white">{currency}{parseFloat(order?.total || 0).toFixed(2)}</span>
                     </div>
                     <p className="text-xs text-gray-400 flex items-center gap-1">
                       <IoTimeOutline size={11} />
                       {dayjs(order.createdAt).format("DD MMM YYYY · hh:mm A")}
                     </p>
                   </div>
-                  <div className="px-3 py-2.5 bg-gray-50 border-t border-gray-100 flex gap-2">
-                    <Link href={`/order/${order._id}`} className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 text-xs font-semibold rounded-lg bg-white border border-gray-200 text-gray-600 hover:border-store-400 hover:text-store-600 transition-all">
+                  <div className="px-3.5 py-2.5 bg-white/[0.02] border-t border-white/10 flex gap-2">
+                    <Link href={`/order/${order._id}`} className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-200 hover:bg-blue-600 hover:text-white transition-all">
                       <FiTruck size={11} /> Track
                     </Link>
                     <button type="button" disabled={reorderingId === order._id} onClick={() => handleReorder(order)}
-                      className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 text-xs font-semibold rounded-lg bg-store-500 text-white hover:bg-store-600 disabled:opacity-60 transition-all">
+                      className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-60 transition-all">
                       {reorderingId === order._id
                         ? <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
                         : <IoRefreshOutline size={11} />

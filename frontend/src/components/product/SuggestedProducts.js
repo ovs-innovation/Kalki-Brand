@@ -1,11 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
 import Cookies from "js-cookie";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import { IoChevronBack, IoChevronForward, IoSparkles } from "react-icons/io5";
+
+// Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/autoplay";
+
+// Internal imports
 import { SidebarContext } from "@context/SidebarContext";
 import { UserContext } from "@context/UserContext";
 import ProductServices from "@services/ProductServices";
 import ProductCard from "@components/product/ProductCard";
 import useUtilsFunction from "@hooks/useUtilsFunction";
-import { FiChevronRight } from "react-icons/fi";
 import SectionHeader from "@components/common/SectionHeader";
 
 const SuggestedProducts = () => {
@@ -15,24 +24,6 @@ const SuggestedProducts = () => {
   const isWholesaler = state?.userInfo?.role && state.userInfo.role.toString().toLowerCase() === "wholesaler";
   const [products, setProducts] = useState([]);
   const [fetchLoading, setFetchLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
-
-  // Responsive product count
-  const getVisibleCount = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth >= 1024) return 6; // lg and up
-      return 4; // sm and below
-    }
-    return 6;
-  };
-  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
-
-  useEffect(() => {
-    // Update visibleCount on resize
-    const handleResize = () => setVisibleCount(getVisibleCount());
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const fetchSuggestedProducts = async () => {
@@ -47,7 +38,6 @@ const SuggestedProducts = () => {
         let params = {};
         let guestIds = [];
         const guestHistory = localStorage.getItem("recentlyViewed");
-        console.log("SuggestedProducts: Loaded guestHistory from LS:", guestHistory);
         if (guestHistory) {
           try {
             const parsed = JSON.parse(guestHistory);
@@ -60,9 +50,7 @@ const SuggestedProducts = () => {
             console.error("Error parsing guest history", e);
           }
         }
-        console.log("SuggestedProducts: Fetching suggestions with params:", params);
         const res = await ProductServices.getSuggestedProducts(params);
-        console.log("SuggestedProducts: Received response from API:", res);
         
         const filtered = Array.isArray(res)
           ? res.filter((p, i, arr) => p && arr.findIndex(x => x._id === p._id) === i)
@@ -82,32 +70,24 @@ const SuggestedProducts = () => {
       }
     };
     fetchSuggestedProducts();
-  }, []);
+  }, [isWholesaler]);
 
   if (fetchLoading) {
-    return null; // Or a skeleton loader
+    return null;
   }
 
   if (products.length === 0) {
-    // Edge case: new user, cleared cache, or all products deleted
     return null;
   }
 
   return (
-    <div className="relative lg:py-16 py-10 overflow-hidden rounded-[2.5rem] border border-emerald-100/50 bg-white">
-      {/* Dynamic Background Layer */}
-      {/* <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-100/30 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-50/40 rounded-full blur-[80px]" />
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
-      </div> */}
-
-      <div className="relative z-10 px-4 sm:px-8">
+    <div className="relative overflow-hidden w-full">
+      <div className="relative z-10">
         {/* Header Section with Badge */}
-        <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-store-600 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-store/20 mb-4">
-            <span className="flex h-2 w-2 rounded-full bg-store-400 animate-ping" />
-            Picked For You
+        <div className="mb-6 space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600/20 text-blue-400 text-[11px] font-bold uppercase tracking-wider border border-blue-500/30">
+            <IoSparkles className="animate-pulse text-blue-400 text-sm" />
+            <span>Picked For You</span>
           </div>
           <SectionHeader
             title="Suggested For You"
@@ -116,32 +96,63 @@ const SuggestedProducts = () => {
           />
         </div>
 
-        {/* Responsive Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6 lg:gap-8">
-          {(isWholesaler
-            ? (showAll ? products : products.slice(0, visibleCount)).filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler)
-            : (showAll ? products : products.slice(0, visibleCount))
-          ).map((product) => (
-            <div key={product._id} className="transition-all duration-500 hover:-translate-y-2">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-
-        {/* Enhanced "View All" Button */}
-        {products.length > visibleCount && !showAll && (
-          <div className="flex justify-center mt-12">
+        {/* Carousel Slider Area with Left & Right Slide Buttons */}
+        <div className="relative group/slider">
+          <div className="relative px-1">
+            {/* Slide button on Left side shifted upper */}
             <button
-              className="group relative px-8 py-3 rounded-full bg-store-600 text-white font-bold flex items-center gap-3 transition-all duration-300 hover:bg-store-700 hover:shadow-xl hover:shadow-store/30 active:scale-95"
-              onClick={() => setShowAll(true)}
+              className="prev-suggested absolute top-[38%] -left-3 sm:-left-5 lg:-left-6 z-30 bg-black/85 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-9 h-9 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed [&.swiper-button-disabled]:opacity-20 [&.swiper-button-disabled]:cursor-not-allowed [&.swiper-button-disabled]:pointer-events-none cursor-pointer"
+              aria-label="Previous"
             >
-              <span className="relative z-10">View All Suggestions</span>
-              <div className="bg-store-500 rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                <FiChevronRight className="text-xl" />
-              </div>
+              <IoChevronBack className="text-lg sm:text-xl" />
             </button>
+
+            {/* Slide button on Right side shifted upper */}
+            <button
+              className="next-suggested absolute top-[38%] -right-3 sm:-right-5 lg:-right-6 z-30 bg-black/85 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-9 h-9 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed [&.swiper-button-disabled]:opacity-20 [&.swiper-button-disabled]:cursor-not-allowed [&.swiper-button-disabled]:pointer-events-none cursor-pointer"
+              aria-label="Next"
+            >
+              <IoChevronForward className="text-lg sm:text-xl" />
+            </button>
+
+            {/* Swiper Slider without background box */}
+            <div>
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                spaceBetween={12}
+                slidesPerView={2}
+                loop={products.length >= 6}
+                navigation={{
+                  prevEl: ".prev-suggested",
+                  nextEl: ".next-suggested",
+                }}
+                autoplay={{
+                  delay: 4500,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                breakpoints={{
+                  320: { slidesPerView: 2, spaceBetween: 10 },
+                  480: { slidesPerView: 2.2, spaceBetween: 12 },
+                  640: { slidesPerView: 3, spaceBetween: 14 },
+                  768: { slidesPerView: 4, spaceBetween: 16 },
+                  1024: { slidesPerView: 5, spaceBetween: 16 },
+                  1280: { slidesPerView: 6, spaceBetween: 18 },
+                  1536: { slidesPerView: 7, spaceBetween: 18 },
+                }}
+                className="mySwiper !pb-6 !pt-2"
+              >
+                {products.map((product) => (
+                  <SwiperSlide key={product._id} className="h-auto">
+                    <div className="h-full transition-transform duration-300 hover:-translate-y-1">
+                      <ProductCard product={product} />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

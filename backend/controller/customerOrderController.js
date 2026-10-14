@@ -618,8 +618,19 @@ const getOrderCustomer = async (req, res) => {
 };
 const getOrderById = async (req, res) => {
   try {
-    // console.log("getOrderById");
-    const order = await Order.findById(req.params.id);
+    const { id } = req.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send({
+        message: "Order not found",
+      });
+    }
+
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).send({
+        message: "Order not found",
+      });
+    }
 
     // Populate brand names in cart items
     let orderWithBrandNames = await populateBrandNames(order.toObject());

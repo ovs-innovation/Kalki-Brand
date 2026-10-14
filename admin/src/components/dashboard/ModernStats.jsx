@@ -31,13 +31,13 @@ const ModernStats = ({ dashboardOrderCount, timeFilter, setTimeFilter, dashboard
 
   const getStatusCount = (status) => filteredOrders.filter(o => o.status === status).length;
 
-  // Top summary cards — same as Orders page style
+  // Top summary cards
   const topCards = [
     {
       title: "Total Sales",
       Icon: FiCreditCard,
       quantity: dashboardOrderAmount?.totalAmount || 0,
-      className: "text-emerald-600 bg-emerald-100",
+      className: "text-emerald-500 bg-emerald-500",
       isAmount: true,
       link: "/orders"
     },
@@ -45,21 +45,21 @@ const ModernStats = ({ dashboardOrderCount, timeFilter, setTimeFilter, dashboard
       title: "Total Orders",
       Icon: FiShoppingCart,
       quantity: timeFilter === 'year' ? (dashboardOrderCount?.totalOrder || 0) : filteredOrders.length,
-      className: "text-orange-600 bg-orange-100",
+      className: "text-orange-500 bg-orange-500",
       link: "/orders"
     },
     {
       title: "Total Customers",
       Icon: FiUsers,
       quantity: dashboardOrderCount?.totalCustomer || 0,
-      className: "text-purple-600 bg-purple-100",
+      className: "text-purple-500 bg-purple-500",
       link: "/customers"
     },
     {
       title: "Total Products",
       Icon: FiPackage,
       quantity: dashboardOrderCount?.totalProduct || 0,
-      className: "text-blue-600 bg-blue-100",
+      className: "text-blue-500 bg-blue-500",
       link: "/products"
     },
     {
@@ -67,47 +67,50 @@ const ModernStats = ({ dashboardOrderCount, timeFilter, setTimeFilter, dashboard
       Icon: FiRefreshCw,
       quantity: timeFilter === 'year' ? (dashboardOrderCount?.totalPendingOrder?.count || 0) : getStatusCount("Pending"),
       amount: timeFilter === 'year' ? (dashboardOrderCount?.totalPendingOrder?.total || 0) : null,
-      className: "text-yellow-600 bg-yellow-100",
+      className: "text-yellow-500 bg-yellow-500",
       link: "/orders/pending"
     },
     {
       title: "Processing",
       Icon: FiTruck,
       quantity: timeFilter === 'year' ? (dashboardOrderCount?.totalProcessingOrder || 0) : getStatusCount("Processing"),
-      className: "text-teal-600 bg-teal-100",
+      className: "text-teal-500 bg-teal-500",
       link: "/orders/processing"
     },
     {
       title: "Delivered",
       Icon: FiHome,
       quantity: timeFilter === 'year' ? (dashboardOrderCount?.totalDeliveredOrder || 0) : getStatusCount("Delivered"),
-      className: "text-green-600 bg-green-100",
+      className: "text-green-500 bg-green-500",
       link: "/orders/delivered"
     },
     {
       title: "Cancelled",
       Icon: FiXCircle,
       quantity: timeFilter === 'year' ? (dashboardOrderCount?.totalCancelOrder || 0) : getStatusCount("Cancel"),
-      className: "text-red-600 bg-red-100",
+      className: "text-red-500 bg-red-500",
       link: "/orders/canceled"
     },
   ];
 
   return (
-    <div className="w-full space-y-6 bg-white dark:bg-gray-800 p-7 md:p-10 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+    <div className="w-full space-y-6 bg-white dark:bg-zinc-950/80 p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200 dark:border-white/10 backdrop-blur-xl">
 
       {/* Period Filter Toggle */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <h2 className="text-lg font-extrabold text-gray-800 dark:text-white tracking-tight">Overview</h2>
-        <div className="inline-flex bg-gray-50 dark:bg-gray-900 p-1.5 rounded-xl border border-gray-200/70 dark:border-gray-700">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">Overview</h2>
+          <p className="text-xs font-semibold text-gray-400 dark:text-zinc-400 mt-0.5">Real-time performance metrics</p>
+        </div>
+        <div className="inline-flex bg-gray-100 dark:bg-zinc-900 p-1 rounded-xl border border-gray-200 dark:border-white/10">
           {["week", "month", "year"].map((period) => (
             <button
               key={period}
               onClick={() => setTimeFilter(period)}
-              className={`px-5 py-2 text-sm font-semibold rounded-lg capitalize transition-all duration-200 ${
+              className={`px-4 py-1.5 text-xs font-bold rounded-lg capitalize transition-all duration-200 cursor-pointer ${
                 timeFilter === period
-                  ? 'bg-teal-500 text-white shadow-sm shadow-teal-500/30'
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                  ? 'bg-white text-black dark:bg-white dark:text-black shadow-sm'
+                  : 'text-gray-500 hover:text-black dark:text-zinc-400 dark:hover:text-white'
               }`}
             >
               {period}
@@ -116,8 +119,8 @@ const ModernStats = ({ dashboardOrderCount, timeFilter, setTimeFilter, dashboard
         </div>
       </div>
 
-      {/* Stats Cards Grid — same CardItem as Orders page */}
-      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch">
+      {/* Stats Cards Grid */}
+      <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
         {topCards.map((card, i) => (
           <CardItem
             key={i}
@@ -137,4 +140,3 @@ const ModernStats = ({ dashboardOrderCount, timeFilter, setTimeFilter, dashboard
 };
 
 export default ModernStats;
-

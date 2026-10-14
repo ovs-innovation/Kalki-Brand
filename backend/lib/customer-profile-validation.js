@@ -42,8 +42,11 @@ const hasRealFullName = (customer) => {
 
 const hasRealEmail = (customer) => getRealEmail(customer?.email).length > 0;
 
-const isProfileCompleteForOrder = (customer) =>
-  hasRealFullName(customer) && hasRealEmail(customer);
+const isProfileCompleteForOrder = (customer) => {
+  const hasPhone = !!normalizePhone(customer?.phone);
+  const hasEmail = hasRealEmail(customer);
+  return hasRealFullName(customer) && (hasPhone || hasEmail);
+};
 
 const hasCompleteDeliveryAddress = (userInfo = {}) => {
   const houseNo = String(userInfo.houseNo || "").trim();

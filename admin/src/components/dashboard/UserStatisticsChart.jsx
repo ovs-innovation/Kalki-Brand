@@ -57,25 +57,28 @@ const UserStatisticsChart = ({ data, loading }) => {
   ];
 
   if (loading) return (
-    <div className="bg-white dark:bg-gray-800 p-8 rounded-[32px] h-[450px] flex items-center justify-center border border-gray-100 dark:border-gray-700 shadow-sm animate-pulse">
-      <div className="text-gray-400 font-bold uppercase tracking-widest text-xs">Loading Statistics...</div>
+    <div className="bg-white dark:bg-zinc-950/80 p-8 rounded-3xl h-[450px] flex items-center justify-center border border-gray-200 dark:border-white/10 shadow-xl animate-pulse">
+      <div className="text-zinc-500 font-bold uppercase tracking-widest text-xs">Loading Statistics...</div>
     </div>
   );
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-[32px] shadow-sm border border-gray-100 dark:border-gray-700 h-[500px] flex flex-col transition-all duration-300">
+    <div className="bg-white dark:bg-zinc-950/80 p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200 dark:border-white/10 h-[500px] flex flex-col transition-all duration-300 backdrop-blur-xl">
       <div className="flex justify-between items-center mb-8">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          User Statistics
-        </h3>
+        <div>
+          <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
+            User Statistics
+          </h3>
+          <p className="text-xs font-semibold text-gray-400 dark:text-zinc-400 mt-0.5">Platform user segmentation</p>
+        </div>
         <div className="relative">
-          <select className="bg-slate-50 dark:bg-gray-900 border-none px-4 py-1.5 rounded-xl text-xs font-black text-gray-500 uppercase tracking-widest focus:ring-0 cursor-pointer appearance-none pr-8">
+          <select className="bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-white/10 px-4 py-1.5 rounded-xl text-xs font-bold text-gray-700 dark:text-zinc-200 uppercase tracking-wider focus:outline-none cursor-pointer appearance-none pr-8">
             <option>Overall</option>
             <option>This Month</option>
             <option>This Year</option>
             <option>This Week</option>
           </select>
-          <div className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7"></path></svg>
           </div>
         </div>
@@ -88,20 +91,20 @@ const UserStatisticsChart = ({ data, loading }) => {
             <span className="text-4xl font-black text-gray-900 dark:text-white leading-none tracking-tighter">
               {totalUsers}
             </span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 leading-none">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-400 uppercase tracking-widest mt-2 leading-none">
               Total Users
             </span>
           </div>
         </div>
       </div>
 
-      {/* Legend list - Premium styling */}
-      <div className="mt-1 space-y-2 ">
+      {/* Legend list */}
+      <div className="mt-1 space-y-1.5">
         {stats.map((stat, i) => (
-          <div key={i} className="flex justify-between items-center group cursor-pointer hover:bg-gray-50/50 dark:hover:bg-gray-900/50 p-2.5 rounded-xl transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-800">
+          <div key={i} className="flex justify-between items-center group cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 p-2 rounded-xl transition-all border border-transparent">
             <div className="flex items-center gap-3">
               <div className={`w-3 h-3 rounded-full ${stat.color} shadow-sm group-hover:scale-125 transition-transform`} />
-              <span className="text-[13px] font-bold text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white tracking-tight">
+              <span className="text-xs font-bold text-gray-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white tracking-tight">
                 {stat.label}
               </span>
             </div>

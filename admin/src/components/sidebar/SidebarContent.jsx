@@ -75,52 +75,53 @@ const SidebarContent = () => {
     .filter(Boolean);
 
   return (
-    <div className="py-4 text-neutral-500 dark:text-[#9fb1b1]">
-      <div className="ml-10 px-5">
-        <a href="/" rel="noreferrer">
+    <div className="py-4 text-neutral-500 dark:text-zinc-400">
+      <div className="flex items-center justify-center px-4 py-2">
+        <a href="/" rel="noreferrer" className="block">
           <img
             src={mode === "dark" ? kalkibrand_logo : kalkibrand_logo_white_bg}
             alt="logo"
-            style={{ height: "95px", width: "auto" }}
+            style={{ height: "85px", width: "auto" }}
+            className="object-contain"
           />
         </a>
-      </div >
-      <ul className="mt-4">
+      </div>
+      <ul className="mt-4 space-y-1">
         {updatedSidebar?.map((route) =>
           route.type === "title" ? (
-            <li className="px-6 py-3 mt-4" key={route.name}>
-              <span className="text-[11px] font-bold tracking-[0.05em] text-neutral-500 dark:text-neutral-400 uppercase">
+            <li className="px-6 py-2 mt-4" key={route.name}>
+              <span className="text-[10px] font-extrabold tracking-[0.12em] text-neutral-400 dark:text-zinc-500 uppercase">
                 {t(route.name)}
               </span>
             </li>
           ) : route.routes ? (
             <SidebarSubMenu route={route} key={route.name} />
           ) : (
-            <li className="relative" key={route.name}>
+            <li className="relative px-3" key={route.name}>
               <NavLink
                 exact
                 to={route.path}
                 target={`${route?.outside ? "_blank" : "_self"}`}
-                className="px-6 py-4 inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-emerald-500 dark:hover:text-white"
-                activeClassName="text-emerald-500 dark:text-white"
+                className="px-4 py-3 rounded-xl inline-flex items-center w-full text-sm font-semibold transition-all duration-200 text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                activeClassName="!text-black dark:!text-white !bg-black/5 dark:!bg-white/10 shadow-sm"
                 rel="noreferrer"
               >
-                <route.icon className="w-5 h-5" aria-hidden="true" />
-                <span className="ml-4">{t(`${route.name}`)}</span>
+                <route.icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                <span className="ml-3 font-medium">{t(`${route.name}`)}</span>
               </NavLink>
             </li>
           )
         )}
       </ul>
       <span className="px-4 py-4 block mt-4">
-        <Button onClick={handleLogOut} size="large" className="w-full btn-modern">
-          <span className="flex items-center">
+        <Button onClick={handleLogOut} size="large" className="w-full btn-modern !bg-zinc-900 hover:!bg-zinc-800 !text-white border border-white/10 rounded-xl transition-all shadow-md">
+          <span className="flex items-center justify-center">
             <IoLogOutOutline className="mr-3 text-lg" />
-            <span className="text-sm">{t("LogOut")}</span>
+            <span className="text-sm font-semibold">{t("LogOut")}</span>
           </span>
         </Button>
       </span>
-    </div >
+    </div>
   );
 };
 

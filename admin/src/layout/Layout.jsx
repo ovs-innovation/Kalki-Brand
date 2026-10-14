@@ -50,7 +50,7 @@ const Layout = () => {
         </div>
       )}
       <div
-        className={`flex h-screen bg-neutral-50 dark:bg-neutral-900 ${isSidebarOpen && "overflow-hidden"
+        className={`flex h-screen bg-neutral-50 dark:bg-black text-gray-900 dark:text-white ${isSidebarOpen && "overflow-hidden"
           }`}
       >
         {navBar && <Sidebar />}

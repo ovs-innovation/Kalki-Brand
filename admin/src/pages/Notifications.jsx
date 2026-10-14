@@ -251,9 +251,7 @@ const Notifications = () => {
                                 to={
                                   value.productId
                                     ? `/product/${value.productId}`
-                                    : value.prescriptionId
-                                    ? `/prescriptions/${value.prescriptionId}`
-                                    : `/order/${value.orderId}`
+                                    : `/order/${value.orderId || ""}`
                                 }
                                 className="flex items-center"
                                 onClick={() =>

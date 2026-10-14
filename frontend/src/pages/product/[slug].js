@@ -156,6 +156,35 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
   const [activeTab, setActiveTab] = useState("product-description");
   const [showStickyBottomBar, setShowStickyBottomBar] = useState(false);
   const [expectedDeliveryTime, setExpectedDeliveryTime] = useState(null);
+  const [displayRelatedProducts, setDisplayRelatedProducts] = useState(
+    Array.isArray(relatedProducts)
+      ? relatedProducts.filter((p) => p?._id !== product?._id)
+      : []
+  );
+
+  useEffect(() => {
+    const valid = Array.isArray(relatedProducts)
+      ? relatedProducts.filter((p) => p?._id !== product?._id)
+      : [];
+    if (valid.length > 0) {
+      setDisplayRelatedProducts(valid);
+    } else if (product?._id) {
+      ProductServices.getShowingStoreProducts({
+        category: product?.category?._id || "",
+        slug: product?.slug || "",
+      })
+        .then((res) => {
+          let rel = (res?.relatedProducts || res?.products || []).filter(
+            (p) => p?._id !== product?._id
+          );
+          if (rel.length === 0 && Array.isArray(res?.popularProducts)) {
+            rel = res.popularProducts.filter((p) => p?._id !== product?._id);
+          }
+          setDisplayRelatedProducts(rel);
+        })
+        .catch(() => {});
+    }
+  }, [relatedProducts, product]);
 
   // Fetch shipping address if user is logged in
   const { data: shippingAddressData } = useQuery({
@@ -1238,23 +1267,23 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                   <FiChevronRight className="w-4 h-4 text-gray-400" />
                   <Link
                     href={`/search?category=${category_name}&_id=${product?.category?._id}`}
-                    className="hover:text-store-600 transition-colors bg-gray-50 px-3 py-1 rounded-full border border-gray-100"
+                    className="hover:text-blue-400 transition-colors bg-white/5 px-3 py-1 rounded-full border border-white/10 text-gray-300"
                   >
                     {category_name}
                   </Link>
-                  <FiChevronRight className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-900 font-semibold truncate max-w-[150px] sm:max-w-xs">
+                  <FiChevronRight className="w-4 h-4 text-gray-500" />
+                  <span className="text-white font-semibold truncate max-w-[150px] sm:max-w-xs">
                     {dynamicTitle || showingTranslateValue(product?.title)}
                   </span>
                 </nav>
               </div>
-              <div className="w-full rounded-lg  bg-white">
+              <div className="w-full rounded-lg bg-transparent">
                 <div className="flex flex-col lg:flex-row gap-10">
                   <div className="flex-shrink-0 w-full mx-auto md:w-5/12 lg:w-5/12 xl:w-5/12">
                     <div className="mt-1 lg:mt-2 lg:sticky lg:top-28 lg:space-y-4">
                       {!isWholesaler && <Discount slug product={product} discount={discount} />}
 
-                      {/* Flipkart-style Product Image Gallery with buttons inside */}
+                      {/* Product Image Gallery with buttons inside */}
                       <ProductImageGallery
                         images={currentImages.length > 0 ? currentImages : productImages}
                         productTitle={
@@ -1265,7 +1294,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                             <button
                               type="button"
                               onClick={() => handleAddToWishlist(product)}
-                              className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-gray-600 hover:text-red-600 border border-gray-200 hover:border-red-500 rounded-full px-3 py-1 bg-white shadow-sm transition-colors"
+                              className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-300 hover:text-red-400 border border-white/10 hover:border-red-500/40 rounded-full px-3 py-1 bg-black/70 backdrop-blur-md shadow-lg transition-colors"
                               aria-label="Add to wishlist"
                             >
                               <FiHeart className="w-4 h-4" />
@@ -1274,7 +1303,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                             <button
                               type="button"
                               onClick={() => handleAddToCompare(product)}
-                              className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-gray-600 hover:text-purple-600 border border-gray-200 hover:border-purple-500 rounded-full px-3 py-1 bg-white shadow-sm transition-colors"
+                              className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-300 hover:text-purple-400 border border-white/10 hover:border-purple-500/40 rounded-full px-3 py-1 bg-black/70 backdrop-blur-md shadow-lg transition-colors"
                               aria-label="Add to compare"
                             >
                               <FiShuffle className="w-4 h-4" />
@@ -1283,7 +1312,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                             <button
                               type="button"
                               onClick={handleShareCurrentVariant}
-                              className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-gray-600 hover:text-store-600 border border-gray-200 hover:border-store-500 rounded-full px-3 py-1 bg-white shadow-sm transition-colors"
+                              className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-300 hover:text-blue-400 border border-white/10 hover:border-blue-500/40 rounded-full px-3 py-1 bg-black/70 backdrop-blur-md shadow-lg transition-colors"
                               aria-label="Share this product"
                             >
                               <FiShare2 className="w-4 h-4" />
@@ -1299,7 +1328,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                           <button
                             onClick={() => handleAddToCart(product)}
                             type="button"
-                            className="add-to-cart-btn flex-1 h-14 rounded-xl text-base font-bold flex items-center justify-center border-2 border-store-500 text-store-700 hover:bg-store-500 hover:text-white transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-sm"
+                            className="add-to-cart-btn flex-1 h-14 rounded-xl text-base font-bold flex items-center justify-center border-2 border-blue-500 bg-blue-600/10 text-blue-400 hover:bg-blue-600 hover:text-white transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-sm"
                           >
                             {t("AddToCart")}
                           </button>
@@ -1310,7 +1339,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                               handleBuyNow(product);
                             }}
                             type="button"
-                            className="flex-1 h-14 rounded-xl text-base font-bold flex items-center justify-center bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg lg:animate-pulse-subtle"
+                            className="flex-1 h-14 rounded-xl text-base font-bold flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-500 hover:to-indigo-500 transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg lg:animate-pulse-subtle"
                           >
                             Buy Now
                           </button>
@@ -1319,53 +1348,6 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                           <span className="w-1 h-1 rounded-full bg-green-400" />
                           Secure & Verified Transaction
                         </p>
-
-
-                        {/* Trust Features Section */}
-                        <div className="mt-8 bg-blue-50 border border-blue-100 rounded-2xl p-4 sm:p-6 shadow-sm">
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
-
-                            {/* Feature 1 */}
-                            <div className="flex items-center justify-center gap-3 sm:border-r border-blue-200 pr-4">
-                              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-blue-100">
-                                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V6l-8-4-8 4v6c0 6 8 10 8 10z" />
-                                </svg>
-                              </div>
-                              <p className="text-sm sm:text-base font-medium text-gray-700 text-left">
-                                100% genuine <br /> medicines
-                              </p>
-                            </div>
-
-                            {/* Feature 2 */}
-                            <div className="flex items-center justify-center gap-3 sm:border-r border-blue-200 pr-4">
-                              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-blue-100">
-                                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                  <rect x="2" y="7" width="20" height="14" rx="2" />
-                                  <path d="M16 3v4M8 3v4" />
-                                </svg>
-                              </div>
-                              <p className="text-sm sm:text-base font-medium text-gray-700 text-left">
-                                Safe & secure <br /> payments
-                              </p>
-                            </div>
-
-                            {/* Feature 3 */}
-                            <div className="flex items-center justify-center gap-3">
-                              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-blue-100">
-                                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v6h6M20 20v-6h-6" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 10A8 8 0 104 14" />
-                                </svg>
-                              </div>
-                              <p className="text-sm sm:text-base font-medium text-gray-700 text-left">
-                                15 days Easy <br /> returns
-                              </p>
-                            </div>
-
-                          </div>
-                        </div>
-
                       </div>
                     </div>
                   </div>
@@ -1376,27 +1358,9 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                     <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row">
                       <div className="xl:pr-6 md:pr-6 w-full">
                         <div className="mb-6">
-                          <h1 className="leading-7 text-lg md:text-xl lg:text-2xl mb-1 font-semibold font-serif text-gray-800">
+                          <h1 className="leading-7 text-lg md:text-xl lg:text-2xl mb-1 font-semibold font-serif text-white">
                             {dynamicTitle || showingTranslateValue(product?.title)}
                           </h1>
-
-                          {/* Top summary rating row (like Flipkart) */}
-                          {ratingSummary && (
-                            <div className="flex items-center flex-wrap gap-2 mb-2">
-                              <div className="inline-flex items-center px-2 py-0.5 rounded-md text-white text-xs font-semibold" style={{ backgroundColor: '#006E44' }}>
-                                <span className="mr-1">
-                                  {ratingSummary.averageRating?.toFixed
-                                    ? ratingSummary.averageRating.toFixed(1)
-                                    : "0.0"}
-                                </span>
-                                <AiFillStar className="w-3.5 h-3.5" />
-                              </div>
-                              <span className="text-xs sm:text-sm text-gray-600">
-                                {ratingSummary.totalRatings || 0} Ratings &amp;{" "}
-                                {ratingSummary.totalReviews || 0} Reviews
-                              </span>
-                            </div>
-                          )}
 
                           {/* <p className="uppercase font-serif font-medium text-gray-500 text-sm">
                             SKU :{" "}
@@ -1447,7 +1411,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
 
                         </div>
-                        <div className="bg-gray-50/50 rounded-2xl p-6 mb-8 border border-gray-100">
+                        <div className="mb-6 py-2">
                           <Price
                             // If wholesaler and product has wholesale price, show that price
                             price={
@@ -1659,13 +1623,13 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Composition Section */}
                           {product?.composition?.enabled !== false && product?.composition?.description && (
-                            <div className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.composition.title || "Composition"}
                                 </h2>
                               </div>
-                              <p className="text-sm text-gray-600 leading-relaxed text-justify">
+                              <p className="text-sm text-gray-300 leading-relaxed text-justify">
                                 {product.composition.description}
                               </p>
                             </div>
@@ -1673,16 +1637,16 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Product Highlights Section */}
                           {product?.productHighlights?.enabled !== false && product?.productHighlights?.items?.length > 0 && (
-                            <div className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.productHighlights.icon && (
                                   <img src={product.productHighlights.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.productHighlights.title || "Product Highlights"}
                                 </h2>
                               </div>
-                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 text-justify">
+                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-300 text-justify">
                                 {product.productHighlights.items.map((item, idx) => (
                                   <li key={idx} className="leading-relaxed">
                                     {item}
@@ -1693,7 +1657,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                           )}
 
                           {/* Premium Tab Navigation */}
-                          <div className="sticky top-16 lg:top-[80px] z-40 bg-white/80 backdrop-blur-md mt-12 mb-8 py-1 border-b border-gray-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)]">
+                          <div className="sticky top-16 lg:top-[80px] z-40 bg-black/85 backdrop-blur-md mt-12 mb-8 py-1 border-b border-white/10 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.5)]">
                             <style jsx global>{`
                               .tab-navigation-container {
                                 scrollbar-width: none !important;
@@ -1816,16 +1780,16 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Product Description Section */}
                           {product?.productDescription?.enabled !== false && product?.productDescription?.description && (
-                            <div id="product-description" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="product-description" className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.productDescription.icon && (
                                   <img src={product.productDescription.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.productDescription.title || "Product Description"} of {dynamicTitle || showingTranslateValue(product?.title)}
                                 </h2>
                               </div>
-                              <p className="text-sm text-gray-600 leading-relaxed text-justify">
+                              <p className="text-sm text-gray-300 leading-relaxed text-justify">
                                 {product.productDescription.description}
                               </p>
                             </div>
@@ -1833,22 +1797,22 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Specification Section */}
                           {product?.dynamicSections?.some(s => s?.name?.toLowerCase().includes("specification")) && (
-                            <div id="specification" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="specification" className="mt-8 py-2">
                               {product.dynamicSections
                                 .filter(s => s?.name?.toLowerCase().includes("specification"))
                                 .map((section, idx) => (
                                   <div key={idx} className="mb-6">
                                     <div className="flex items-center gap-3 mb-4">
-                                      <h2 className="text-xl font-semibold text-gray-800">
+                                      <h2 className="text-xl font-semibold text-white">
                                         {section.name} of {dynamicTitle || showingTranslateValue(product?.title)}
                                       </h2>
                                     </div>
-                                    <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 text-justify">
+                                    <ul className="list-disc list-inside space-y-2 text-sm text-gray-300 text-justify">
                                       {section.subsections
                                         ?.filter(sub => sub?.type !== "paragraph" && (sub?.key || sub?.value))
                                         .map((sub, subIdx) => (
                                           <li key={subIdx}>
-                                            <strong>{sub.key || sub.title}:</strong> {sub.value || sub.content}
+                                            <strong className="text-white">{sub.key || sub.title}:</strong> {sub.value || sub.content}
                                           </li>
                                         ))}
                                     </ul>
@@ -1859,19 +1823,19 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Key Uses Section */}
                           {product?.keyUses?.enabled !== false && product?.keyUses?.items?.length > 0 && (
-                            <div id="key-uses" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="key-uses" className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.keyUses.icon && (
                                   <img src={product.keyUses.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.keyUses.title || "Key Uses"} of {dynamicTitle || showingTranslateValue(product?.title)}
                                 </h2>
                               </div>
-                              <ul className="list-disc list-inside space-y-4 text-sm text-gray-600 text-justify">
+                              <ul className="list-disc list-inside space-y-4 text-sm text-gray-300 text-justify">
                                 {product.keyUses.items.map((item, idx) => (
                                   <li key={idx} className="leading-relaxed">
-                                    <strong className="text-gray-900">{item.key || item.value}:</strong>{" "}
+                                    <strong className="text-white">{item.key || item.value}:</strong>{" "}
                                     {item.value && item.key ? item.value : ""}
                                   </li>
                                 ))}
@@ -1881,16 +1845,16 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* How To Use Section */}
                           {product?.howToUse?.enabled !== false && product?.howToUse?.items?.length > 0 && (
-                            <div id="how-to-use" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="how-to-use" className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.howToUse.icon && (
                                   <img src={product.howToUse.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.howToUse.title || "How To Use"}
                                 </h2>
                               </div>
-                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 text-justify">
+                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-300 text-justify">
                                 {product.howToUse.items.map((item, idx) => (
                                   <li key={idx} className="leading-relaxed">
                                     {item}
@@ -1902,16 +1866,16 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Safety Information Section */}
                           {product?.safetyInformation?.enabled !== false && product?.safetyInformation?.items?.length > 0 && (
-                            <div id="safety-information" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="safety-information" className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.safetyInformation.icon && (
                                   <img src={product.safetyInformation.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.safetyInformation.title || "Safety Information"}
                                 </h2>
                               </div>
-                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 text-justify">
+                              <ul className="list-disc list-inside space-y-2 text-sm text-gray-300 text-justify">
                                 {product.safetyInformation.items.map((item, idx) => (
                                   <li key={idx} className="leading-relaxed">
                                     {item}
@@ -1923,22 +1887,22 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Additional Information Section */}
                           {product?.additionalInformation?.enabled !== false && product?.additionalInformation?.subsections?.length > 0 && (
-                            <div id="additional-information" className="mt-8 border border-gray-200 rounded-lg p-6 bg-white">
+                            <div id="additional-information" className="mt-8 py-2">
                               <div className="flex items-center gap-3 mb-4">
                                 {product.additionalInformation.icon && (
                                   <img src={product.additionalInformation.icon} alt="" className="w-10 h-10" />
                                 )}
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-white">
                                   {product.additionalInformation.title || "Additional Information"}
                                 </h2>
                               </div>
                               <div className="space-y-6">
                                 {product.additionalInformation.subsections.map((subsection, idx) => (
-                                  <div key={idx} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                                    <h3 className="inline-block px-3 py-1 mb-3 text-sm font-semibold text-store-600 bg-store-50 rounded-full">
+                                  <div key={idx} className="py-2">
+                                    <h3 className="inline-block px-3 py-1 mb-3 text-sm font-semibold text-blue-400 bg-blue-500/10 rounded-full">
                                       {subsection.label}
                                     </h3>
-                                    <ul className="list-disc list-inside space-y-2 text-sm text-gray-600 text-justify">
+                                    <ul className="list-disc list-inside space-y-2 text-sm text-gray-300 text-justify">
                                       {subsection.items.map((item, itemIdx) => (
                                         <li key={itemIdx} className="leading-relaxed">
                                           {item}
@@ -1962,9 +1926,9 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Modern FAQ Section */}
                           {productFaqs.length > 0 && (
-                            <div id="faq" className="mt-12 border border-gray-100 rounded-[2rem] p-8 bg-white shadow-sm">
-                              <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-                                <span className="w-2 h-8 bg-store-500 rounded-full" />
+                            <div id="faq" className="mt-12 py-2">
+                              <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                                <span className="w-2 h-8 bg-blue-500 rounded-full" />
                                 {product?.faqs?.title || (product?.faqTitle && product.faqTitle.trim().length
                                   ? product.faqTitle
                                   : t("frequentlyAskedQuestions") ||
@@ -1974,7 +1938,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                 {productFaqs.map((faq, index) => {
                                   const isOpen = activeFaqIndex === index;
                                   return (
-                                    <div key={`${faq.question}-${index}`} className={`rounded-2xl border transition-all duration-300 ${isOpen ? 'border-store-200 bg-store-50/30' : 'border-gray-50 bg-gray-50/50 hover:bg-gray-100/50'}`}>
+                                    <div key={`${faq.question}-${index}`} className={`rounded-2xl border transition-all duration-300 ${isOpen ? 'border-blue-500/50 bg-blue-900/20' : 'border-white/10 bg-[#12141e] hover:bg-white/5'}`}>
                                       <button
                                         type="button"
                                         onClick={() =>
@@ -1982,7 +1946,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                         }
                                         className="w-full flex items-center justify-between text-left px-6 py-5 focus:outline-none"
                                       >
-                                        <span className="text-base font-bold text-gray-800 pr-4">
+                                        <span className="text-base font-bold text-white pr-4">
                                           {faq.question}
                                         </span>
                                         <span className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-store-600' : 'text-gray-400'}`}>
@@ -2092,15 +2056,15 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
                           {/* Enhanced Sticky Bottom Bar (Mobile only) */}
                           {showStickyBottomBar && (
-                            <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-8px_20px_rgba(0,0,0,0.05)] lg:hidden transition-all duration-300 slide-up">
+                            <div className="fixed bottom-0 left-0 right-0 z-[60] bg-black/95 backdrop-blur-md border-t border-white/10 shadow-[0_-8px_20px_rgba(0,0,0,0.5)] lg:hidden transition-all duration-300 slide-up">
                               <div className="max-w-screen-2xl mx-auto px-5 py-4">
                                 <div className="flex items-center justify-between gap-6">
                                   <div className="flex-1 min-w-0">
-                                    <h3 className="text-xs font-bold text-gray-500 truncate mb-1.5 uppercase tracking-wider">
+                                    <h3 className="text-xs font-bold text-gray-400 truncate mb-1.5 uppercase tracking-wider">
                                       {dynamicTitle || showingTranslateValue(product?.title)}
                                     </h3>
                                     <div className="flex items-baseline gap-2">
-                                      <span className="text-xl font-black text-gray-900 tracking-tight">
+                                      <span className="text-xl font-black text-white tracking-tight">
                                         {currency}
                                         {getNumberTwo(
                                           (isWholesaler && product?.wholePrice && Number(product.wholePrice) > 0)
@@ -2109,7 +2073,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                         )}
                                       </span>
                                       {discount > 0 && (
-                                        <span className="text-xs font-bold text-green-600">
+                                        <span className="text-xs font-bold text-blue-400">
                                           ({discount}% OFF)
                                         </span>
                                       )}
@@ -2118,7 +2082,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                   <button
                                     onClick={() => handleAddToCart(product)}
                                     type="button"
-                                    className="add-to-cart-btn flex-shrink-0 h-14 px-8 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center bg-store-600 text-white active:scale-95 transition-all shadow-lg shadow-store-100"
+                                    className="add-to-cart-btn flex-shrink-0 h-14 px-8 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white active:scale-95 transition-all shadow-lg shadow-blue-900/50"
                                   >
                                     Add To Cart
                                   </button>
@@ -2126,41 +2090,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                               </div>
                             </div>
                           )}
-
-                          {/* Ratings & Reviews Section - right side only */}
-                          <div id="ratings-section" className="mt-8 lg:mt-10 space-y-4">
-                            <RatingSummary summary={ratingSummary} />
-                            <WriteReviewForm
-                              productId={product?._id}
-                              existingReview={reviews.find(
-                                (r) => r.user?._id === userInfo?._id
-                              )}
-                              onSubmitReview={handleSubmitReview}
-                              isSubmitting={reviewSubmitting}
-                            />
-                            <ReviewFilters
-                              sort={reviewsSort}
-                              ratingFilter={reviewsRatingFilter}
-                              onSortChange={setReviewsSort}
-                              onRatingFilterChange={setReviewsRatingFilter}
-                            />
-                            <ReviewList
-                              reviews={reviews}
-                              loading={reviewsLoading}
-                              onLoadMore={handleLoadMoreReviews}
-                              canLoadMore={reviewsHasMore}
-                              onMarkHelpful={handleMarkHelpful}
-                              onDeleteReview={handleDeleteReview}
-                              currentUser={userInfo}
-                            />
-                          </div>
-
-
-
-
                         </div>
-
-
                       </div>
 
                       {/* shipping description card */}
@@ -2214,23 +2144,36 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
 
               {/* related products */}
-              {relatedProducts?.length >= 2 && (
-                <div className="pt-10 lg:pt-20 lg:pb-10">
-                  <h3 className="leading-7 text-lg lg:text-xl mb-3 font-semibold font-serif hover:text-gray-600">
-                    {t("Related Products")}
-                  </h3>
-                  <div className="flex">
-                    <div className="w-full">
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-3 lg:gap-3">
-                        {(isWholesaler ? relatedProducts?.filter(p => (p.wholePrice && Number(p.wholePrice) > 0) || p.isWholesaler) : relatedProducts)?.slice(1, 13).map((product, i) => (
-                          <ProductCard
-                            key={product._id}
-                            product={product}
-                            attributes={attributes}
-                          />
-                        ))}
-                      </div>
+              {displayRelatedProducts?.length > 0 && (
+                <div className="pt-12 lg:pt-16 pb-12 border-t border-white/10 mt-12">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                        <span className="w-2 h-6 bg-blue-500 rounded-full" />
+                        {t("Related Products") || "Related Products"}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-400 mt-1">
+                        Customers also viewed these items
+                      </p>
                     </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+                    {(isWholesaler
+                      ? displayRelatedProducts.filter(
+                          (p) =>
+                            (p.wholePrice && Number(p.wholePrice) > 0) ||
+                            p.isWholesaler
+                        )
+                      : displayRelatedProducts
+                    )
+                      .slice(0, 12)
+                      .map((prod) => (
+                        <ProductCard
+                          key={prod._id}
+                          product={prod}
+                          attributes={attributes}
+                        />
+                      ))}
                   </div>
                 </div>
               )}

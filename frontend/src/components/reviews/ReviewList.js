@@ -26,19 +26,19 @@ const ReviewList = ({
 }) => {
   if (!reviews?.length && !loading) {
     return (
-      <div className="border border-gray-100 rounded-xl p-4 text-sm text-gray-500 bg-white">
+      <div className="border border-white/10 rounded-xl p-4 text-sm text-gray-400 bg-[#0d0e15]">
         No reviews yet. Be the first to review this product.
       </div>
     );
   }
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4 md:p-5 shadow-sm">
+    <div className="bg-[#0d0e15] border border-white/10 rounded-xl p-4 md:p-5 shadow-sm">
       <div className="space-y-4">
         {reviews.map((review) => (
           <div
             key={review._id}
-            className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0"
+            className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0"
           >
             <div className="flex items-center space-x-2 mb-1">
               <div className="flex items-center px-1.5 py-0.5 rounded-md bg-green-600 text-white text-xs font-semibold">
@@ -46,13 +46,13 @@ const ReviewList = ({
                 <AiFillStar className="w-3.5 h-3.5" />
               </div>
               {review.verified && (
-                <span className="inline-flex items-center text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center text-[11px] font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-full">
                   <BiBadgeCheck className="w-3.5 h-3.5 mr-1" />
                   Verified Buyer
                 </span>
               )}
             </div>
-            <p className="text-sm text-gray-800 whitespace-pre-line">
+            <p className="text-sm text-gray-200 whitespace-pre-line">
               {review.reviewText}
             </p>
             {Array.isArray(review.images) && review.images.length > 0 && (

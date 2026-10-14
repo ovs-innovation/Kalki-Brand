@@ -34,11 +34,6 @@ const sidebar = [
     name: "Dashboard", // name that appear in Sidebar
   },
   {
-    path: "/prescriptions",
-    icon: FiFileText,
-    name: "Prescriptions",
-  },
-  {
     type: "title",
     name: "POS SECTION"
   },

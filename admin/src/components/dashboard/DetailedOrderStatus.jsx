@@ -12,13 +12,11 @@ import {
 } from 'react-icons/fi';
 
 const DetailedOrderStatus = ({ dashboardOrderCount }) => {
-  // Map counts from dashboard data where available, otherwise default to 0
   const pendingCount = dashboardOrderCount?.totalPendingOrder?.count || 0;
   const processingCount = dashboardOrderCount?.totalProcessingOrder || 0;
   const deliveredCount = dashboardOrderCount?.totalDeliveredOrder || 0;
   const canceledCount = dashboardOrderCount?.totalCancelOrder || 0;
   
-  // These statuses might not exist in the basic schema, so defaulting to 0
   const acceptedCount = dashboardOrderCount?.totalAcceptedOrder || 0;
   const outForDeliveryCount = dashboardOrderCount?.totalOutForDeliveryOrder || 0;
   const refundedCount = dashboardOrderCount?.totalRefundedOrder || 0;
@@ -28,95 +26,91 @@ const DetailedOrderStatus = ({ dashboardOrderCount }) => {
     {
       title: "Unassigned Orders",
       value: pendingCount,
-      valueColor: "text-gray-500 dark:text-gray-400",
-      iconBg: "bg-blue-50 dark:bg-blue-900/30",
-      iconColor: "text-blue-500",
+      valueColor: "text-zinc-700 dark:text-zinc-200",
+      iconBg: "bg-blue-500/10 border border-blue-500/20 text-blue-400",
       Icon: FiCalendar,
       link: "/orders/pending"
     },
     {
-      title: "Accepted By Delivery Man",
+      title: "Accepted By Delivery",
       value: acceptedCount,
-      valueColor: "text-emerald-500",
-      iconBg: "bg-emerald-50 dark:bg-emerald-900/30",
-      iconColor: "text-emerald-500",
+      valueColor: "text-emerald-500 dark:text-emerald-400",
+      iconBg: "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400",
       Icon: FiSmartphone,
       link: "/orders/accepted"
     },
     {
       title: "Packaging",
       value: processingCount,
-      valueColor: "text-gray-600 dark:text-gray-300",
-      iconBg: "bg-orange-50 dark:bg-orange-900/30",
-      iconColor: "text-orange-500",
+      valueColor: "text-amber-500 dark:text-amber-400",
+      iconBg: "bg-amber-500/10 border border-amber-500/20 text-amber-400",
       Icon: FiBox,
       link: "/orders/processing"
     },
     {
       title: "Out For Delivery",
       value: outForDeliveryCount,
-      valueColor: "text-emerald-500",
-      iconBg: "bg-teal-50 dark:bg-teal-900/30",
-      iconColor: "text-teal-500",
+      valueColor: "text-cyan-500 dark:text-cyan-400",
+      iconBg: "bg-cyan-500/10 border border-cyan-500/20 text-cyan-400",
       Icon: FiTruck,
       link: "/orders/on-the-way"
     },
     {
       title: "Delivered",
       value: deliveredCount,
-      valueColor: "text-emerald-500",
-      iconBg: "bg-green-50 dark:bg-green-900/30",
-      iconColor: "text-green-500",
+      valueColor: "text-emerald-500 dark:text-emerald-400",
+      iconBg: "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400",
       Icon: FiCheckCircle,
       link: "/orders/delivered"
     },
     {
       title: "Canceled",
       value: canceledCount,
-      valueColor: "text-red-500",
-      iconBg: "bg-red-50 dark:bg-red-900/30",
-      iconColor: "text-red-500",
+      valueColor: "text-rose-500 dark:text-rose-400",
+      iconBg: "bg-rose-500/10 border border-rose-500/20 text-rose-400",
       Icon: FiXCircle,
       link: "/orders/canceled"
     },
     {
       title: "Refunded",
       value: refundedCount,
-      valueColor: "text-red-500",
-      iconBg: "bg-pink-50 dark:bg-pink-900/30",
-      iconColor: "text-pink-500",
+      valueColor: "text-purple-500 dark:text-purple-400",
+      iconBg: "bg-purple-500/10 border border-purple-500/20 text-purple-400",
       Icon: FiRefreshCcw,
       link: "/orders/refunded"
     },
     {
       title: "Payment Failed",
       value: paymentFailedCount,
-      valueColor: "text-red-500",
-      iconBg: "bg-rose-50 dark:bg-rose-900/30",
-      iconColor: "text-rose-500",
+      valueColor: "text-rose-500 dark:text-rose-400",
+      iconBg: "bg-rose-500/10 border border-rose-500/20 text-rose-400",
       Icon: FiAlertCircle,
       link: "/orders/payment-failed"
     }
   ];
 
   return (
-    <div className="w-full bg-white dark:bg-gray-800 p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 mt-6">
+    <div className="w-full bg-white dark:bg-zinc-950/80 p-6 md:p-8 rounded-3xl shadow-xl border border-gray-200 dark:border-white/10 mt-6 backdrop-blur-xl">
+      <div className="mb-5">
+        <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Fulfillment Status</h3>
+        <p className="text-xs font-semibold text-gray-400 dark:text-zinc-400 mt-0.5">Live order fulfillment tracking</p>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((card, index) => (
           <Link 
             key={index} 
             to={card.link}
-            className="flex items-center justify-between p-4 bg-[#f8fafb] dark:bg-gray-700/50 rounded-2xl border border-gray-100 dark:border-gray-600 hover:shadow-md hover:border-teal-200 dark:hover:border-teal-900 transition-all duration-300 group no-underline"
+            className="flex items-center justify-between p-4 bg-gray-50 dark:bg-zinc-900/60 hover:dark:bg-zinc-900/95 rounded-2xl border border-gray-200 dark:border-white/10 hover:border-blue-500/30 dark:hover:border-white/20 hover:shadow-lg transition-all duration-300 group no-underline hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${card.iconBg} group-hover:scale-110 transition-transform duration-300`}>
-                <card.Icon className={`w-5 h-5 ${card.iconColor}`} />
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${card.iconBg} group-hover:scale-110 transition-transform duration-300`}>
+                <card.Icon className="w-5 h-5" />
               </div>
-              <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 max-w-[120px] leading-tight group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+              <span className="text-xs font-bold text-gray-700 dark:text-zinc-300 leading-tight group-hover:text-black dark:group-hover:text-white transition-colors">
                 {card.title}
               </span>
             </div>
-            <span className={`text-xl font-bold ${card.valueColor} group-hover:scale-110 transition-transform duration-300`}>
+            <span className={`text-xl font-black ${card.valueColor} tracking-tight group-hover:scale-110 transition-transform duration-300`}>
               {card.value}
             </span>
           </Link>

@@ -59,22 +59,18 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
         <Loading loading={isLoading} />
       ) : (
         <Layout>
-          <div className="min-h-screen">
-            <div className="bg-white">
+          <div className="min-h-screen bg-black">
+            <div className="bg-black">
               <div className="mx-auto max-w-screen-2xl">
                 <div className="flex w-full flex-col">
                   <div className="w-full">
                     <HeroBanner />
                   </div>
-                  {/* Slider Carousel */}
-                  <div className="md:hidden">
-                    <SliderCarousel />
-                  </div>
                   <div className="w-full">
                     <OrderOptions />
                   </div>
                   {/* Slider Carousel */}
-                  <div className="hidden md:block">
+                  <div className="w-full">
                     <SliderCarousel />
                   </div>
                 </div>
@@ -86,7 +82,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
             {/* feature category's */}
             {storeCustomizationSetting?.home?.featured_status && (
-              <div id="feature-category" className="bg-gradient-to-b from-white via-teal-50/20 to-white lg:py-12 pt-6 pb-10">
+              <div id="feature-category" className="bg-black lg:py-12 pt-6 pb-10">
                 <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
                   <div className="flex flex-row justify-between items-end mb-4">
                     {/* <div className="flex-1">
@@ -112,18 +108,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
             {/* best selling products */}
             {bestSellingProducts?.length > 0 && (
-              <div className="relative lg:py-24 py-12 overflow-hidden">
-                {/* Background Decorative Blobs - Creates the "Mesh" look */}
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-                  <div className="absolute -top-24 -left-24 w-[500px] h-[500px] bg-emerald-100/40 rounded-full blur-[120px]" />
-                  <div className="absolute bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-blue-50/50 rounded-full blur-[100px]" />
-                </div>
+              <div className="relative lg:py-14 py-10 overflow-hidden bg-black">
 
                 <div className="mx-auto max-w-screen-2xl px-4 sm:px-12 relative z-10">
                   {/* Header Section */}
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                     <div className="space-y-3">
-                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white text-[11px] font-extrabold uppercase tracking-widest shadow-lg shadow-emerald-100">
+                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[11px] font-extrabold uppercase tracking-widest shadow-lg shadow-blue-900/40">
                         <IoSparkles className="animate-pulse text-yellow-300" />
                         <span>Popular Choice</span>
                       </div>
@@ -136,10 +127,10 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
                     <Link
                       href="/search?sort=best-selling"
-                      className="group flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 transition-all"
+                      className="group flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-all"
                     >
                       Explore All
-                      <div className="p-2 rounded-full bg-white shadow-sm border border-gray-100 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                      <div className="p-2 rounded-full bg-[#12141e] text-white shadow-sm border border-white/10 group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <IoChevronForward />
                       </div>
                     </Link>
@@ -149,19 +140,19 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   <div className="relative group/slider">
                     <div className="relative px-2">
                       {/* Custom Floating Navigation */}
-                      <button className="prev-best-selling absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="prev-best-selling absolute top-[38%] -left-3 sm:-left-5 lg:-left-6 z-30 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Previous">
                         <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-best-selling absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-emerald-600 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="next-best-selling absolute top-[38%] -right-3 sm:-right-5 lg:-right-6 z-30 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Next">
                         <IoChevronForward className="text-xl" />
                       </button>
 
-                      {/* Slider with subtle Glassmorphism container */}
-                      <div className="rounded-[2rem] p-2 bg-slate-900/20 backdrop-blur-[2px] border border-slate-800/40 shadow-sm">
+                      {/* Slider Container */}
+                      <div>
                         <Swiper
                           modules={[Navigation, Autoplay]}
-                          spaceBetween={15}
+                          spaceBetween={14}
                           slidesPerView={2}
                           loop={(bestSellingProducts?.length || 0) >= 5}
                           navigation={{
@@ -174,10 +165,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 15 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 25 },
-                            1280: { slidesPerView: 5, spaceBetween: 25 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            480: { slidesPerView: 2.2, spaceBetween: 12 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 16 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
+                            1536: { slidesPerView: 7, spaceBetween: 18 },
                           }}
                           className="mySwiper !pb-10 !pt-4"
                         >
@@ -206,7 +200,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
 
             {/* Suggested For You Section */}
-            <div className="bg-white lg:py-12 py-10">
+            <div className="bg-black lg:py-12 py-10">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
                 <div className="mt-4">
                   {/* Renders personalized suggestions for user/guest */}
@@ -225,8 +219,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
             {/* Personal Care Section */}
             {personalCareProducts && personalCareProducts.length > 0 && (
-              <div className="relative lg:py-15 py-12 overflow-hidden bg-white">
-                {/* Background Decorative Blobs */}
+              <div className="relative lg:py-15 py-12 overflow-hidden bg-black">
                 <div className="mx-auto max-w-screen-2xl px-4 sm:px-12 relative z-10">
                   {/* Header Section */}
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
@@ -240,10 +233,10 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
 
                     <Link
                       href="/search?category=Personal-Care"
-                      className="group flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 transition-all"
+                      className="group flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-all"
                     >
                       Explore All
-                      <div className="p-2 rounded-full bg-white shadow-sm border border-gray-100 group-hover:bg-green-700 group-hover:text-white transition-all">
+                      <div className="p-2 rounded-full bg-[#12141e] text-white shadow-sm border border-white/10 group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <IoChevronForward />
                       </div>
                     </Link>
@@ -253,18 +246,18 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   <div className="relative group/slider">
                     <div className="relative px-2">
                       {/* Navigation buttons */}
-                      <button className="prev-personal-care absolute top-1/2 -left-4 lg:-left-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="prev-personal-care absolute top-[38%] -left-3 sm:-left-5 lg:-left-6 z-30 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Previous">
                         <IoChevronBack className="text-xl" />
                       </button>
 
-                      <button className="next-personal-care absolute top-1/2 -right-4 lg:-right-12 z-30 bg-slate-900/90 backdrop-blur-md shadow-xl border border-slate-800 rounded-2xl p-4 hover:bg-amber-800 hover:text-white text-slate-300 transition-all transform -translate-y-1/2 opacity-0 group-hover/slider:opacity-100 -translate-x-4 group-hover/slider:translate-x-0 hidden md:flex items-center justify-center">
+                      <button className="next-personal-care absolute top-[38%] -right-3 sm:-right-5 lg:-right-6 z-30 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 sm:w-11 sm:h-11 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white transition-all transform -translate-y-1/2 flex items-center justify-center active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Next">
                         <IoChevronForward className="text-xl" />
                       </button>
 
-                      <div className="rounded-[2.5rem] p-2 bg-slate-900/20 backdrop-blur-[2px] border border-slate-800/40 shadow-sm">
+                      <div>
                         <Swiper
                           modules={[Navigation, Autoplay]}
-                          spaceBetween={15}
+                          spaceBetween={14}
                           slidesPerView={2}
                           loop={personalCareProducts.length >= 5}
                           navigation={{
@@ -277,10 +270,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 15 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 25 },
-                            1280: { slidesPerView: 5, spaceBetween: 25 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            480: { slidesPerView: 2.2, spaceBetween: 12 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 16 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
+                            1536: { slidesPerView: 7, spaceBetween: 18 },
                           }}
                           className="mySwiper !pb-10 !pt-4"
                         >
@@ -317,7 +313,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                   error={error}
                   align="left"
                 />
-                <div className="bg-zinc-50 flex w-full relative group px-4 py-4">
+                <div className="w-full relative group py-2">
                   <div className="w-full">
                     <>
                       <Swiper
@@ -335,10 +331,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                           pauseOnMouseEnter: true
                         }}
                         breakpoints={{
-                          640: { slidesPerView: 2, spaceBetween: 10 },
-                          768: { slidesPerView: 3, spaceBetween: 20 },
-                          1024: { slidesPerView: 4, spaceBetween: 20 },
-                          1280: { slidesPerView: 5, spaceBetween: 20 },
+                          320: { slidesPerView: 2, spaceBetween: 10 },
+                          480: { slidesPerView: 2.2, spaceBetween: 12 },
+                          640: { slidesPerView: 3, spaceBetween: 14 },
+                          768: { slidesPerView: 4, spaceBetween: 16 },
+                          1024: { slidesPerView: 5, spaceBetween: 16 },
+                          1280: { slidesPerView: 6, spaceBetween: 18 },
+                          1536: { slidesPerView: 7, spaceBetween: 18 },
                         }}
                         className="mySwiper px-2 py-2"
                       >
@@ -357,11 +356,11 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             </SwiperSlide>
                           ))}
                       </Swiper>
-                      <button className="prev-popular absolute top-1/2 -left-2 md:-left-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <IoChevronBack className="text-xl text-gray-600" />
+                      <button className="prev-popular absolute top-[38%] -left-3 sm:-left-5 z-20 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white flex items-center justify-center transition-all transform -translate-y-1/2 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Previous">
+                        <IoChevronBack className="text-xl" />
                       </button>
-                      <button className="next-popular absolute top-1/2 -right-2 md:-right-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <IoChevronForward className="text-xl text-gray-600" />
+                      <button className="next-popular absolute top-[38%] -right-3 sm:-right-5 z-20 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white flex items-center justify-center transition-all transform -translate-y-1/2 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Next">
+                        <IoChevronForward className="text-xl" />
                       </button>
 
                       <div className="flex justify-end mt-4 px-2">
@@ -469,7 +468,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                     error={error}
                     align="left"
                   />
-                  <div className="bg-rose-50 py-4 px-4 flex w-full relative group">
+                  <div className="w-full py-2 flex w-full relative group">
                     <div className="w-full">
                       <>
                         <Swiper
@@ -487,10 +486,13 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             pauseOnMouseEnter: true
                           }}
                           breakpoints={{
-                            640: { slidesPerView: 2, spaceBetween: 10 },
-                            768: { slidesPerView: 3, spaceBetween: 20 },
-                            1024: { slidesPerView: 4, spaceBetween: 20 },
-                            1280: { slidesPerView: 5, spaceBetween: 20 },
+                            320: { slidesPerView: 2, spaceBetween: 10 },
+                            480: { slidesPerView: 2.2, spaceBetween: 12 },
+                            640: { slidesPerView: 3, spaceBetween: 14 },
+                            768: { slidesPerView: 4, spaceBetween: 16 },
+                            1024: { slidesPerView: 5, spaceBetween: 16 },
+                            1280: { slidesPerView: 6, spaceBetween: 18 },
+                            1536: { slidesPerView: 7, spaceBetween: 18 },
                           }}
                           className="mySwiper px-2 py-2"
                         >
@@ -498,7 +500,7 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                             ?.slice(
                               0,
                               storeCustomizationSetting?.home
-                                ?.latest_discount_product_limit
+                              ?.latest_discount_product_limit
                             )
                             .map((product) => (
                               <SwiperSlide key={product._id}>
@@ -509,15 +511,15 @@ const Home = ({ popularProducts, discountProducts, bestSellingProducts, attribut
                               </SwiperSlide>
                             ))}
                         </Swiper>
-                        <button className="prev-discount absolute top-1/2 -left-2 md:-left-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                          <IoChevronBack className="text-xl text-gray-600" />
+                        <button className="prev-discount absolute top-[38%] -left-3 sm:-left-5 z-20 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white flex items-center justify-center transition-all transform -translate-y-1/2 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Previous">
+                          <IoChevronBack className="text-xl" />
                         </button>
-                        <button className="next-discount absolute top-1/2 -right-2 md:-right-4 z-10 bg-white shadow-lg border border-gray-100 rounded-full p-2 hover:bg-store-50 transition-colors transform -translate-y-1/2 disabled:opacity-50 disabled:cursor-not-allowed">
-                          <IoChevronForward className="text-xl text-gray-600" />
+                        <button className="next-discount absolute top-[38%] -right-3 sm:-right-5 z-20 bg-black/80 backdrop-blur-md shadow-2xl border border-white/20 rounded-full w-10 h-10 hover:bg-blue-600 hover:border-blue-500 hover:text-white text-white flex items-center justify-center transition-all transform -translate-y-1/2 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer" aria-label="Next">
+                          <IoChevronForward className="text-xl" />
                         </button>
 
                         <div className="flex justify-end mt-4 px-2">
-                          <Link href={`/search?category=${storeCustomizationSetting?.home?.discount_categorySlug}${storeCustomizationSetting?.home?.discount_categoryId ? `&_id=${storeCustomizationSetting?.home?.discount_categoryId}` : ""}`} className="inline-flex items-center gap-1 text-sm font-semibold text-store-500 border border-store-500 rounded-full px-4 py-1 hover:bg-store-500 hover:text-white transition-colors">
+                          <Link href={`/search?category=${storeCustomizationSetting?.home?.discount_categorySlug}${storeCustomizationSetting?.home?.discount_categoryId ? `&_id=${storeCustomizationSetting?.home?.discount_categoryId}` : ""}`} className="inline-flex items-center gap-1 text-sm font-semibold text-blue-400 border border-blue-500/40 rounded-full px-4 py-1 hover:bg-blue-600 hover:text-white transition-colors">
                             View All <IoChevronForward />
                           </Link>
                         </div>

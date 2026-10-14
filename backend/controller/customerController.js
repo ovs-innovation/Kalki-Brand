@@ -54,7 +54,7 @@ const computeProfileComplete = (customer) => {
     customer.email &&
     String(customer.email).trim().length > 0 &&
     !isFakeEmail(customer.email);
-  return !!(hasName && hasPhone && hasEmail);
+  return !!(hasName && (hasPhone || hasEmail));
 };
 
 const sendCustomerAuthResponse = async (res, customer, message, extra = {}) => {
@@ -824,10 +824,25 @@ const deleteCloudinaryAsset = async (req, res) => {
       return res.status(400).send({ message: 'publicId is required' });
     }
 
+    if (publicId.startsWith('local/')) {
+      const fs = require('fs');
+      const path = require('path');
+      const filename = publicId.replace('local/', '');
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+      const filePath = path.join(uploadsDir, filename);
+      if (fs.existsSync(filePath)) {
+        try {
+          fs.unlinkSync(filePath);
+        } catch (e) {
+          console.warn('Failed to delete local file:', e.message);
+        }
+      }
+      return res.send({ message: 'Deleted successfully' });
+    }
+
     // Validate Cloudinary credentials exist
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      console.error('Cloudinary credentials missing');
-      return res.status(500).send({ message: 'Cloudinary credentials are not configured on the server. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET.' });
+      return res.send({ message: 'Cloudinary credentials missing, cleared reference' });
     }
 
     const cloudinary = require('cloudinary').v2;
@@ -872,31 +887,79 @@ const deleteCloudinaryAsset = async (req, res) => {
   }
 };
 
-// Simple server-side upload endpoint that accepts a data URL (base64) and uploads to Cloudinary
+// Server-side upload endpoint with Cloudinary first, local disk fallback
 const cloudinaryUpload = async (req, res) => {
   try {
     const { file, publicId, folder = 'wholesaler' } = req.body;
     if (!file) return res.status(400).send({ message: 'file (data URL) is required' });
 
-    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      console.error('Cloudinary credentials missing for upload');
-      return res.status(503).send({ message: 'Cloudinary credentials are not configured on the server. Uploads unavailable.' });
+    // 1. Try Cloudinary if credentials exist
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+      try {
+        const cloudinary = require('cloudinary').v2;
+        cloudinary.config({
+          cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+          api_key: process.env.CLOUDINARY_API_KEY,
+          api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+
+        const options = { folder, resource_type: 'auto', return_delete_token: true };
+        if (publicId) options.public_id = publicId;
+
+        const result = await cloudinary.uploader.upload(file, options);
+        return res.send({
+          url: result.secure_url,
+          publicId: result.public_id,
+          deleteToken: result.delete_token || null,
+          raw: result,
+        });
+      } catch (cloudErr) {
+        console.warn('Cloudinary upload attempt failed, falling back to local server storage:', cloudErr?.error?.message || cloudErr?.message || cloudErr);
+      }
     }
 
-    const cloudinary = require('cloudinary').v2;
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
+    // 2. Seamless local disk storage fallback
+    const fs = require('fs');
+    const path = require('path');
+
+    const matches = typeof file === 'string' ? file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/) : null;
+    if (!matches || matches.length !== 3) {
+      return res.status(400).send({ message: 'Invalid image data format. Please upload a valid image file.' });
+    }
+
+    const mimeType = matches[1];
+    const base64Data = matches[2];
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const extMap = {
+      'image/jpeg': '.jpg',
+      'image/jpg': '.jpg',
+      'image/png': '.png',
+      'image/webp': '.webp',
+      'image/gif': '.gif',
+      'image/svg+xml': '.svg',
+      'application/pdf': '.pdf',
+    };
+    const ext = extMap[mimeType] || '.png';
+    const filename = `${folder}-${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`;
+
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const filePath = path.join(uploadsDir, filename);
+    fs.writeFileSync(filePath, buffer);
+
+    const protocol = req.protocol || 'http';
+    const host = req.get('host') || `localhost:${process.env.PORT || 8092}`;
+    const fileUrl = `${protocol}://${host}/uploads/${filename}`;
+
+    return res.send({
+      url: fileUrl,
+      publicId: `local/${filename}`,
+      deleteToken: null,
     });
-
-    const options = { folder, resource_type: 'auto' };
-    if (publicId) options.public_id = publicId;
-    // request delete token since this is a signed upload
-    options.return_delete_token = true;
-
-    const result = await cloudinary.uploader.upload(file, options);
-    return res.send({ url: result.secure_url, publicId: result.public_id, deleteToken: result.delete_token || null, raw: result });
   } catch (err) {
     console.error('cloudinaryUpload error:', err);
     res.status(500).send({ message: err.message });
@@ -1283,14 +1346,22 @@ const completeProfile = async (req, res) => {
     }
 
     const emailInput = email ? String(email).toLowerCase().trim() : "";
-    if (!emailInput) {
-      return res.status(400).send({ message: "Email is required." });
+    if (emailInput) {
+      if (isPlaceholderEmail(emailInput)) {
+        return res.status(400).send({ message: "Please enter a valid email address." });
+      }
+      const existingEmail = await Customer.findOne({
+        email: emailInput,
+        _id: { $ne: customer._id },
+      });
+      if (existingEmail) {
+        return res.status(400).send({ message: "Email already in use by another account." });
+      }
+      if (customer.email !== emailInput) {
+        customer.email = emailInput;
+        customer.emailVerified = false;
+      }
     }
-    if (isPlaceholderEmail(emailInput)) {
-      return res.status(400).send({ message: "Please enter a valid email address." });
-    }
-    customer.email = emailInput;
-    customer.emailVerified = false;
 
     customer.name = String(name).trim();
     if (address) customer.address = String(address).trim();

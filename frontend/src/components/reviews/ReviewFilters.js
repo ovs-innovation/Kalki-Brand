@@ -17,15 +17,15 @@ const ReviewFilters = ({
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-semibold text-gray-700">Sort by:</span>
+        <span className="text-sm font-semibold text-gray-300">Sort by:</span>
         <div className="relative inline-block text-left">
           <select
             value={sort}
             onChange={(e) => onSortChange(e.target.value)}
-            className="block w-40 md:w-48 pl-3 pr-8 py-2 text-sm border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300"
+            className="block w-40 md:w-48 pl-3 pr-8 py-2 text-sm border border-white/10 rounded-md bg-[#12141e] text-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           >
             {sortOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
+              <option key={opt.value} value={opt.value} className="bg-[#12141e] text-white">
                 {opt.label}
               </option>
             ))}
@@ -35,7 +35,7 @@ const ReviewFilters = ({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm font-semibold text-gray-700">Filter:</span>
+        <span className="text-sm font-semibold text-gray-300">Filter:</span>
         {[5, 4, 3, 2, 1].map((star) => {
           const active = ratingFilter === star;
           return (
@@ -47,8 +47,8 @@ const ReviewFilters = ({
               }
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                 active
-                  ? "bg-yellow-500 border-yellow-500 text-white"
-                  : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  ? "bg-yellow-500 border-yellow-500 text-black font-bold shadow-md"
+                  : "bg-[#12141e] border-white/10 text-gray-300 hover:bg-white/10"
               }`}
             >
               {star}★

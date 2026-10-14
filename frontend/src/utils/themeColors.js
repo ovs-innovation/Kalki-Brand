@@ -266,28 +266,9 @@ const colors = {
   },
 };
 
-export const DEFAULT_STORE_COLOR = "teal";
+export const DEFAULT_STORE_COLOR = "blue";
 
 export const getPalette = (tokenOrHex) => {
-  if (!tokenOrHex) return colors.violet;
-
-  if (tokenOrHex.startsWith("#") || tokenOrHex.startsWith("linear-gradient")) {
-    // Simple hex to palette generation
-    // For now, we'll just use the same color for all shades
-    // or we could use a simple lighten/darken logic
-    return {
-      50: tokenOrHex.startsWith("#") ? tokenOrHex + "10" : tokenOrHex, // 10% opacity
-      100: tokenOrHex.startsWith("#") ? tokenOrHex + "20" : tokenOrHex,
-      200: tokenOrHex.startsWith("#") ? tokenOrHex + "40" : tokenOrHex,
-      300: tokenOrHex.startsWith("#") ? tokenOrHex + "60" : tokenOrHex,
-      400: tokenOrHex.startsWith("#") ? tokenOrHex + "90" : tokenOrHex,
-      500: tokenOrHex,
-      600: tokenOrHex, // Could darken here
-      700: tokenOrHex,
-      800: tokenOrHex,
-      900: tokenOrHex,
-    };
-  }
-
-  return colors[tokenOrHex] || colors.violet;
+  // Always use the vibrant blue palette for all pages and components
+  return colors.blue;
 };

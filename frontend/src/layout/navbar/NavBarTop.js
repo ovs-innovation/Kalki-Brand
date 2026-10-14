@@ -127,13 +127,13 @@ const NavBarTop = () => {
 
   return (
     <>
-      <div className="bg-gray-100 relative z-[51]">
+      <div className="bg-[#050505] border-b border-white/10 relative z-[51]">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
-          <div className="text-gray-700 py-2 font-sans text-xs font-medium border-b flex justify-between items-center">
+          <div className="text-gray-300 py-2 font-sans text-xs font-medium flex justify-between items-center">
             <span className="flex items-center gap-2">
               
               {displayAddress ? (
-                <span className="flex items-center text-gray-600">
+                <span className="flex items-center text-gray-300">
                   <span
                     className="text-xs truncate max-w-xs"
                     title={displayAddress}
@@ -142,16 +142,16 @@ const NavBarTop = () => {
                   </span>
                 </span>
               ) : (
-                <LocationPickerDropdown className="!p-0 !bg-transparent !border-none text-xs font-sans text-gray-700 hover:text-store-500 z-40 h-auto" />
+                <LocationPickerDropdown className="!p-0 !bg-transparent !border-none text-xs font-sans text-gray-300 hover:text-store-400 z-40 h-auto" />
               )}
             </span>
 
-            <div className="lg:text-right flex items-center navBar">
+            <div className="lg:text-right flex items-center navBar text-gray-300">
                
                
               {/* <Link
                 href={userInfo?.token ? "/user/my-account" : "/auth/login"}
-                className={`font-medium hover:text-store-600`}
+                className={`font-medium hover:text-store-400`}
               >
                 {showingTranslateValue(storeCustomizationSetting?.navbar?.my_account) || "My Account"}
               </Link>
@@ -159,7 +159,7 @@ const NavBarTop = () => {
               {userInfo?.token ? (
                 <button
                   onClick={handleLogOut}
-                  className={`flex items-center font-medium hover:text-store-600`}
+                  className={`flex items-center font-medium hover:text-store-400 transition-colors text-gray-300`}
                 >
                   <span className="mr-1">
                     <IoLockOpenOutline />
@@ -169,7 +169,7 @@ const NavBarTop = () => {
               ) : (
                 <Link
                   href="/auth/login"
-                  className={`flex items-center font-medium hover:text-store-600`}
+                  className={`flex items-center font-medium hover:text-store-400 transition-colors text-gray-300`}
                 >
                   <span className="mr-1">
                     <FiUser />

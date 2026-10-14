@@ -84,15 +84,15 @@ const Categories = () => {
 
   return (
     <Layout title="Categories" description="All Categories">
-      <div className="bg-gray-50">
+      <div className="bg-black text-white min-h-screen">
         {/* <div className="max-w-7xl mx-auto mb-8">
           <SliderCarousel />
         </div> */}
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 pb-10">
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 pb-10 pt-4">
           {parentCategories.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">Loading categories...</p>
+            <p className="text-gray-400 text-center py-8">Loading categories...</p>
           ) : (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-0">
+            <div className="bg-[#0b0c12] rounded-2xl shadow-sm border border-white/10 overflow-hidden p-0">
               <FeatureCategory initialSelectedCategory={parentCategories[0]} />
             </div>
           )}

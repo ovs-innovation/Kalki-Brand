@@ -31,8 +31,8 @@ const FilterSidebar = ({
 
   const getLevel1Categories = (categories) => {
     if (!categories || !Array.isArray(categories) || categories.length === 0) return [];
-    const homeRoot = categories.find(cat => 
-      cat.id === "Root" || 
+    const homeRoot = categories.find(cat =>
+      cat.id === "Root" ||
       showingTranslateValue(cat?.name)?.toLowerCase() === "home"
     );
     if (homeRoot && homeRoot.children && homeRoot.children.length > 0) {
