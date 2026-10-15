@@ -59,9 +59,8 @@ const ProductServices = {
       const res = await requests.get(
         `/products/store?category=${category}&title=${title}&slug=${slug}&brand=${brand}`
       );
-      if (!res) return fallbackStoreProducts;
-      const hasData = (res.popularProducts?.length > 0) || (res.discountedProducts?.length > 0) || (res.bestSellingProducts?.length > 0) || (res.products?.length > 0);
-      return hasData ? res : { ...res, ...fallbackStoreProducts };
+      if (res) return res;
+      return fallbackStoreProducts;
     } catch (error) {
       return fallbackStoreProducts;
     }

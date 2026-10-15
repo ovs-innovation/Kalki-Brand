@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -64,35 +65,56 @@ const Navbar = () => {
   const { count: wishlistCount } = useWishlist();
   const userInfo = getUserSession();
 
-  // Search state: only open on /search or when user clicks search icon
-  const [isSearchOpen, setIsSearchOpen] = useState(router.pathname === "/search");
+  const [mounted, setMounted] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef(null);
 
-  // Sync search state with route
   useEffect(() => {
-    if (router.pathname === "/search") {
-      setIsSearchOpen(true);
-      if (router.query.query) {
-        setSearchText(router.query.query);
-      }
-    } else {
-      setIsSearchOpen(false);
+    setMounted(true);
+  }, []);
+
+  // Sync search input with route query if present
+  useEffect(() => {
+    if (router.pathname === "/search" && router.query.query) {
+      setSearchText(router.query.query);
     }
   }, [router.pathname, router.query.query]);
 
-  // Press Escape to close search
+  // Focus input when modal opens
+  useEffect(() => {
+    if (isSearchModalOpen) {
+      const timer = setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 60);
+      return () => clearTimeout(timer);
+    }
+  }, [isSearchModalOpen]);
+
+  // Press Escape to close search modal
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" && isSearchOpen && router.pathname !== "/search") {
-        setIsSearchOpen(false);
+      if (e.key === "Escape" && isSearchModalOpen) {
+        setIsSearchModalOpen(false);
         setShowSuggestions(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isSearchOpen, router.pathname]);
+  }, [isSearchModalOpen]);
+
+  // Close search modal on route change
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setIsSearchModalOpen(false);
+      setShowSuggestions(false);
+    };
+    router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router.events]);
 
   const handleSearchChange = (value) => {
     setSearchText(value);
@@ -103,6 +125,7 @@ const Navbar = () => {
     e.preventDefault();
     const trimmed = searchText.trim();
     setShowSuggestions(false);
+    setIsSearchModalOpen(false);
     searchInputRef.current?.blur();
     if (trimmed) {
       router
@@ -127,88 +150,23 @@ const Navbar = () => {
             <NavbarLogo />
 
             <div className="flex-1 min-w-0 flex items-center justify-center gap-2">
-              {isSearchOpen ? (
-                <form
-                  onSubmit={handleSearchSubmit}
-                  className="navbar-search-form flex items-center w-full max-w-3xl rounded-full border border-white/10 bg-[#0f0f12] p-1 focus-within:border-blue-500 transition-all shadow-xl"
-                >
-                  <div className="flex-1 relative min-w-0 flex items-center min-h-[42px]">
-                    <IoSearchOutline className="absolute left-3.5 text-gray-400 text-lg pointer-events-none z-10" />
-                    <input
-                      ref={searchInputRef}
-                      type="search"
-                      placeholder="Search for medicine, healthcare & more..."
-                      className="navbar-search-input w-full h-full py-2 pl-10 pr-2 text-sm !bg-transparent !border-0 !border-none !shadow-none !ring-0 !outline-none focus:!ring-0 focus:!border-0 focus:!outline-none placeholder-gray-500 text-white"
-                      value={searchText}
-                      onChange={(e) => handleSearchChange(e.target.value)}
-                      onFocus={() => searchText.length > 0 && setShowSuggestions(true)}
-                      onBlur={(e) => {
-                        const relatedTarget = e.relatedTarget;
-                        const box = document.querySelector(".search-suggestions-container");
-                        if (!relatedTarget || (box && !box.contains(relatedTarget))) {
-                          setTimeout(() => {
-                            const active = document.activeElement;
-                            if (!box || !box.contains(active)) setShowSuggestions(false);
-                          }, 200);
-                        }
-                      }}
-                    />
-                    <SearchSuggestions
-                      searchText={searchText}
-                      showSuggestions={showSuggestions}
-                      onSelect={() => {
-                        setSearchText("");
-                        setShowSuggestions(false);
-                        if (router.pathname !== "/search") setIsSearchOpen(false);
-                      }}
-                      onClose={() => setShowSuggestions(false)}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="shrink-0 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-5 py-2.5 border-0 outline-none shadow-md hover:shadow-lg transition-all"
-                  >
-                    Search
-                  </button>
-                  {router.pathname !== "/search" && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsSearchOpen(false);
-                        setShowSuggestions(false);
-                      }}
-                      className="shrink-0 p-2 ml-1 text-gray-400 hover:text-white rounded-full hover:bg-white/10 transition-colors"
-                      aria-label="Close search"
-                      title="Close"
-                    >
-                      <FiX className="text-xl" />
-                    </button>
-                  )}
-                </form>
-              ) : (
-                <LowerCategoryNavbar
-                  variant="inline"
-                  categories={categories}
-                  showingTranslateValue={showingTranslateValue}
-                />
-              )}
+              <LowerCategoryNavbar
+                variant="inline"
+                categories={categories}
+                showingTranslateValue={showingTranslateValue}
+              />
             </div>
 
             <div className="flex items-center gap-1 shrink-0">
-              {!isSearchOpen && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsSearchOpen(true);
-                    setTimeout(() => searchInputRef.current?.focus(), 80);
-                  }}
-                  className="p-2 text-gray-300 hover:text-blue-400 rounded-lg hover:bg-white/5 transition-colors flex items-center justify-center"
-                  aria-label="Search"
-                  title="Search"
-                >
-                  <IoSearchOutline className="text-2xl" />
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => setIsSearchModalOpen((prev) => !prev)}
+                className="p-2 text-gray-300 hover:text-blue-400 rounded-lg hover:bg-white/5 transition-colors flex items-center justify-center"
+                aria-label="Search"
+                title="Search"
+              >
+                <IoSearchOutline className="text-2xl" />
+              </button>
 
               <CustomerNotificationBell />
               <Link
@@ -275,6 +233,103 @@ const Navbar = () => {
           </div>
         </div>
       </header>
+
+      {/* Quick Search Modal */}
+      {mounted && isSearchModalOpen && createPortal(
+        <div
+          className="fixed inset-0 z-[10000] flex items-start justify-center pt-24 px-4 bg-black/80 backdrop-blur-md transition-opacity"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setIsSearchModalOpen(false);
+              setShowSuggestions(false);
+            }
+          }}
+        >
+          <div className="relative w-full max-w-2xl bg-[#0f1015] border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.85)] p-5 text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+              <span className="text-sm font-semibold text-gray-300 flex items-center gap-2">
+                <IoSearchOutline className="text-blue-400 text-lg" /> Search Kalki Brand
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSearchModalOpen(false);
+                  setShowSuggestions(false);
+                }}
+                className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors"
+                aria-label="Close search"
+              >
+                <FiX className="text-xl" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSearchSubmit} className="relative flex items-center gap-2">
+              <div className="relative flex-1 flex items-center min-h-[46px]">
+                <IoSearchOutline className="absolute left-3.5 text-gray-400 text-lg pointer-events-none z-10" />
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  placeholder="Search for medicine, healthcare & more..."
+                  className="w-full py-3 pl-11 pr-10 text-sm bg-black/60 border border-white/15 rounded-xl text-white placeholder-gray-500 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                  value={searchText}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  onFocus={() => searchText.length > 0 && setShowSuggestions(true)}
+                  onBlur={(e) => {
+                    const relatedTarget = e.relatedTarget;
+                    const box = document.querySelector(".search-suggestions-container");
+                    if (!relatedTarget || (box && !box.contains(relatedTarget))) {
+                      setTimeout(() => {
+                        const active = document.activeElement;
+                        if (!box || !box.contains(active)) setShowSuggestions(false);
+                      }, 200);
+                    }
+                  }}
+                />
+                {searchText && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchText("");
+                      setShowSuggestions(false);
+                      searchInputRef.current?.focus();
+                    }}
+                    className="absolute right-3 text-gray-400 hover:text-white p-1"
+                    aria-label="Clear search"
+                  >
+                    <FiX className="text-sm" />
+                  </button>
+                )}
+                <SearchSuggestions
+                  searchText={searchText}
+                  showSuggestions={showSuggestions}
+                  onSelect={() => {
+                    setSearchText("");
+                    setShowSuggestions(false);
+                    setIsSearchModalOpen(false);
+                  }}
+                  onClose={() => setShowSuggestions(false)}
+                />
+              </div>
+              <button
+                type="submit"
+                className="shrink-0 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-5 py-3 shadow-md hover:shadow-lg transition-all active:scale-95"
+              >
+                Search
+              </button>
+            </form>
+
+            <div className="flex items-center justify-between mt-4 pt-3 text-xs text-gray-400 border-t border-white/5">
+              <span>Type at least 2 characters for suggestions</span>
+              <div className="flex items-center gap-2 text-gray-400">
+                <span>Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-200 font-mono text-[11px]">Enter</kbd> to search</span>
+                <span>•</span>
+                <span>Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-200 font-mono text-[11px]">ESC</kbd> to close</span>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
       <style jsx global>{`
         .navbar-search-form .navbar-search-input {
           border: none !important;

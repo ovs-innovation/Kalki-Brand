@@ -44,7 +44,7 @@ const Categories = () => {
     
     // Check if we have a single "Home" or "Root" category that acts as a container
     const homeRoot = categories.find(cat => 
-      cat.id === "" || 
+      cat.id === "Root" || 
       getCategoryName(cat).toLowerCase() === "home"
     );
 
@@ -59,10 +59,7 @@ const Categories = () => {
   useEffect(() => {
     if (data && Array.isArray(data)) {
       const level1Categories = getLevel1Categories(data);
-      const parentsWithChildren = level1Categories.filter(
-        (cat) => Array.isArray(cat.children) && cat.children.length > 0
-      );
-      setParentCategories(parentsWithChildren);
+      setParentCategories(level1Categories);
     }
   }, [data]);
 
@@ -88,13 +85,19 @@ const Categories = () => {
         {/* <div className="max-w-7xl mx-auto mb-8">
           <SliderCarousel />
         </div> */}
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-10 pb-10 pt-4">
-          {parentCategories.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">Loading categories...</p>
-          ) : (
-            <div className="bg-[#0b0c12] rounded-2xl shadow-sm border border-white/10 overflow-hidden p-0">
-              <FeatureCategory initialSelectedCategory={parentCategories[0]} />
+        <div className="mx-auto max-w-screen-2xl px-3 sm:px-6 lg:px-8 py-2 sm:py-4">
+          {isLoading ? (
+            <div className="py-24 flex flex-col items-center justify-center gap-3">
+              <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-gray-400 text-sm font-medium">Loading categories...</p>
             </div>
+          ) : parentCategories.length === 0 ? (
+            <div className="py-24 text-center">
+              <p className="text-gray-300 font-semibold text-lg">No categories found</p>
+              <p className="text-gray-500 text-xs mt-1">Please check back soon</p>
+            </div>
+          ) : (
+            <FeatureCategory initialSelectedCategory={parentCategories[0]} />
           )}
 
           {/* {bestSellingProducts?.length > 0 && (
